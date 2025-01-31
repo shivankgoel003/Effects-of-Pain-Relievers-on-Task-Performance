@@ -1,0 +1,74 @@
+
+---
+title: "Project Proposal"
+author: 
+  - Navya Hooda
+  - Mohammed Yusuf Sheikh
+  - Shivank Goel
+  - Vanshika Vanshika
+  - Jena Shah
+date: today
+date-format: long
+number-sections: true
+format: pdf
+---
+
+# Project title: Effects of Different Pain Relievers on Task Performance
+
+
+## Relevant background information  
+Pain can affect how well we perform everyday tasks in situations where focus and mental clarity are crucial. Aspirin, Paracetamol, and Tramadol are pain relievers used commonly to reduce discomfort, but we don’t know much about their impacts on cognitive functions. Tasks that require mental effort such as solving math problems, recalling information, or remaining focused for long periods of time, are harder to perform while in pain.  
+This study is interested in how different types of common pain relievers at standard dosages (Aspirin, Paracetamol, and Tramadol) may affect how well people perform in tasks testing mental arithmetic, memory, and attention. These tasks are used in various settings, so understanding how pain relief can impact performance can be valuable to help with pain management without an impact on productivity.
+
+## Research questions  
+**Question 1:** How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg) affect cognitive task performance, as measured by mental arithmetic and memory tests?  
+**Question 2:** How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg) affect physiological task performance, as measured by respiratory rate and blood pressure?  
+**Question 3:** How do pain relievers at different doses (Aspirin 250 mg vs 500 mg vs 750 mg, Paracetamol 250 mg vs 500 mg vs 750 mg, Tramadol 25 mg vs 50 mg vs 75 mg) affect cognitive and physiological task performance while controlling for individual variability?
+
+## The experimental units  
+Individuals from the island simulation.
+
+
+## The variables  
+- **Factor Variables:** Type of pain reliever (Aspirin, Paracetamol, Tramadol, Placebo).  
+- **Quantitative Covariates:** Age, weight, IQ test score.  
+- **Response Variables:**  
+  - Cognitive tasks: Mental Arithmetic, Memory Task  
+  - Physiological tasks: Blood pressure, Respiratory rate  
+
+## The treatments  
+- Aspirin  
+- Paracetamol  
+- Tramadol  
+- Placebo  
+
+## The total number of planned observations  
+Considering 50 observations per treatment (and 4 treatments), the total number of planned observations is \(50 \times 4 = 200\). So there will be 200 total observations.
+
+TO-DO
+
+## How the experiment will be conducted, and how will possible confounding variables   be mitigated?
+Our experiment will include all four principles of experimental design:
+
+### Control  
+- A placebo group is included to compare the effects of active pain relievers against no treatment.  
+- Participants' baseline task performance will be measured before administering treatments to account for individual variability.
+
+### Blocking  
+- Participants will be blocked by age group (e.g., 18-30, 31-50, 51+), as age may influence both pain tolerance and task performance.
+
+### Randomization  
+- Participants will be randomly assigned to the treatments (Aspirin, Paracetamol, Tramadol). Randomization ensures that any confounding variables are evenly distributed across groups.
+
+### Replication  
+- Each treatment will have 50 observations to ensure sufficient data for statistical analysis. This replicates the experiment multiple times across participants.
+
+
+## Name the method(s) you are planning to use to analyze the data  
+This is submitted before you start conducting the experiment and get any data. Methods include (but are not limited to):  
+- One-way ANOVA  
+- Two-way ANOVA  
+- Randomized Complete Block Design (RCBD): A Randomized Complete Block Design (RCBD) can be used, where each individual (or simulation agent) acts as a block and is exposed to all three dosage levels of a randomly assigned pain reliever. This design helps control for variability between individuals while isolating the effects of dosage on task performance.  
+- Latin Square Design  
+- Balanced Incomplete Block Design (BIBD)  
+- ANCOVA  
