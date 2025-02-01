@@ -26,8 +26,7 @@ This study is interested in how different types of common pain relievers at stan
 **Question 3:** How do pain relievers at different doses (Aspirin 250 mg vs 500 mg vs 750 mg, Paracetamol 250 mg vs 500 mg vs 750 mg, Tramadol 25 mg vs 50 mg vs 75 mg) affect cognitive and physiological task performance while controlling for individual variability?
 
 ## The experimental units  
-Individuals from the island simulation.
-
+For our data Source we will use 'The Islands' virtual population as a simulated dataset to investigate our research question. It provides individual-level data for experimental analysis.
 
 ## The variables  
 - **Factor Variables:** Type of pain reliever (Aspirin, Paracetamol, Tramadol, Placebo).  
