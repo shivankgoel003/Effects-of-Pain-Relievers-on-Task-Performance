@@ -3,7 +3,7 @@
 title: "Project Proposal"
 author: 
   - Navya Hooda
-  - Mohammed Yusuf Sheikh
+  - Mohammed Yusuf Shaikh
   - Shivank Goel
   - Vanshika Vanshika
   - Jena Shah
