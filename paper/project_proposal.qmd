@@ -1,6 +1,5 @@
-
 ---
-title: "Project Proposal"
+title: "Effects of Different Pain Relievers and Dosages on Cognitive Retention"
 author: 
   - Navya Hooda
   - Mohammed Yusuf Shaikh
@@ -13,61 +12,77 @@ number-sections: true
 format: pdf
 ---
 
-# Project title: Effects of Different Pain Relievers on Task Performance
-
-
 ## Relevant background information  
-Pain can affect how well we perform everyday tasks in situations where focus and mental clarity are crucial. Aspirin, Paracetamol, and Tramadol are pain relievers used commonly to reduce discomfort, but we don’t know much about their impacts on cognitive functions. Tasks that require mental effort such as solving math problems, recalling information, or remaining focused for long periods of time, are harder to perform while in pain.  
-This study is interested in how different types of common pain relievers at standard dosages (Aspirin, Paracetamol, and Tramadol) may affect how well people perform in tasks testing mental arithmetic, memory, and attention. These tasks are used in various settings, so understanding how pain relief can impact performance can be valuable to help with pain management without an impact on productivity.
+Pain can affect how well we perform everyday tasks in situations where focus and mental clarity are crucial. Aspirin, Paracetamol, and Tramadol are pain relievers used commonly to reduce physical discomfort, but we don’t know much about their impacts on cognitive functions. Tasks requiring mental effort, such as recalling information, are harder to perform while in pain. 
+This study is interested in how different types of common pain relievers at standard dosages (Aspirin, Paracetamol, and Tramadol) may affect outcomes of tasks involving memory tests. We also analyze the effects of different dosages of each drug on memory function. The concept of recalling information is used in various settings, so understanding how pain relief can impact performance can be valuable to help with pain management without an impact on productivity.
 
 ## Research questions  
-**Question 1:** How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg) affect cognitive task performance, as measured by mental arithmetic and memory tests?  
-**Question 2:** How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg) affect physiological task performance, as measured by respiratory rate and blood pressure?  
-**Question 3:** How do pain relievers at different doses (Aspirin 250 mg vs 500 mg vs 750 mg, Paracetamol 250 mg vs 500 mg vs 750 mg, Tramadol 25 mg vs 50 mg vs 75 mg) affect cognitive and physiological task performance while controlling for individual variability?
+
+*Question 1:* How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg) affect cognitive task performance, as measured by mental arithmetic and memory tests?
+
+*Question 2:* How do pain relievers at different doses (Aspirin 500 mg vs 1000 mg, Paracetamol 500 mg vs 1000 mg, Tramadol 50 mg vs 100 mg) affect cognitive performance while controlling for individual variability?
+
 
 ## The experimental units  
-For our data Source we will use 'The Islands' virtual population as a simulated dataset to investigate our research question. It provides individual-level data for experimental analysis.
+We will use 'The Islands' virtual population as our simulated dataset to investigate our research questions. This dataset provides individual-level data for experimental analysis.
+
 
 ## The variables  
-- **Factor Variables:** Type of pain reliever (Aspirin, Paracetamol, Tramadol, Placebo).  
-- **Quantitative Covariates:** Age, weight, IQ test score.  
-- **Response Variables:**  
-  - Cognitive tasks: Mental Arithmetic, Memory Task  
-  - Physiological tasks: Blood pressure, Respiratory rate  
+
+a) The first question looks at the different drugs at standard doses. So the type of *pain reliever* taken is our *qualitative factor variable* with 4 levels (Aspirin, Paracetamol, Tramadol, Placebo). Each level is of the average dosage – 500 mg, 500 mg, 50 mg, respectively.
+
+
+b) The second question tackles the *dosage levels* amongst the pain relievers taken. So the variables here are not just the type of pain reliever, but also the dosages (500 mg vs 1000 mg, 500 mg vs 1000 mg, and 50 mg vs 100 mg). The dosage levels are *qualitative factor variables*.
+
+
+c) The performance with the *memory task cards* and *memory game* are our *response variable*.
+
+
+*Quantitative Covariates:* Age, IQ test score, highest level of education obtained. 
+
 
 ## The treatments  
+Pain Reliever Types (4 Levels)
 - Aspirin  
 - Paracetamol  
 - Tramadol  
 - Placebo  
 
 ## The total number of planned observations  
-Considering 50 observations per treatment (and 4 treatments), the total number of planned observations is \(50 \times 4 = 200\). So there will be 200 total observations.
+Considering 30 observations per treatment (and 4 treatments), the total number of planned observations is 30 x 4 = 120. So there will be 120 total observations.
 
-TO-DO
 
-## How the experiment will be conducted, and how will possible confounding variables   be mitigated?
+
+## How the experiment will be conducted, and how will possible confounding variables be mitigated?
 Our experiment will include all four principles of experimental design:
 
 ### Control  
-- A placebo group is included to compare the effects of active pain relievers against no treatment.  
-- Participants' baseline task performance will be measured before administering treatments to account for individual variability.
+
+-A placebo group is included to compare the effects of active pain relievers against no treatment. 
+-Participants' *baseline performance* on cognitive tasks (mental arithmetic, memory, and attention) will be measured before giving any treatment.
+-The same environment will be used for all participants (e.g., time of day, noise levels). 
+
 
 ### Blocking  
-- Participants will be blocked by age group (e.g., 18-30, 31-50, 51+), as age may influence both pain tolerance and task performance.
+
+- To reduce the variability, participants will be blocked by IQ level (e.g., 70 below, 70-130, 130 above), as IQ may influence task performance.
+- Other key variables, if needed, like education level (less than high school, high school, undergraduate, above undergraduate) and age (18-34 , 35-50, 50+), will also be blocked to ensure fair comparisons between groups.
+
 
 ### Randomization  
-- Participants will be randomly assigned to the treatments (Aspirin, Paracetamol, Tramadol). Randomization ensures that any confounding variables are evenly distributed across groups.
+
+- Each participant will be randomly assigned a treatment to balance out any differences between individuals.
+- If done as a group, we will also randomize which group member is responsible for administering each treatment. 
+
 
 ### Replication  
-- Each treatment will have 50 observations to ensure sufficient data for statistical analysis. This replicates the experiment multiple times across participants.
+
+- We will collect 30 observations per treatment.
+-Since there are 4 treatments (Aspirin, Paracetamol, Tramadol, Placebo), there will be 120 total observations.
+-This replication will provide enough data to detect differences in performance across treatments.
+
 
 
 ## Name the method(s) you are planning to use to analyze the data  
-This is submitted before you start conducting the experiment and get any data. Methods include (but are not limited to):  
-- One-way ANOVA  
-- Two-way ANOVA  
-- Randomized Complete Block Design (RCBD): A Randomized Complete Block Design (RCBD) can be used, where each individual (or simulation agent) acts as a block and is exposed to all three dosage levels of a randomly assigned pain reliever. This design helps control for variability between individuals while isolating the effects of dosage on task performance.  
-- Latin Square Design  
-- Balanced Incomplete Block Design (BIBD)  
-- ANCOVA  
+
+We plan to use *one-way ANOVA* for Research Question 1 and *two-way ANOVA* for Research Question 2.
