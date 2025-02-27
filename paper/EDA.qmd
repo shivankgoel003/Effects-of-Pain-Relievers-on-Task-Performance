@@ -78,8 +78,7 @@ summary_table <- data.frame(
   Cards_After = c(m1_cards_after, m2_cards_after, m3_cards_after, m4_cards_after)
 )
 
-kable(summary_table, format = "latex", booktabs = TRUE, caption = "Summary Statistics for Quantitative Variables") %>%
-  kable_styling(latex_options = c("striped", "hold_position"))
+kable(summary_table, format = "latex", booktabs = TRUE, caption = "Summary Statistics for Quantitative Variables") 
 ```
 
 # Introduction
@@ -92,40 +91,69 @@ kable(summary_table, format = "latex", booktabs = TRUE, caption = "Summary Stati
 # Count and percentage for Drug
 drug_counts <- table(clean_data$drug)
 drug_percentages <- prop.table(drug_counts) * 100
-drug_summary <- data.frame(Drug = names(drug_counts), Count = as.numeric(drug_counts), Percentage = round(drug_percentages, 2))
+drug_summary <- data.frame(Drug = names(drug_counts), Count = as.numeric(drug_counts), Percentage = round(as.numeric(drug_percentages), 2))
+colnames(drug_summary) <- c("Drug", "Count", "Percentage")
+
 
 # Count and percentage for Dosage Level
 dosage_counts <- table(clean_data$dosage_level)
 dosage_percentages <- prop.table(dosage_counts) * 100
-dosage_summary <- data.frame(Dosage = names(dosage_counts), Count = as.numeric(dosage_counts), Percentage = round(dosage_percentages, 2))
+dosage_summary <- data.frame(Dosage = names(dosage_counts), Count = as.numeric(dosage_counts), Percentage = round(as.numeric(dosage_percentages), 2))
 
 # Count and percentage for Location
 location_counts <- table(clean_data$location)
 location_percentages <- prop.table(location_counts) * 100
-location_summary <- data.frame(Location = names(location_counts), Count = as.numeric(location_counts), Percentage = round(location_percentages, 2))
+location_summary <- data.frame(Location = names(location_counts), Count = as.numeric(location_counts), Percentage = round(as.numeric(location_percentages), 2))
 
 # Count and percentage for Age Group
 age_counts <- table(clean_data$age_group)
 age_percentages <- prop.table(age_counts) * 100
-age_summary <- data.frame(Age_Group = names(age_counts), Count = as.numeric(age_counts), Percentage = round(age_percentages, 2))
+age_summary <- data.frame(Age_Group = names(age_counts), Count = as.numeric(age_counts), Percentage = round(as.numeric(age_percentages), 2))
 
-kable(drug_summary, format = "latex", booktabs = TRUE, caption = "Summary of Drug Types") %>%
-  kable_styling(latex_options = c("striped", "hold_position"))
+# Print tables
+kable(drug_summary, format = "latex", booktabs = TRUE, caption = "Summary of Drug Types") 
 
-kable(dosage_summary, format = "latex", booktabs = TRUE, caption = "Summary of Dosage Levels") %>%
-  kable_styling(latex_options = c("striped", "hold_position"))
+kable(dosage_summary, format = "latex", booktabs = TRUE, caption = "Summary of Dosage Levels") 
 
-kable(location_summary, format = "latex", booktabs = TRUE, caption = "Summary of Locations") %>%
-  kable_styling(latex_options = c("striped", "hold_position"))
+kable(location_summary, format = "latex", booktabs = TRUE, caption = "Summary of Locations") 
 
-kable(age_summary, format = "latex", booktabs = TRUE, caption = "Summary of Age Groups") %>%
-  kable_styling(latex_options = c("striped", "hold_position"))
-
+kable(age_summary, format = "latex", booktabs = TRUE, caption = "Summary of Age Groups") 
 ```
 
 \newpage
 
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Boxplot of Game Scores Before and After by Drug"
+
+library(ggplot2)
+library(patchwork)  # For combining plots
+
+# Capitalize legend labels
+clean_data$drug <- factor(clean_data$drug, labels = c("Aspirin", "Paracetamol", "Placebo", "Tramadol"))
+
+# Create first boxplot
+p1 <- ggplot(clean_data, aes(x = drug, y = game_before, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Game Scores Before Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
+  theme_minimal()
+
+# Create second boxplot
+p2 <- ggplot(clean_data, aes(x = drug, y = game_after, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Game Scores After Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
+  theme_minimal()
+
+# Combine both plots with a single caption
+p1 / p2 + plot_annotation()
+
+```
 
 
 

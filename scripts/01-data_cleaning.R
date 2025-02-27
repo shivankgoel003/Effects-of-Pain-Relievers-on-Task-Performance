@@ -13,6 +13,8 @@ library(readxl)
 library(arrow)
 library(dplyr)
 
+library(stringr)  
+
 #### Clean data ####
 
 # Reading dataset
@@ -28,7 +30,13 @@ df <- df %>%
   separate(drug_dosage, into = c("drug", "dosage_level"), sep = "_") %>%
   select(name, drug, dosage_level, everything())  # Reorder columns
 
-sum(is.na(df$name))  # Check for missing names before split
+
+
+# Convert first letter of categorical variables to uppercase
+df$drug <- str_to_title(df$drug)
+df$dosage_level <- str_to_title(df$dosage_level)
+df$location <- str_to_title(df$location)
+df$age_group <- str_to_title(df$age_group)
 
 # Saving cleaned data
 write.csv(df, file = "data/analysis_data/clean_data.csv", row.names = FALSE)
