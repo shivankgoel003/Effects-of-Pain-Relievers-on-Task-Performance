@@ -39,6 +39,15 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+
+# References:
+# https://tellingstorieswithdata.com/
+# https://q.utoronto.ca/courses/376099/pages/project-descriptions?module_item_id=6379323
+
+
+library(kableExtra)   
 
 m1_game_before <- mean(clean_data$game_before, na.rm = TRUE)
 m2_game_before <- median(clean_data$game_before, na.rm = TRUE)
@@ -60,6 +69,7 @@ m2_cards_after <- median(clean_data$cards_after, na.rm = TRUE)
 m3_cards_after <- sd(clean_data$cards_after, na.rm = TRUE)
 m4_cards_after <- IQR(clean_data$cards_after, na.rm = TRUE)
 
+# Combine into a table
 summary_table <- data.frame(
   Statistic = c("Mean", "Median", "SD", "IQR"),
   Game_Before = c(m1_game_before, m2_game_before, m3_game_before, m4_game_before),
@@ -68,14 +78,50 @@ summary_table <- data.frame(
   Cards_After = c(m1_cards_after, m2_cards_after, m3_cards_after, m4_cards_after)
 )
 
-kable(summary_table, 
-      caption = "Summary Statistics for Quantitative Variables",
-      align = "c") |> print()
+kable(summary_table, format = "latex", booktabs = TRUE, caption = "Summary Statistics for Quantitative Variables") %>%
+  kable_styling(latex_options = c("striped", "hold_position"))
 ```
 
 # Introduction
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
 
+# Count and percentage for Drug
+drug_counts <- table(clean_data$drug)
+drug_percentages <- prop.table(drug_counts) * 100
+drug_summary <- data.frame(Drug = names(drug_counts), Count = as.numeric(drug_counts), Percentage = round(drug_percentages, 2))
+
+# Count and percentage for Dosage Level
+dosage_counts <- table(clean_data$dosage_level)
+dosage_percentages <- prop.table(dosage_counts) * 100
+dosage_summary <- data.frame(Dosage = names(dosage_counts), Count = as.numeric(dosage_counts), Percentage = round(dosage_percentages, 2))
+
+# Count and percentage for Location
+location_counts <- table(clean_data$location)
+location_percentages <- prop.table(location_counts) * 100
+location_summary <- data.frame(Location = names(location_counts), Count = as.numeric(location_counts), Percentage = round(location_percentages, 2))
+
+# Count and percentage for Age Group
+age_counts <- table(clean_data$age_group)
+age_percentages <- prop.table(age_counts) * 100
+age_summary <- data.frame(Age_Group = names(age_counts), Count = as.numeric(age_counts), Percentage = round(age_percentages, 2))
+
+kable(drug_summary, format = "latex", booktabs = TRUE, caption = "Summary of Drug Types") %>%
+  kable_styling(latex_options = c("striped", "hold_position"))
+
+kable(dosage_summary, format = "latex", booktabs = TRUE, caption = "Summary of Dosage Levels") %>%
+  kable_styling(latex_options = c("striped", "hold_position"))
+
+kable(location_summary, format = "latex", booktabs = TRUE, caption = "Summary of Locations") %>%
+  kable_styling(latex_options = c("striped", "hold_position"))
+
+kable(age_summary, format = "latex", booktabs = TRUE, caption = "Summary of Age Groups") %>%
+  kable_styling(latex_options = c("striped", "hold_position"))
+
+```
 
 \newpage
 
