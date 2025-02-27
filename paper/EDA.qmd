@@ -38,12 +38,8 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 ```{r}
-#| echo: true
-#| message: false
-#| warning: false
-#| results: asis
+#| echo: false
 
-# Compute summary statistics individually
 m1_game_before <- mean(clean_data$game_before, na.rm = TRUE)
 m2_game_before <- median(clean_data$game_before, na.rm = TRUE)
 m3_game_before <- sd(clean_data$game_before, na.rm = TRUE)
@@ -64,7 +60,6 @@ m2_cards_after <- median(clean_data$cards_after, na.rm = TRUE)
 m3_cards_after <- sd(clean_data$cards_after, na.rm = TRUE)
 m4_cards_after <- IQR(clean_data$cards_after, na.rm = TRUE)
 
-# Combine into a table
 summary_table <- data.frame(
   Statistic = c("Mean", "Median", "SD", "IQR"),
   Game_Before = c(m1_game_before, m2_game_before, m3_game_before, m4_game_before),
@@ -73,10 +68,6 @@ summary_table <- data.frame(
   Cards_After = c(m1_cards_after, m2_cards_after, m3_cards_after, m4_cards_after)
 )
 
-# Ensure the table prints correctly
-print(summary_table)
-
-# Display formatted table using kable
 kable(summary_table, 
       caption = "Summary Statistics for Quantitative Variables",
       align = "c") |> print()
