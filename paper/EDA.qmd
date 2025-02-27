@@ -27,6 +27,7 @@ library(arrow)
 library(dplyr)
 library(knitr)
 library(performance)
+library(kableExtra)
 
 clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
@@ -35,7 +36,24 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
 
+clean_data$improvement <- clean_data$game_after - clean_data$game_before
+
+improvement_summary <- clean_data %>%
+  group_by(drug) %>%
+  summarise(
+    Mean_Improvement = mean(improvement, na.rm = TRUE),
+    SD_Improvement = sd(improvement, na.rm = TRUE),
+    Median_Improvement = median(improvement, na.rm = TRUE)
+  )
+
+kable(improvement_summary, format = "latex", booktabs = TRUE, caption = "Mean Improvement in Game Scores by Drug")
+
+```
 
 ```{r}
 #| echo: false
@@ -46,8 +64,6 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 # https://tellingstorieswithdata.com/
 # https://q.utoronto.ca/courses/376099/pages/project-descriptions?module_item_id=6379323
 
-
-library(kableExtra)   
 
 m1_game_before <- mean(clean_data$game_before, na.rm = TRUE)
 m2_game_before <- median(clean_data$game_before, na.rm = TRUE)
@@ -133,25 +149,72 @@ kable(age_summary, format = "latex", booktabs = TRUE, caption = "Summary of Age 
 #| fig-cap: "Boxplot of Game Scores Before and After by Drug"
 
 library(ggplot2)
-library(patchwork)  # For combining plots
+library(patchwork)  
 
-# Capitalize legend labels
+#References
+#https://r-graph-gallery.com/package/patchwork.html
+
 clean_data$drug <- factor(clean_data$drug, labels = c("Aspirin", "Paracetamol", "Placebo", "Tramadol"))
 
 # Create first boxplot
 p1 <- ggplot(clean_data, aes(x = drug, y = game_before, fill = drug)) + 
   geom_boxplot() +
-  labs(title = "Game Scores Before Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
+  labs(title = "Memory Game Scores Before Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
   theme_minimal()
 
 # Create second boxplot
 p2 <- ggplot(clean_data, aes(x = drug, y = game_after, fill = drug)) + 
   geom_boxplot() +
-  labs(title = "Game Scores After Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
+  labs(title = "Memory Game Scores After Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
   theme_minimal()
 
-# Combine both plots with a single caption
 p1 / p2 + plot_annotation()
+
+```
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Boxplot of Memory Card Scores Before and After by Drug"
+
+library(ggplot2)
+library(patchwork)
+
+clean_data$drug <- factor(clean_data$drug, labels = c("Aspirin", "Paracetamol", "Placebo", "Tramadol"))
+
+p1 <- ggplot(clean_data, aes(x = drug, y = cards_before, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Memory Card Scores Before Treatment", x = "Drug Type", y = "Memory Card Score", fill = "Drug") +
+  theme_minimal()
+
+p2 <- ggplot(clean_data, aes(x = drug, y = cards_after, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Memory Card Scores After Treatment", x = "Drug Type", y = "Memory Card Score", fill = "Drug") +
+  theme_minimal()
+
+p1 / p2 + plot_annotation()
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 7
+#| fig.height: 4
+#| dpi: 300
+#| fig-cap: "Distribution of Dosage Levels"
+
+ggplot(clean_data, aes(x = dosage_level, fill = dosage_level)) +
+  geom_bar() +
+  labs(title = "Distribution of Dosage Levels", x = "Dosage Level", y = "Count") +
+  theme_minimal()
 
 ```
 
