@@ -85,7 +85,7 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 ## Summary of quantitative variables 
 
-@tbl-summary-1 shows the summary statistics of game scores before and after treatment. The mean is similar across all groups, indicating no extreme changes in cognitive performance. However, the standard deviation (SD) is relatively high, suggesting some variation among participants.
+@tbl-summary-1 shows the summary statistics of memory game scores before and after the treatment. The mean is similar across all groups, indicating no extreme changes in cognitive performance. However, the standard deviation (SD) is relatively high, suggesting some variation among participants.
 
 - The median game scores remain close to the mean, showing a nearly symmetric distribution.
 - The IQR (Interquartile Range) is smaller than the SD, meaning there may be outliers.
@@ -93,30 +93,9 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 
-
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-
-clean_data$improvement <- clean_data$game_after - clean_data$game_before
-
-improvement_summary <- clean_data %>%
-  group_by(drug) %>%
-  summarise(
-    Mean_Improvement = mean(improvement, na.rm = TRUE),
-    SD_Improvement = sd(improvement, na.rm = TRUE),
-    Median_Improvement = median(improvement, na.rm = TRUE)
-  )
-
-kable(improvement_summary, format = "latex", booktabs = TRUE, caption = "Mean Improvement in Game Scores by Drug")
-
-```
-
-
 ```{r}
 #| label: tbl-summary-1
+#| tbl-cap: "Summary Statistics for Quantitative Variables"
 #| echo: false
 #| warning: false
 #| message: false
@@ -155,19 +134,53 @@ summary_table <- data.frame(
   Cards_After = c(m1_cards_after, m2_cards_after, m3_cards_after, m4_cards_after)
 )
 
-kable(summary_table, format = "latex", booktabs = TRUE, caption = "Summary Statistics for Quantitative Variables") 
+kable(summary_table, format = "latex", booktabs = TRUE) 
 ```
 
+## Summary of counts and percentage for qualitative variables
+
+@tbl-summary-2 shows the distribution of participants across drug types. Aspirin, Paracetamol, and Tramadol each have 60 participants (28.57\%), ensuring balance. However, the Placebo group is smaller (30 participants, 14.29\%).
+
+@tbl-summary-3 shows the dosage levels assigned to participants. There is an equal split between high-dose (90 participants, 50\%) and low-dose (90 participants, 50\%) conditions. 
+
+@tbl-summary-4 provides an overview of participant locations. The distribution is relatively even across six different locations, with each site having either 30 (14.29\%) or 60 (28.57\%) participants.
+
+## Confounding Variable
+
+@tbl-summary-5 shows the breakdown of age groups, which is a confounding variable in this study. The three age groups: 18–34, 35–50, and 50+ each have 70 participants (33.33\%).
+
+
+
+
+
+
+
+
+
+
 ```{r}
+#| label: tbl-summary-2
+#| tbl-cap: "Summary of Drug Types"
 #| echo: false
 #| warning: false
 #| message: false
+
 
 # Count and percentage for Drug
 drug_counts <- table(clean_data$drug)
 drug_percentages <- prop.table(drug_counts) * 100
 drug_summary <- data.frame(Drug = names(drug_counts), Count = as.numeric(drug_counts), Percentage = round(as.numeric(drug_percentages), 2))
 colnames(drug_summary) <- c("Drug", "Count", "Percentage")
+kable(drug_summary, format = "latex", booktabs = TRUE) 
+
+```
+
+```{r}
+#| label: tbl-summary-3
+#| tbl-cap: "Summary of Dosage Levels"
+#| echo: false
+#| warning: false
+#| message: false
 
 
 # Count and percentage for Dosage Level
@@ -175,25 +188,65 @@ dosage_counts <- table(clean_data$dosage_level)
 dosage_percentages <- prop.table(dosage_counts) * 100
 dosage_summary <- data.frame(Dosage = names(dosage_counts), Count = as.numeric(dosage_counts), Percentage = round(as.numeric(dosage_percentages), 2))
 
+kable(dosage_summary, format = "latex", booktabs = TRUE)
+
+```
+
+```{r}
+#| label: tbl-summary-4
+#| tbl-cap: "Summary of Locations"
+#| echo: false
+#| warning: false
+#| message: false
+
 # Count and percentage for Location
 location_counts <- table(clean_data$location)
 location_percentages <- prop.table(location_counts) * 100
 location_summary <- data.frame(Location = names(location_counts), Count = as.numeric(location_counts), Percentage = round(as.numeric(location_percentages), 2))
+
+kable(location_summary, format = "latex", booktabs = TRUE)
+
+```
+
+```{r}
+#| label: tbl-summary-5
+#| tbl-cap: "Summary of Age Groups"
+#| echo: false
+#| warning: false
+#| message: false
+
 
 # Count and percentage for Age Group
 age_counts <- table(clean_data$age_group)
 age_percentages <- prop.table(age_counts) * 100
 age_summary <- data.frame(Age_Group = names(age_counts), Count = as.numeric(age_counts), Percentage = round(as.numeric(age_percentages), 2))
 
-# Print tables
-kable(drug_summary, format = "latex", booktabs = TRUE, caption = "Summary of Drug Types") 
 
-kable(dosage_summary, format = "latex", booktabs = TRUE, caption = "Summary of Dosage Levels") 
-
-kable(location_summary, format = "latex", booktabs = TRUE, caption = "Summary of Locations") 
-
-kable(age_summary, format = "latex", booktabs = TRUE, caption = "Summary of Age Groups") 
+kable(age_summary, format = "latex", booktabs = TRUE) 
 ```
+
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+clean_data$improvement <- clean_data$game_after - clean_data$game_before
+
+improvement_summary <- clean_data %>%
+  group_by(drug) %>%
+  summarise(
+    Mean_Improvement = mean(improvement, na.rm = TRUE),
+    SD_Improvement = sd(improvement, na.rm = TRUE),
+    Median_Improvement = median(improvement, na.rm = TRUE)
+  )
+
+kable(improvement_summary, format = "latex", booktabs = TRUE, caption = "Mean Improvement in Game Scores by Drug")
+
+```
+
 
 \newpage
 
