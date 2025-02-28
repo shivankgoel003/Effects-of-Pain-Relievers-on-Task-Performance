@@ -85,11 +85,7 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 ## Summary of quantitative variables 
 
-@tbl-summary-1 shows the summary statistics of memory game scores before and after the treatment. The mean is similar across all groups, indicating no extreme changes in cognitive performance. However, the standard deviation (SD) is relatively high, suggesting some variation among participants.
-
-- The median game scores remain close to the mean, showing a nearly symmetric distribution.
-- The IQR (Interquartile Range) is smaller than the SD, meaning there may be outliers.
-- The cards memory task shows little change before and after treatment, suggesting that pain relievers may not have a major effect on this specific task.
+@tbl-summary-1 shows the summary statistics of memory game scores before and after the treatment. The mean is similar across all groups, however, the standard deviation (SD) is relatively high. The median game scores remain close to the mean, and the IQR (Interquartile Range) is smaller than the SD. The cards memory task shows little change before and after treatment, suggesting that pain relievers may not have a major effect on this specific task.
 
 
 
@@ -248,17 +244,30 @@ kable(improvement_summary, format = "latex", booktabs = TRUE, caption = "Mean Im
 ```
 
 
-\newpage
+# Plots
+
+## Game Score Distribution Before and After Treatment
+
+@fig-boxplot-scores shows the distribution of memory game scores before and after treatment across different drug types using box plots.
+
+1. The median scores for all drugs appear similar before treatment.
+2. **Tramadol has a higher median** than other drugs both before and after treatment.
+3. The **Placebo group has a slightly lower median score** compared to other drugs.
+4. There is **one outlier in the Tramadol group before treatment**.
+5. The (IQR) is **similar across all drug types**.
+
+These boxplots provide an initial comparison of cognitive performance changes before and after drug administration.
 
 
 ```{r}
+#| label: fig-boxplot-scores
 #| echo: false
 #| warning: false
 #| message: false
 #| fig.width: 9
 #| fig.height: 8
 #| dpi: 300
-#| fig-cap: "Boxplot of Game Scores Before and After by Drug"
+#| fig-cap: "Boxplot of Memory Game Scores Before and After Treatment by Drug Type"
 
 library(ggplot2)
 library(patchwork)  
@@ -284,9 +293,19 @@ p1 / p2 + plot_annotation()
 
 ```
 
+## Memory Card Score Distribution Before and After Treatment
+
+@fig-boxplot-cards shows the distribution of **memory card scores before and after treatment** across drug types.
+
+1. Before treatment, the scores are relatively high across all groups, with Paracetamol and Placebo showing slightly higher medians than the others.
+2. After treatment, the distributions remain similar, though there is a slight increase in spread  for Aspirin and Paracetamol.
+3. Outliers are present in all groups, indicating some variability in memory card performance across individuals.
+
+
 
 
 ```{r}
+#| label: fig-boxplot-cards
 #| echo: false
 #| warning: false
 #| message: false
