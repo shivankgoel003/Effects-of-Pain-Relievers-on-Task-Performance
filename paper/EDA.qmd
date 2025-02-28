@@ -1,6 +1,7 @@
 
 ---
 title: "Effects of Different Pain Relievers and Dosages on Cognitive Retention"
+subtitle: "Exploratory Data Analysis (EDA)"
 author: 
   - Navya Hooda
   - Mohammed Yusuf Shaikh
@@ -13,24 +14,48 @@ number-sections: true
 format: pdf
 ---
 
-```{r}
-#| include: false
-#| warning: false
-#| message: false
+# Introduction
 
-# Make sure Packages are installed 
+## Relevant Background
+Pain can affect how well we perform everyday tasks in situations where focus and mental clarity
+are crucial. Aspirin, Paracetamol, and Tramadol are pain relievers used commonly to reduce
+physical discomfort, but we don’t know much about their impacts on cognitive functions. Tasks
+requiring mental effort, such as recalling information, are harder to perform while in pain.
+This study is interested in how different types of common pain relievers at standard dosages
+(Aspirin, Paracetamol, and Tramadol) may affect outcomes of tasks involving memory tests. We
+also analyze the effects of different dosages of each drug on memory function. The concept of
+recalling information is used in various settings, so understanding how pain relief can impact
+performance can be valuable to help with pain management without an impact on productivity.
 
-# install.packages("tidyverse")
-# install.packages("janitor")
-# install.packages("here")
-# install.packages("lubridate")
-# install.packages("arrow")
-# install.packages("dplyr")
-# install.packages("knitr")
-# install.packages("performance")
-# install.packages("kableExtra")
-# install.packages("performance")
-```
+
+## Research Questions
+1. *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect cognitive task performance?*
+2. *How does the dosage (low vs. high) of each drug affect cognitive retention, while accounting for confounding factors like age?*
+
+## Study Design  
+This study involves *7 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
+
+1. Aspirin 500 mg
+2. Aspirin 1000 mg
+3. Paracetamol 500 mg
+4. Paracetamol 1000 mg
+5. Tramadol 50 mg
+6. Tramadol 100 mg
+7. Placebo
+
+This results in **210 total observations** (7 × 30 = 210).
+
+
+## Confounding Variable: Age  
+To reduce variability, we consider **age** as a **confounding variable**. Participants will be categorized into three groups:
+
+1. 18–34 years
+2. 35–50 years
+3. 50+ years
+
+## Data Analysis Method   
+We will use **one-way ANOVA** to analyze the effects of pain reliever type on memory performance.
+and dosage levels on cognitive retention.
 
 
 ```{r}
@@ -56,50 +81,15 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 
+# Summary Statistics
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Assumption Check for Time taken after taking the Drug"
+## Summary of quantitative variables 
 
-# Fit ANOVA Model
-model <- aov(game_after ~ drug, data = clean_data)
+@tbl-summary-1 shows the summary statistics of game scores before and after treatment. The mean is similar across all groups, indicating no extreme changes in cognitive performance. However, the standard deviation (SD) is relatively high, suggesting some variation among participants.
 
-# Check Model Assumptions
-check_model(model, check = c("normality", "homogeneity"))
-```
-
-
-
-```{r}
-#| include: false
-#| warning: false
-#| message: false
-# Barlett Test Homegenity of Variance: testing for ass
-# bartlett_test <- bartlett.test(game_after ~ drug, data = clean_data)
-# print(bartlett_test)
-```
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Assumption Check for Time taken before taking the Drug"
-
-# Fit ANOVA Model
-model_b <- aov(game_before ~ drug, data = clean_data)
-
-# Check Model Assumptions
-check_model(model_b, check = c("normality", "homogeneity"))
-```
-
+- The median game scores remain close to the mean, showing a nearly symmetric distribution.
+- The IQR (Interquartile Range) is smaller than the SD, meaning there may be outliers.
+- The cards memory task shows little change before and after treatment, suggesting that pain relievers may not have a major effect on this specific task.
 
 
 
@@ -124,7 +114,9 @@ kable(improvement_summary, format = "latex", booktabs = TRUE, caption = "Mean Im
 
 ```
 
+
 ```{r}
+#| label: tbl-summary-1
 #| echo: false
 #| warning: false
 #| message: false
@@ -165,8 +157,6 @@ summary_table <- data.frame(
 
 kable(summary_table, format = "latex", booktabs = TRUE, caption = "Summary Statistics for Quantitative Variables") 
 ```
-
-# Introduction
 
 ```{r}
 #| echo: false
@@ -287,6 +277,54 @@ ggplot(clean_data, aes(x = dosage_level, fill = dosage_level)) +
 
 ```
 
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Assumption Check for Time taken after taking the Drug"
+
+# Fit ANOVA Model
+model <- aov(game_after ~ drug, data = clean_data)
+
+# Check Model Assumptions
+check_model(model, check = c("normality", "homogeneity"))
+```
+
+
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+# Barlett Test Homegenity of Variance: testing for ass
+# bartlett_test <- bartlett.test(game_after ~ drug, data = clean_data)
+# print(bartlett_test)
+```
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Assumption Check for Time taken before taking the Drug"
+
+# Fit ANOVA Model
+model_b <- aov(game_before ~ drug, data = clean_data)
+
+# Check Model Assumptions
+check_model(model_b, check = c("normality", "homogeneity"))
+```
 
 
 
