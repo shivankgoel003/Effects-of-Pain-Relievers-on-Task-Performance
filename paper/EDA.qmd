@@ -84,6 +84,21 @@ check_model(model, check = c("normality", "homogeneity"))
 # print(bartlett_test)
 ```
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Assumption Check for Time taken before taking the Drug"
+
+# Fit ANOVA Model
+model_b <- aov(game_before ~ drug, data = clean_data)
+
+# Check Model Assumptions
+check_model(model_b, check = c("normality", "homogeneity"))
+```
 
 
 
