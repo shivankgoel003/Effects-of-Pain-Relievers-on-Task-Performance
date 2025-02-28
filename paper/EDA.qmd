@@ -13,6 +13,25 @@ number-sections: true
 format: pdf
 ---
 
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Make sure Packages are installed 
+
+# install.packages("tidyverse")
+# install.packages("janitor")
+# install.packages("here")
+# install.packages("lubridate")
+# install.packages("arrow")
+# install.packages("dplyr")
+# install.packages("knitr")
+# install.packages("performance")
+# install.packages("kableExtra")
+# install.packages("performance")
+```
+
 
 ```{r}
 #| include: false
@@ -28,11 +47,46 @@ library(dplyr)
 library(knitr)
 library(performance)
 library(kableExtra)
+library(performance)
 
 clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 ```
+
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Assumption Check for Time taken after taking the Drug"
+
+# Fit ANOVA Model
+model <- aov(game_after ~ drug, data = clean_data)
+
+# Check Model Assumptions
+check_model(model, check = c("normality", "homogeneity"))
+```
+
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+# Barlett Test Homegenity of Variance: testing for ass
+# bartlett_test <- bartlett.test(game_after ~ drug, data = clean_data)
+# print(bartlett_test)
+```
+
+
+
+
 
 
 
