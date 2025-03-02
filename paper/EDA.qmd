@@ -12,6 +12,7 @@ date: today
 date-format: long
 number-sections: true
 format: pdf
+bibliography: references.bib
 ---
 
 # Introduction
@@ -350,23 +351,9 @@ ggplot(clean_data, aes(x = dosage_level, fill = dosage_level)) +
 ```
 
 
+# Assumptions
 
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Assumption Check for Time taken after taking the Drug"
-
-# Fit ANOVA Model
-model <- aov(game_after ~ drug, data = clean_data)
-
-# Check Model Assumptions
-check_model(model, check = c("normality", "homogeneity"))
-```
 
 
 
@@ -398,6 +385,22 @@ model_b <- aov(game_before ~ drug, data = clean_data)
 check_model(model_b, check = c("normality", "homogeneity"))
 ```
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Assumption Check for Time taken after taking the Drug"
+
+# Fit ANOVA Model
+model <- aov(game_after ~ drug, data = clean_data)
+
+# Check Model Assumptions
+check_model(model, check = c("normality", "homogeneity"))
+```
 
 
 # References
+
