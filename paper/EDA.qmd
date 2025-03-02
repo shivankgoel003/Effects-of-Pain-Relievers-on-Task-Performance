@@ -363,6 +363,22 @@ ggplot(clean_data, aes(x = dosage_level, fill = dosage_level)) +
 
 ```
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 6
+#| fig.height: 4
+#| fig-cap: "Time Taken for Memory Game after taking Drugs"
+
+# Boxplot to visualize the distribution of time taken to solve Memory game after taking pain killers
+ggplot(clean_data, aes(x = drug, y = game_after, fill = dosage_level)) +
+  geom_boxplot() +
+  ggtitle("Time Taken for Memory Game after taking Drugs")
+
+```
+
+
 
 # Assumptions
 
@@ -380,24 +396,6 @@ course it is fine to mention there is a violation but you will proceed as if eve
 ```
 
 
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Assumption Check for Time taken after taking the Drug"
-
-# Fit ANOVA Model
-model <- aov(game_after ~ drug, data = clean_data)
-
-# Check Model Assumptions
-check_model(model, check = c("normality", "homogeneity"))
-
-```
-
 ```{r}
 #| include: false
 #| warning: false
@@ -409,20 +407,52 @@ check_model(model, check = c("normality", "homogeneity"))
 
 ```
 
+
+
+
 ```{r}
 #| echo: false
 #| warning: false
 #| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Assumption Check for Time taken before taking the Drug"
+#| fig.width: 6
+#| fig.height: 4
+#| fig-cap: "Time Taken for Memory Game after taking Drugs"
 
-# Fit ANOVA Model
-model_b <- aov(game_before ~ drug, data = clean_data)
+# we fit One-Way ANOVA Model for our research question 1
+model_1 <- aov(game_after ~ drug, data = clean_data)
 
 # Check Model Assumptions
-check_model(model_b, check = c("normality", "homogeneity"))
+check_model(model_1, check = c("normality", "homogeneity"))
+
+summary(model_1)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+# bartlett_test_part1 <- bartlett.test(game_after ~ drug, data = clean_data)
+# print(bartlett_test_part1)
+```
+
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 6
+#| fig.height: 4
+#| fig-cap: "Residual Plot Model 1"
+
+# QQ plot for Normality assumption
+ggqqplot(residuals(model_1)) +
+  ggtitle("QQ Plot for Residuals Model 1")
+
+# Shapiro-Wilk Tet
+# shapiro_test <- shapiro.test(residuals(model_1))
+# print(shapiro_test)
 
 ```
 
@@ -431,30 +461,15 @@ check_model(model_b, check = c("normality", "homogeneity"))
 #| echo: false
 #| warning: false
 #| message: false
-# Boxplot to visualize the distribution of `game_after`
-ggplot(clean_data, aes(x = drug, y = game_after, fill = dosage_level)) +
-  geom_boxplot() +
-  ggtitle("Boxplot of Game After Scores by Drug and Dosage Level")
+#| fig.width: 6
+#| fig.height: 4
+#| fig-cap: "Normality & Homegenity"
 
+# Corrected Two-Way ANOVA Model for our reseearch question 2
+model_2 <- aov(game_after ~ drug + dosage_level, data = clean_data)
 
-```
-
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-
-anova_model <- aov(game_after ~ drug + dosage_level, data = clean_data)
-summary(anova_model)
-# install.packages("ggpubr")
-# QQ plot for residuals
-ggqqplot(residuals(anova_model))
-
-# Sharpio Test
-shapiro.test(residuals(anova_model))
-# p-value is greater than 0.05 we fail to reject Ho implies Normality
-
+# Check Model Assumptions
+check_model(model_2, check = c("normality", "homogeneity"))
 
 ```
 
@@ -464,13 +479,26 @@ shapiro.test(residuals(anova_model))
 #| warning: false
 #| message: false
 
-model_cards_dose <- aov(cards_after ~ drug + dosage_level, data = clean_data)
-shapiro.test(residuals(model_cards_dose))
-ggqqplot(residuals(model_cards_dose))
+# Shapiro-Wilk Test for Normality of Residuals
+# shapiro_test_part2 <- shapiro.test(residuals(model_part2))
+# print(shapiro_test_part2)
+
 ```
 
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 6
+#| fig.height: 4
+#| fig-cap: "Residual Plot Model"
 
+# QQ plot for residuals of Part 2
+ggqqplot(residuals(model_2)) +
+  ggtitle("QQ Plot Two-Way ANOVA Model")
+
+```
 
 
 # References
