@@ -15,6 +15,18 @@ format: pdf
 bibliography: references.bib
 ---
 
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+
+# install.packages(c("tidyverse", "janitor", "here", "lubridate", "arrow", "dplyr", 
+#   "knitr", "performance", "kableExtra", #"ggpubr"))
+
+```
+
+
 # Introduction
 
 ## Relevant Background
@@ -74,6 +86,7 @@ library(knitr)
 library(performance)
 library(kableExtra)
 library(performance)
+library(ggpubr)
 
 clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
@@ -353,37 +366,20 @@ ggplot(clean_data, aes(x = dosage_level, fill = dosage_level)) +
 
 # Assumptions
 
-
-
-
-
-
 ```{r}
 #| include: false
 #| warning: false
 #| message: false
-# Barlett Test Homegenity of Variance: testing for ass
-# bartlett_test <- bartlett.test(game_after ~ drug, data = clean_data)
-# print(bartlett_test)
+
+# Note from pdf
+"In the performance package, it would alert you in red if any assumptions were heavily violated. If you noticed
+any, it would be useful to mention them.
+Unfortunately it is hard to create non-parametric versions. So if there is a violation for the sake of this
+course it is fine to mention there is a violation but you will proceed as if everything was fine."
+
 ```
 
 
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Assumption Check for Time taken before taking the Drug"
-
-# Fit ANOVA Model
-model_b <- aov(game_before ~ drug, data = clean_data)
-
-# Check Model Assumptions
-check_model(model_b, check = c("normality", "homogeneity"))
-```
 
 ```{r}
 #| echo: false
@@ -399,7 +395,82 @@ model <- aov(game_after ~ drug, data = clean_data)
 
 # Check Model Assumptions
 check_model(model, check = c("normality", "homogeneity"))
+
 ```
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+# Barlett Test Homegenity of Variance: testing for ass
+# bartlett_test <- bartlett.test(game_after ~ drug, data = clean_data)
+# print(bartlett_test)
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Assumption Check for Time taken before taking the Drug"
+
+# Fit ANOVA Model
+model_b <- aov(game_before ~ drug, data = clean_data)
+
+# Check Model Assumptions
+check_model(model_b, check = c("normality", "homogeneity"))
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+# Boxplot to visualize the distribution of `game_after`
+ggplot(clean_data, aes(x = drug, y = game_after, fill = dosage_level)) +
+  geom_boxplot() +
+  ggtitle("Boxplot of Game After Scores by Drug and Dosage Level")
+
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+anova_model <- aov(game_after ~ drug + dosage_level, data = clean_data)
+summary(anova_model)
+# install.packages("ggpubr")
+# QQ plot for residuals
+ggqqplot(residuals(anova_model))
+
+# Sharpio Test
+shapiro.test(residuals(anova_model))
+# p-value is greater than 0.05 we fail to reject Ho implies Normality
+
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+model_cards_dose <- aov(cards_after ~ drug + dosage_level, data = clean_data)
+shapiro.test(residuals(model_cards_dose))
+ggqqplot(residuals(model_cards_dose))
+```
+
+
+
 
 
 # References
