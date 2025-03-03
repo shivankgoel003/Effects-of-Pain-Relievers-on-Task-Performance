@@ -1,4 +1,3 @@
-
 ---
 title: "Effects of Different Pain Relievers and Dosages on Cognitive Retention"
 subtitle: "Exploratory Data Analysis (EDA)"
@@ -46,17 +45,18 @@ performance can be valuable to help with pain management without an impact on pr
 2. *How does the dosage (low vs. high) of each drug affect cognitive retention, while accounting for confounding factors like age?*
 
 ## Study Design  
-This study involves *7 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
+This study involves *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
 
-1. Aspirin 500 mg
-2. Aspirin 1000 mg
-3. Paracetamol 500 mg
-4. Paracetamol 1000 mg
-5. Tramadol 50 mg
-6. Tramadol 100 mg
-7. Placebo
+1. Aspirin 500 mg (Low)
+2. Aspirin 1000 mg (High)
+3. Paracetamol 500 mg (Low)
+4. Paracetamol 1000 mg (High)
+5. Tramadol 50 mg (Low)
+6. Tramadol 100 mg (High)
+7. Placebo (Low) 
+8. Placebo (High)
 
-This results in **210 total observations** (7 × 30 = 210).
+This results in **240 total observations** (8 × 30 = 240).
 
 
 ## Confounding Variable: Age  
@@ -66,9 +66,15 @@ To reduce variability, we consider **age** as a **confounding variable**. Partic
 2. 35–50 years
 3. 50+ years
 
+## Quantitative and Qualitative Variables 
+In our study the quantitative and qualitative variables are as follows. 
+Quantitative variables: Memory Game Scores, Memory Test Cards Scores 
+Qualitative variables: Type of pain reliever, dosage level (low/high)
+
 ## Data Analysis Method   
-We will use **one-way ANOVA** to analyze the effects of pain reliever type on memory performance.
-and dosage levels on cognitive retention.
+We will use **one-way ANOVA** to analyze the effects of different pain relievers on memory performance
+Similarly, we will use **two-way ANOVA** to analyze the effects of different dosage levels per drug type on memory performance and cognitive retention. 
+
 
 
 ```{r}
@@ -92,7 +98,6 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 ```
-
 
 
 # Summary Statistics
@@ -149,21 +154,13 @@ kable(summary_table, format = "latex", booktabs = TRUE)
 
 ## Summary of counts and percentage for qualitative variables
 
-@tbl-summary-2 shows the distribution of participants across drug types. Aspirin, Paracetamol, and Tramadol each have 60 participants (28.57\%), ensuring balance. However, the Placebo group is smaller (30 participants, 14.29\%).
+@tbl-summary-2 shows the distribution of participants across drug types. Aspirin, Paracetamol, and Tramadol, and Placebo each have 60 participants (25\%), ensuring balance.
 
-@tbl-summary-3 shows the dosage levels assigned to participants. There is an equal split between high-dose (90 participants, 50\%) and low-dose (90 participants, 50\%) conditions. 
-
-@tbl-summary-4 provides an overview of participant locations. The distribution is relatively even across six different locations, with each site having either 30 (14.29\%) or 60 (28.57\%) participants.
+@tbl-summary-3 shows the dosage levels assigned to participants. There is an equal split between high-dose (120 participants, 50\%) and low-dose (120 participants, 50\%) conditions. 
 
 ## Confounding Variable
 
-@tbl-summary-5 shows the breakdown of age groups, which is a confounding variable in this study. The three age groups: 18–34, 35–50, and 50+ each have 70 participants (33.33\%).
-
-
-
-
-
-
+@tbl-summary-5 shows the breakdown of age groups, which is a confounding variable in this study. The three age groups: 18–34, 35–50, and 50+ each have 80 participants (33.33\%).
 
 
 
@@ -199,22 +196,6 @@ dosage_percentages <- prop.table(dosage_counts) * 100
 dosage_summary <- data.frame(Dosage = names(dosage_counts), Count = as.numeric(dosage_counts), Percentage = round(as.numeric(dosage_percentages), 2))
 
 kable(dosage_summary, format = "latex", booktabs = TRUE)
-
-```
-
-```{r}
-#| label: tbl-summary-4
-#| tbl-cap: "Summary of Locations"
-#| echo: false
-#| warning: false
-#| message: false
-
-# Count and percentage for Location
-location_counts <- table(clean_data$location)
-location_percentages <- prop.table(location_counts) * 100
-location_summary <- data.frame(Location = names(location_counts), Count = as.numeric(location_counts), Percentage = round(as.numeric(location_percentages), 2))
-
-kable(location_summary, format = "latex", booktabs = TRUE)
 
 ```
 
@@ -268,7 +249,7 @@ kable(improvement_summary, format = "latex", booktabs = TRUE, caption = "Mean Im
 2. **Tramadol has a higher median** than other drugs both before and after treatment.
 3. The **Placebo group has a slightly lower median score** compared to other drugs.
 4. There is **one outlier in the Tramadol group before treatment**.
-5. The (IQR) is **similar across all drug types**.
+5. The (IQR) is **similar across all drug types**, though Tramadol sees a decrease in its IQR in the memory game scores after treatment. 
 
 These boxplots provide an initial comparison of cognitive performance changes before and after drug administration.
 
@@ -312,10 +293,9 @@ p1 / p2 + plot_annotation()
 @fig-boxplot-cards shows the distribution of **memory card scores before and after treatment** across drug types.
 
 1. Before treatment, the scores are relatively high across all groups, with Paracetamol and Placebo showing slightly higher medians than the others.
-2. After treatment, the distributions remain similar, though there is a slight increase in spread  for Aspirin and Paracetamol.
+2. After treatment, the distributions remain similar, though there is a slight increase in spread for Aspirin, Paracetamol, and Placebo.
+3. There is a slight decrease in the IQR of Tramadol. 
 3. Outliers are present in all groups, indicating some variability in memory card performance across individuals.
-
-
 
 
 ```{r}
@@ -347,39 +327,6 @@ p1 / p2 + plot_annotation()
 
 ```
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 7
-#| fig.height: 4
-#| dpi: 300
-#| fig-cap: "Distribution of Dosage Levels"
-
-ggplot(clean_data, aes(x = dosage_level, fill = dosage_level)) +
-  geom_bar() +
-  labs(title = "Distribution of Dosage Levels", x = "Dosage Level", y = "Count") +
-  theme_minimal()
-
-```
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 6
-#| fig.height: 4
-#| fig-cap: "Time Taken for Memory Game after taking Drugs"
-
-# Boxplot to visualize the distribution of time taken to solve Memory game after taking pain killers
-ggplot(clean_data, aes(x = drug, y = game_after, fill = dosage_level)) +
-  geom_boxplot() +
-  ggtitle("Time Taken for Memory Game after taking Drugs")
-
-```
-
-
-
 # Assumptions
 
 ```{r}
@@ -396,27 +343,46 @@ course it is fine to mention there is a violation but you will proceed as if eve
 ```
 
 
+## Checking Model Assumptions
+
+We assessed the homogeneity of variance and normality of residuals using diagnostic plots to validate the assumptions of our ANOVA tests. (@fig-assump-one & @fig-assump-two).
+
+**One-way ANOVA**
+
+*Independence* For our one-way ANOVA model, we have independence because our observations are independent within and across the groups i.e all participants were randomly assigned a pain reliever, and there was no relationships between observations (i.e repeated  participants, treatments etc.) 
+
+*Homogeneity of Variance:* 
+The reference line in @fig-assump-one relatively flat and horizontal which indicates that variance is approximately equal across groups. Thus, the assumption of homogeneity of variance is not significantly violated.
+
+
+*Normality of Residuals:* 
+The residuals are approximately normally distributed in @fig-assump-one since the density plot on the right appears close to a normal distribution.
+
+
+**Two-way ANOVA**
+
+*Independence*
+For our two-way ANOVA model, the different combinations of pain reliever type and dosage levels were randomly assigned to all participants, in random order. 
+
+*Homogeneity of Variance:* 
+In @fig-assump-two the left plot shows some deviation from a perfectly flat line and has minor fluctuations, especially at certain levels of drug type and dosage. Despite some variation, the overall trend does not show extreme violations of homogeneity.
+
+*Normality of Residuals:* 
+In @fig-assump-two the density plot on the right shows that the residuals follow a roughly normal distribution even though minor deviations are present.
+
+**Conclusion**
+
+Both models satisfy the assumptions of homogeneity of variance and normality of residuals well enough. There are slight deviations in the two-way ANOVA model, but they are not severe enough to invalidate the analysis. Therefore, we proceed with the ANOVA tests.
+
+
 ```{r}
-#| include: false
-#| warning: false
-#| message: false
-# Barlett Test Homegenity of Variance: testing for ass
-# bartlett_test <- bartlett.test(game_after ~ drug, data = clean_data)
-# print(bartlett_test)
-
-
-```
-
-
-
-
-```{r}
+#| label: fig-assump-one
 #| echo: false
 #| warning: false
 #| message: false
 #| fig.width: 6
 #| fig.height: 4
-#| fig-cap: "Time Taken for Memory Game after taking Drugs"
+#| fig-cap: "Homogeneity and Normality (One-way ANOVA)"
 
 # we fit One-Way ANOVA Model for our research question 1
 model_1 <- aov(game_after ~ drug, data = clean_data)
@@ -424,46 +390,17 @@ model_1 <- aov(game_after ~ drug, data = clean_data)
 # Check Model Assumptions
 check_model(model_1, check = c("normality", "homogeneity"))
 
-summary(model_1)
-```
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-# bartlett_test_part1 <- bartlett.test(game_after ~ drug, data = clean_data)
-# print(bartlett_test_part1)
 ```
 
 
-
-
 ```{r}
+#| label: fig-assump-two
 #| echo: false
 #| warning: false
 #| message: false
 #| fig.width: 6
 #| fig.height: 4
-#| fig-cap: "Residual Plot Model 1"
-
-# QQ plot for Normality assumption
-ggqqplot(residuals(model_1)) +
-  ggtitle("QQ Plot for Residuals Model 1")
-
-# Shapiro-Wilk Tet
-# shapiro_test <- shapiro.test(residuals(model_1))
-# print(shapiro_test)
-
-```
-
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 6
-#| fig.height: 4
-#| fig-cap: "Normality & Homegenity"
+#| fig-cap: "Normality & Homegenity (Two-way ANOVA)"
 
 # Corrected Two-Way ANOVA Model for our reseearch question 2
 model_2 <- aov(game_after ~ drug + dosage_level, data = clean_data)
@@ -474,32 +411,6 @@ check_model(model_2, check = c("normality", "homogeneity"))
 ```
 
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-
-# Shapiro-Wilk Test for Normality of Residuals
-# shapiro_test_part2 <- shapiro.test(residuals(model_part2))
-# print(shapiro_test_part2)
-
-```
 
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 6
-#| fig.height: 4
-#| fig-cap: "Residual Plot Model"
-
-# QQ plot for residuals of Part 2
-ggqqplot(residuals(model_2)) +
-  ggtitle("QQ Plot Two-Way ANOVA Model")
-
-```
-
-
-# References
 
