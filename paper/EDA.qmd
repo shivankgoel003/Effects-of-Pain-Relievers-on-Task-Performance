@@ -72,7 +72,7 @@ Quantitative variables: Memory Game Scores, Memory Test Cards Scores
 Qualitative variables: Type of pain reliever, dosage level (low/high)
 
 ## Data Analysis Method   
-We will use **one-way ANOVA** to analyze the effects of different pain relievers on memory performance
+We will use **one-way ANOVA** to analyze the effects of different pain relievers on memory performance.
 Similarly, we will use **two-way ANOVA** to analyze the effects of different dosage levels per drug type on memory performance and cognitive retention. 
 
 
@@ -217,9 +217,11 @@ kable(age_summary, format = "latex", booktabs = TRUE)
 ```
 
 
-
+Evident through the results on @tbl-summary-6, Paracetamol is the drug that has the greatest mean & median improvement in the game scores after administering the drug (without dosage taken into account). Aspirin appears to negatively impact the results of the game after being given to people, this was seen through the mean and median improvements.
 
 ```{r}
+#| label: tbl-summary-6
+#| tbl-cap: "Mean Improvement in Game Scores by Drug"
 #| echo: false
 #| warning: false
 #| message: false
@@ -234,7 +236,7 @@ improvement_summary <- clean_data %>%
     Median_Improvement = median(improvement, na.rm = TRUE)
   )
 
-kable(improvement_summary, format = "latex", booktabs = TRUE, caption = "Mean Improvement in Game Scores by Drug")
+kable(improvement_summary, format = "latex", booktabs = TRUE)
 
 ```
 
@@ -349,7 +351,7 @@ We assessed the homogeneity of variance and normality of residuals using diagnos
 
 **One-way ANOVA**
 
-*Independence* For our one-way ANOVA model, we have independence because our observations are independent within and across the groups i.e all participants were randomly assigned a pain reliever, and there was no relationships between observations (i.e repeated  participants, treatments etc.) 
+*Independence:* For our one-way ANOVA model, we have independence because our observations are independent within and across the groups i.e all participants were randomly assigned a pain reliever, and there was no relationships between observations (i.e repeated  participants, treatments etc.) 
 
 *Homogeneity of Variance:* 
 The reference line in @fig-assump-one relatively flat and horizontal which indicates that variance is approximately equal across groups. Thus, the assumption of homogeneity of variance is not significantly violated.
@@ -361,7 +363,7 @@ The residuals are approximately normally distributed in @fig-assump-one since th
 
 **Two-way ANOVA**
 
-*Independence*
+*Independence:*
 For our two-way ANOVA model, the different combinations of pain reliever type and dosage levels were randomly assigned to all participants, in random order. 
 
 *Homogeneity of Variance:* 
@@ -402,7 +404,7 @@ check_model(model_1, check = c("normality", "homogeneity"))
 #| fig.height: 4
 #| fig-cap: "Normality & Homegenity (Two-way ANOVA)"
 
-# Corrected Two-Way ANOVA Model for our reseearch question 2
+# Corrected Two-Way ANOVA Model for our research question 2
 model_2 <- aov(game_after ~ drug + dosage_level, data = clean_data)
 
 # Check Model Assumptions
@@ -410,7 +412,182 @@ check_model(model_2, check = c("normality", "homogeneity"))
 
 ```
 
+\newpage 
+
+# Appendix
+
+```{r}
+
+library(tidyverse)
+library(janitor)
+library(here)
+library(lubridate)
+library(arrow)
+library(dplyr)
+library(knitr)
+library(performance)
+library(kableExtra)
+library(performance)
+library(ggpubr)
+
+clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
+
+
+```
+
+
+```{r}
+
+# References:
+# https://tellingstorieswithdata.com/
+# https://q.utoronto.ca/courses/376099/pages/project-descriptions?module_item_id=6379323
+
+
+m1_game_before <- mean(clean_data$game_before, na.rm = TRUE)
+m2_game_before <- median(clean_data$game_before, na.rm = TRUE)
+m3_game_before <- sd(clean_data$game_before, na.rm = TRUE)
+m4_game_before <- IQR(clean_data$game_before, na.rm = TRUE)
+
+m1_game_after <- mean(clean_data$game_after, na.rm = TRUE)
+m2_game_after <- median(clean_data$game_after, na.rm = TRUE)
+m3_game_after <- sd(clean_data$game_after, na.rm = TRUE)
+m4_game_after <- IQR(clean_data$game_after, na.rm = TRUE)
+
+m1_cards_before <- mean(clean_data$cards_before, na.rm = TRUE)
+m2_cards_before <- median(clean_data$cards_before, na.rm = TRUE)
+m3_cards_before <- sd(clean_data$cards_before, na.rm = TRUE)
+m4_cards_before <- IQR(clean_data$cards_before, na.rm = TRUE)
+
+m1_cards_after <- mean(clean_data$cards_after, na.rm = TRUE)
+m2_cards_after <- median(clean_data$cards_after, na.rm = TRUE)
+m3_cards_after <- sd(clean_data$cards_after, na.rm = TRUE)
+m4_cards_after <- IQR(clean_data$cards_after, na.rm = TRUE)
+
+# Combine into a table
+summary_table <- data.frame(
+  Statistic = c("Mean", "Median", "SD", "IQR"),
+  Game_Before = c(m1_game_before, m2_game_before, m3_game_before, m4_game_before),
+  Game_After = c(m1_game_after, m2_game_after, m3_game_after, m4_game_after),
+  Cards_Before = c(m1_cards_before, m2_cards_before, m3_cards_before, m4_cards_before),
+  Cards_After = c(m1_cards_after, m2_cards_after, m3_cards_after, m4_cards_after)
+)
+
+kable(summary_table, format = "latex", booktabs = TRUE) 
+```
 
 
 
+```{r}
+# Count and percentage for Drug
+drug_counts <- table(clean_data$drug)
+drug_percentages <- prop.table(drug_counts) * 100
+drug_summary <- data.frame(Drug = names(drug_counts), Count = as.numeric(drug_counts), Percentage = round(as.numeric(drug_percentages), 2))
+colnames(drug_summary) <- c("Drug", "Count", "Percentage")
+kable(drug_summary, format = "latex", booktabs = TRUE) 
+```
 
+```{r}
+
+# Count and percentage for Dosage Level
+dosage_counts <- table(clean_data$dosage_level)
+dosage_percentages <- prop.table(dosage_counts) * 100
+dosage_summary <- data.frame(Dosage = names(dosage_counts), Count = as.numeric(dosage_counts), Percentage = round(as.numeric(dosage_percentages), 2))
+
+kable(dosage_summary, format = "latex", booktabs = TRUE)
+
+```
+
+
+```{r}
+# Count and percentage for Age Group
+age_counts <- table(clean_data$age_group)
+age_percentages <- prop.table(age_counts) * 100
+age_summary <- data.frame(Age_Group = names(age_counts), Count = as.numeric(age_counts), Percentage = round(as.numeric(age_percentages), 2))
+
+
+kable(age_summary, format = "latex", booktabs = TRUE) 
+```
+
+```{r}
+
+clean_data$improvement <- clean_data$game_after - clean_data$game_before
+
+improvement_summary <- clean_data %>%
+  group_by(drug) %>%
+  summarise(
+    Mean_Improvement = mean(improvement, na.rm = TRUE),
+    SD_Improvement = sd(improvement, na.rm = TRUE),
+    Median_Improvement = median(improvement, na.rm = TRUE)
+  )
+
+kable(improvement_summary, format = "latex", booktabs = TRUE)
+
+```
+
+```{r}
+
+library(ggplot2)
+library(patchwork)  
+
+#References
+#https://r-graph-gallery.com/package/patchwork.html
+
+clean_data$drug <- factor(clean_data$drug, labels = c("Aspirin", "Paracetamol", "Placebo", "Tramadol"))
+
+# Create first boxplot
+p1 <- ggplot(clean_data, aes(x = drug, y = game_before, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Memory Game Scores Before Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
+  theme_minimal()
+
+# Create second boxplot
+p2 <- ggplot(clean_data, aes(x = drug, y = game_after, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Memory Game Scores After Treatment", x = "Drug Type", y = "Game Score", fill = "Drug") +
+  theme_minimal()
+
+p1 / p2 + plot_annotation()
+```
+
+```{r}
+
+library(ggplot2)
+library(patchwork)
+
+clean_data$drug <- factor(clean_data$drug, labels = c("Aspirin", "Paracetamol", "Placebo", "Tramadol"))
+
+p1 <- ggplot(clean_data, aes(x = drug, y = cards_before, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Memory Card Scores Before Treatment", x = "Drug Type", y = "Memory Card Score", fill = "Drug") +
+  theme_minimal()
+
+p2 <- ggplot(clean_data, aes(x = drug, y = cards_after, fill = drug)) + 
+  geom_boxplot() +
+  labs(title = "Memory Card Scores After Treatment", x = "Drug Type", y = "Memory Card Score", fill = "Drug") +
+  theme_minimal()
+
+p1 / p2 + plot_annotation()
+```
+
+```{r}
+
+# we fit One-Way ANOVA Model for our research question 1
+model_1 <- aov(game_after ~ drug, data = clean_data)
+
+# Check Model Assumptions
+check_model(model_1, check = c("normality", "homogeneity"))
+
+```
+
+
+```{r}
+#| fig.width: 6
+#| fig.height: 4
+#| fig-cap: "Normality & Homegenity (Two-way ANOVA)"
+
+# Corrected Two-Way ANOVA Model for our research question 2
+model_2 <- aov(game_after ~ drug + dosage_level, data = clean_data)
+
+# Check Model Assumptions
+check_model(model_2, check = c("normality", "homogeneity"))
+```
