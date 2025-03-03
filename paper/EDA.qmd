@@ -29,23 +29,14 @@ bibliography: references.bib
 # Introduction
 
 ## Relevant Background
-Pain can affect how well we perform everyday tasks in situations where focus and mental clarity
-are crucial. Aspirin, Paracetamol, and Tramadol are pain relievers used commonly to reduce
-physical discomfort, but we don’t know much about their impacts on cognitive functions. Tasks
-requiring mental effort, such as recalling information, are harder to perform while in pain.
-This study is interested in how different types of common pain relievers at standard dosages
-(Aspirin, Paracetamol, and Tramadol) may affect outcomes of tasks involving memory tests. We
-also analyze the effects of different dosages of each drug on memory function. The concept of
-recalling information is used in various settings, so understanding how pain relief can impact
-performance can be valuable to help with pain management without an impact on productivity.
-
+Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions is not well understood. Recalling information, a task that demands mental effort, becomes more difficult when we're in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. It also looks at how varying dosages of each drug influence memory function. Since the ability to recall information is essential in many situations, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
 
 ## Research Questions
 1. *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect cognitive task performance?*
 2. *How does the dosage (low vs. high) of each drug affect cognitive retention, while accounting for confounding factors like age?*
 
 ## Study Design  
-This study involves *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
+This study involves 2 factors, pain reliever type (4 levels) and dosage(2 levels). Crossing them provides us with *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
 
 1. Aspirin 500 mg (Low)
 2. Aspirin 1000 mg (High)
@@ -60,8 +51,9 @@ This results in **240 total observations** (8 × 30 = 240).
 
 
 ## Confounding Variable: Age  
-To reduce variability, we consider **age** as a **confounding variable**. Participants will be categorized into three groups:
-
+To reduce bias, we consider to control the experiment by controlling participant ages to be 18+. Hence in this study **age** acts as a **confounding variable**.
+Participants will be categorized into three groups evenly to prevent bias created through age. 
+The groups are as follows:
 1. 18–34 years
 2. 35–50 years
 3. 50+ years
@@ -106,6 +98,7 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 @tbl-summary-1 shows the summary statistics of memory game scores before and after the treatment. The mean is similar across all groups, however, the standard deviation (SD) is relatively high. The median game scores remain close to the mean, and the IQR (Interquartile Range) is smaller than the SD. The cards memory task shows little change before and after treatment, suggesting that pain relievers may not have a major effect on this specific task.
 
+Evident through the results on @tbl-summary-6, Paracetamol is the drug that has the greatest mean & median improvement in the game scores after administering the drug (without dosage taken into account). Aspirin appears to negatively impact the results of the game after being given to people, this was seen through the mean and median improvements.
 
 
 ```{r}
@@ -152,6 +145,26 @@ summary_table <- data.frame(
 kable(summary_table, format = "latex", booktabs = TRUE) 
 ```
 
+```{r}
+#| label: tbl-summary-6
+#| tbl-cap: "Mean Improvement in Game Scores by Drug"
+#| echo: false
+#| warning: false
+#| message: false
+
+clean_data$improvement <- clean_data$game_after - clean_data$game_before
+
+improvement_summary <- clean_data %>%
+  group_by(drug) %>%
+  summarise(
+    Mean_Improvement = mean(improvement, na.rm = TRUE),
+    SD_Improvement = sd(improvement, na.rm = TRUE),
+    Median_Improvement = median(improvement, na.rm = TRUE)
+  )
+
+kable(improvement_summary, format = "latex", booktabs = TRUE)
+
+```
 ## Summary of counts and percentage for qualitative variables
 
 @tbl-summary-2 shows the distribution of participants across drug types. Aspirin, Paracetamol, and Tramadol, and Placebo each have 60 participants (25\%), ensuring balance.
@@ -214,30 +227,6 @@ age_summary <- data.frame(Age_Group = names(age_counts), Count = as.numeric(age_
 
 
 kable(age_summary, format = "latex", booktabs = TRUE) 
-```
-
-
-Evident through the results on @tbl-summary-6, Paracetamol is the drug that has the greatest mean & median improvement in the game scores after administering the drug (without dosage taken into account). Aspirin appears to negatively impact the results of the game after being given to people, this was seen through the mean and median improvements.
-
-```{r}
-#| label: tbl-summary-6
-#| tbl-cap: "Mean Improvement in Game Scores by Drug"
-#| echo: false
-#| warning: false
-#| message: false
-
-clean_data$improvement <- clean_data$game_after - clean_data$game_before
-
-improvement_summary <- clean_data %>%
-  group_by(drug) %>%
-  summarise(
-    Mean_Improvement = mean(improvement, na.rm = TRUE),
-    SD_Improvement = sd(improvement, na.rm = TRUE),
-    Median_Improvement = median(improvement, na.rm = TRUE)
-  )
-
-kable(improvement_summary, format = "latex", booktabs = TRUE)
-
 ```
 
 
