@@ -19,25 +19,44 @@ library(stringr)
 
 # Reading dataset
 df  <- read.csv("data/raw_data/STA305 Dataset.csv")
-df$name <- trimws(df$name)  # Removes extra spaces
-df$drug_dosage <- trimws(df$drug_dosage)  # Cleans up drug_dosage
 
-sum(is.na(df$name))  # Check for missing names before split
-
-
-# Separate the 'drug_dosage' column into 'drug' and 'dosage_level'
-df <- df %>%
-  separate(drug_dosage, into = c("drug", "dosage_level"), sep = "_") %>%
-  select(name, drug, dosage_level, everything())  # Reorder columns
+# Reshape data for repeated anova measure 
+clean_data_long <- df %>%
+  pivot_longer(
+    cols = c(game_before, game_after, cards_before, cards_after),
+    names_to = c(".value", "Time"),
+    names_sep = "_"
+  )
 
 
 
-# Convert first letter of categorical variables to uppercase
-df$drug <- str_to_title(df$drug)
-df$dosage_level <- str_to_title(df$dosage_level)
-df$location <- str_to_title(df$location)
-df$age_group <- str_to_title(df$age_group)
+# Numeric value of time begore /after as 0/1 fr making plots
+clean_data_long <- clean_data_long %>%
+  mutate(Time_numeric = factor(Time, levels = c("before", "after"), labels = c(0, 1)))
+
+clean_data_long <- clean_data_long %>%
+  mutate(Time_numeric = as.numeric(as.character(Time_numeric)))
+
+
+clean_data_long <- clean_data_long %>%
+  select(name, drug, dosage_level, Time, Time_numeric, game, cards, location, age, age_group)
+
+
+clean_data_long <- clean_data_long %>%
+  rename(
+    Name = name,
+    Drug = drug,
+    DosageLevel = dosage_level,
+    Time = Time,
+    TimeNumeric = Time_numeric,
+    GameScore = game,
+    CardScore = cards,
+    Location = location,
+    Age = age,
+    AgeGroup = age_group
+  )
+
 
 # Saving cleaned data
-write.csv(df, file = "data/analysis_data/clean_data.csv", row.names = FALSE)
+write.csv(clean_data_long, file = "data/analysis_data/clean_data.csv", row.names = FALSE)
 
