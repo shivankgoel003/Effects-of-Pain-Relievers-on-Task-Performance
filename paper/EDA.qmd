@@ -54,14 +54,16 @@ This results in **240 total observations** (8 × 30 = 240).
 To reduce bias, we consider to control the experiment by controlling participant ages to be 18+. Hence in this study **age** acts as a **confounding variable**.
 Participants will be categorized into three groups evenly to prevent bias created through age. 
 The groups are as follows:
+
 1. 18–34 years
 2. 35–50 years
 3. 50+ years
 
 ## Quantitative and Qualitative Variables 
-In our study the quantitative and qualitative variables are as follows. 
-Quantitative variables: Memory Game Scores, Memory Test Cards Scores 
-Qualitative variables: Type of pain reliever, dosage level (low/high)
+In our study the quantitative and qualitative variables are as follows: 
+
+1. Quantitative variables: Memory Game Scores, Memory Test Cards Scores 
+2. Qualitative variables: Type of pain reliever, dosage level (low/high)
 
 ## Data Analysis Method   
 We will use **one-way ANOVA** to analyze the effects of different pain relievers on memory performance.
@@ -237,9 +239,9 @@ kable(age_summary, format = "latex", booktabs = TRUE)
 @fig-boxplot-scores shows the distribution of memory game scores before and after treatment across different drug types using box plots.
 
 1. The median scores for all drugs appear similar before treatment.
-2. **Tramadol has a higher median** than other drugs both before and after treatment.
-3. The **Placebo group has a slightly lower median score** compared to other drugs.
-4. There is **one outlier in the Tramadol group before treatment**.
+2. Tramadol has a higher median than other drugs both before and after treatment.
+3. The Placebo group has a slightly lower median score compared to other drugs.
+4. There is one outlier in the Tramadol group before treatment.
 5. The (IQR) is **similar across all drug types**, though Tramadol sees a decrease in its IQR in the memory game scores after treatment. 
 
 These boxplots provide an initial comparison of cognitive performance changes before and after drug administration.
