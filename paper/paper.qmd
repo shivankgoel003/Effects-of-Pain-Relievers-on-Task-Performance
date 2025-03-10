@@ -132,7 +132,7 @@ summary_table <- data.frame(
 summary_table$Time <- str_to_title(summary_table$Time)
 
 # Display table with no row names
-kable(summary_table, caption = "Summary Statistics by Time", booktabs = TRUE, row.names = FALSE)
+kable(summary_table, booktabs = TRUE, row.names = FALSE)
 
 
 ```
@@ -190,7 +190,7 @@ drug_summary <- data.frame(
 )
 
 # Display table
-kable(drug_summary, caption = "Summary of Drug Types", booktabs = TRUE, row.names = FALSE)
+kable(drug_summary, booktabs = TRUE, row.names = FALSE)
 
 
 ```
@@ -216,7 +216,7 @@ dosage_summary <- data.frame(
 )
 
 # Display table
-kable(dosage_summary, caption = "Summary of Dosage Levels", booktabs = TRUE, row.names = FALSE)
+kable(dosage_summary, booktabs = TRUE, row.names = FALSE)
 
 ```
 
@@ -242,7 +242,7 @@ age_summary <- data.frame(
 )
 
 # Display table
-kable(age_summary, caption = "Summary of Age Groups", booktabs = TRUE, row.names = FALSE)
+kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 ```
 
