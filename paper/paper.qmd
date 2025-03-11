@@ -135,7 +135,6 @@ summary_table$Time <- str_to_title(summary_table$Time)
 # Display table with no row names
 kable(summary_table, booktabs = TRUE, row.names = FALSE)
 
-
 ```
 
 ```{r}
@@ -167,7 +166,6 @@ improvement_summary <- game_wide %>%
     Median_Improvement = round(median(improvement, na.rm = TRUE), 2)
   )
 
-# Step 4: Display the table
 kable(improvement_summary, booktabs = TRUE, row.names = FALSE)
 
 
@@ -336,8 +334,6 @@ ggplot(clean_data, aes(x = Drug, y = CardScore, fill = Time)) +
     axis.text = element_text(size = 12),
     legend.title = element_text(size = 12)
   )
-
-
 ```
 
 ## Memory Card Score Distribution Before and After Treatment
