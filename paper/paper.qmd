@@ -110,6 +110,7 @@ Evident through the results on @tbl-summary-6, Paracetamol is the drug that has 
 #| warning: false
 #| message: false
 library(knitr)
+library(dplyr)
 library(stringr)
 
 # Calculate Means and SDs by Time for GameScore
@@ -138,8 +139,12 @@ kable(summary_table, booktabs = TRUE, row.names = FALSE)
 ```
 
 ```{r}
-library(dplyr)
-library(knitr)
+
+#| label: tbl-summary-1
+#| tbl-cap: "Mean Improvement in Game Scores by Drug"
+#| echo: false
+#| warning: false
+#| message: false
 
 # Step 1: Create a wide dataset with Before/After side by side for GameScore
 game_wide <- clean_data %>%
@@ -163,7 +168,7 @@ improvement_summary <- game_wide %>%
   )
 
 # Step 4: Display the table
-kable(improvement_summary, caption = "Mean Improvement in Game Scores by Drug", booktabs = TRUE, row.names = FALSE)
+kable(improvement_summary, booktabs = TRUE, row.names = FALSE)
 
 
 ```
@@ -275,7 +280,65 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 These boxplots provide an initial comparison of cognitive performance changes before and after drug administration.
 
+```{r}
 
+#| label: fig-boxplot-scores
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Boxplot of Memory Game Scores Before and After Treatment by Drug Type"
+
+
+ggplot(clean_data, aes(x = Drug, y = GameScore, fill = Time)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) +
+  labs(
+    title = "Memory Game Scores by Drug Type and Time",
+    x = "Drug Type",
+    y = "Memory Game Score",
+    fill = "Time"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12),
+    legend.title = element_text(size = 12)
+  )
+```
+
+
+```{r}
+#| label: fig-boxplot-cards
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Boxplot of Memory Card Scores Before and After Treatment by Drug Type"
+
+
+ggplot(clean_data, aes(x = Drug, y = CardScore, fill = Time)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) +
+  labs(
+    title = "Memory Card Scores Before and After Treatment by Drug Type",
+    x = "Drug Type",
+    y = "Memory Card Score",
+    fill = "Time"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12),
+    legend.title = element_text(size = 12)
+  )
+
+
+```
 
 ## Memory Card Score Distribution Before and After Treatment
 
