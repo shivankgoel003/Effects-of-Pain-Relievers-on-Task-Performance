@@ -1,25 +1,17 @@
-
 ---
-title: "Analyzing How Organization Size, Sector, and Cybersecurity Strategies Influence Impacts on Cyberattacks"
-subtitle: "Based on Data Collected From the University of Queensland"
+title: "Effects of Different Pain Relievers and Dosages on Cognitive Retention"
+subtitle: "Exploratory Data Analysis (EDA)"
 author: 
+  - Navya Hooda
+  - Mohammed Yusuf Shaikh
   - Shivank Goel
-thanks: "Code and data are available at: https://github.com/shivankgoel003/DataBreach_Ransomware_Stats"
+  - Vanshika Vanshika
+  - Jena Shah
 date: today
 date-format: long
-abstract: "Undoubtedly as technology is progressing and we are stepping more closer to the digital world, the digital threats are also increasingly rapidly. This study discusses the influence of organizational size, sector, and cybersecurity strategies on cyberattack impacts. Utilizing a dataset from the University of Queensland about data breaches and ransomware attacks from 2004 to 2019, we analyze the trends and correlations and study how different factors contribute to the severity and frequency of these incidents. Our analysis reveals key insights: larger organizations report more cyber incidents, sectors like healthcare and education are frequent targets, and cybersecurity frameworks significantly help in reducing the user impact. These findings highlight critical areas for how organizations can improve their security and protect their data."
-header-includes:
-   - \usepackage{tikz}
-   - \usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc}
-   - \usepackage{pgfplots} 
-   - \usepackage{float}
-   - \usepackage{booktabs}
-   - \usepackage{longtable}
-
-format: pdf
 number-sections: true
+format: pdf
 bibliography: references.bib
-toc: true
 ---
 
 ```{r}
@@ -27,34 +19,429 @@ toc: true
 #| warning: false
 #| message: false
 
-library(tidyverse)
-library(readxl)
-library(here)
 
-breach_data <- read.csv(here("data/analysis_data/breach_data.csv"))
+# install.packages(c("tidyverse", "janitor", "here", "lubridate", "arrow", "dplyr", 
+#   "knitr", "performance", "kableExtra", #"ggpubr"))
+
 ```
 
 
 # Introduction
 
-Therefore, in response to such attacks, there is a need for a plan, that not just keep the intruder or hackers out but also quickly alert if an attack does happen. Our study looks at cyber resilience, which is “ the ability to anticipate, withstand, recover from, and adapt to adverse conditions, stresses, attacks, or compromises on systems that use or are enabled by cyber resources.” as defined by National Institute of Standards and Technology [@NISTGlossary2023]. We break our study into three major research questions, which forms the thesis of our study:
+## Relevant Background
+Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions is not well understood. Recalling information, a task that demands mental effort, becomes more difficult when we're in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. It also looks at how varying dosages of each drug influence memory function. Since the ability to recall information is essential in many situations, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
 
-**RQ1**: How do organizational factors such as size and sector, influence the severity of cyber breaches experienced by companies?
+## Research Questions
+1. *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect cognitive task performance?*
+2. *How does the dosage (low vs. high) of each drug affect cognitive retention, while accounting for confounding factors like age?*
 
-**RQ2**: Which cybersecurity strategies, including frameworks, policies, and preventive measures, are the most effective one, in reducing the damage caused by cyber attacks?
+## Study Design  
+This study involves 2 factors, pain reliever type (4 levels) and dosage(2 levels). Crossing them provides us with *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
 
-**RQ3**: In what ways do the industry type and digital dependence of a business affect the overall impact of a cyber attack, in terms of preserving confidentiality, integrity and availability of data?
+1. Aspirin 500 mg (Low)
+2. Aspirin 1000 mg (High)
+3. Paracetamol 500 mg (Low)
+4. Paracetamol 1000 mg (High)
+5. Tramadol 50 mg (Low)
+6. Tramadol 100 mg (High)
+7. Placebo (Low) 
+8. Placebo (High)
 
-We also plotted a bar graph @fig-sector to count the number of incidents across various sectors. The bar chart clearly indicates that the 'Human Health Activities' sector has the highest count of incidents, standing out significantly from the other sectors. This might suggest that health sector is a more frequent target for cyber incidents or probably it is more diligent in reporting such events. The other sectors show a range of incident counts, with most appearing to have far fewer incidents in comparison. This could point to different levels of risk exposure, varying security measures, or reporting practices across these sectors. 
-
-
-
-
-\newpage
-
-
-
-
+This results in **240 total observations** (8 × 30 = 240).
 
 
-# References
+## Confounding Variable: Age  
+To reduce bias, we consider to control the experiment by controlling participant ages to be 18+. Hence in this study **age** acts as a **confounding variable**.
+Participants will be categorized into three groups evenly to prevent bias created through age. 
+The groups are as follows:
+
+1. 18–34 years
+2. 35–50 years
+3. 50+ years
+
+## Quantitative and Qualitative Variables 
+In our study the quantitative and qualitative variables are as follows: 
+
+1. Quantitative variables: Memory Game Scores, Memory Test Cards Scores 
+2. Qualitative variables: Type of pain reliever, dosage level (low/high)
+
+## Data Analysis Method   
+We will use **one-way ANOVA** to analyze the effects of different pain relievers on memory performance.
+Similarly, we will use **two-way ANOVA** to analyze the effects of different dosage levels per drug type on memory performance and cognitive retention. 
+
+
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(janitor)
+library(here)
+library(lubridate)
+library(arrow)
+library(dplyr)
+library(knitr)
+library(performance)
+library(kableExtra)
+library(performance)
+library(ggpubr)
+
+clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
+
+
+```
+
+
+# Summary Statistics
+
+## Summary of quantitative variables 
+
+@tbl-summary-1 shows the summary statistics of memory game scores before and after the treatment. The mean is similar across all groups, however, the standard deviation (SD) is relatively high. The median game scores remain close to the mean, and the IQR (Interquartile Range) is smaller than the SD. The cards memory task shows little change before and after treatment, suggesting that pain relievers may not have a major effect on this specific task.
+
+Evident through the results on @tbl-summary-6, Paracetamol is the drug that has the greatest mean & median improvement in the game scores after administering the drug (without dosage taken into account). Aspirin appears to negatively impact the results of the game after being given to people, this was seen through the mean and median improvements.
+
+
+```{r}
+#| label: tbl-summary-1
+#| tbl-cap: "Summary Statistics for Quantitative Variables"
+#| echo: false
+#| warning: false
+#| message: false
+library(knitr)
+library(stringr)
+
+# Calculate Means and SDs by Time for GameScore
+game_means <- tapply(clean_data$GameScore, clean_data$Time, mean, na.rm = TRUE)
+game_sds   <- tapply(clean_data$GameScore, clean_data$Time, sd, na.rm = TRUE)
+
+# Calculate Means and SDs by Time for CardScore
+cards_means <- tapply(clean_data$CardScore, clean_data$Time, mean, na.rm = TRUE)
+cards_sds   <- tapply(clean_data$CardScore, clean_data$Time, sd, na.rm = TRUE)
+
+# Combine into a data frame for kable
+summary_table <- data.frame(
+  Time = names(game_means),
+  Game_Mean = round(game_means, 2),
+  Game_SD   = round(game_sds, 2),
+  Cards_Mean = round(cards_means, 2),
+  Cards_SD   = round(cards_sds, 2)
+)
+
+summary_table$Time <- str_to_title(summary_table$Time)
+
+# Display table with no row names
+kable(summary_table, booktabs = TRUE, row.names = FALSE)
+
+
+```
+
+```{r}
+library(dplyr)
+library(knitr)
+
+# Step 1: Create a wide dataset with Before/After side by side for GameScore
+game_wide <- clean_data %>%
+  select(Name, Drug, DosageLevel, Time, GameScore) %>%
+  pivot_wider(
+    names_from = Time,
+    values_from = GameScore
+  )
+
+# Step 2: Compute improvement (After - Before)
+game_wide <- game_wide %>%
+  mutate(improvement = after - before)
+
+# Step 3: Summarise improvements by Drug
+improvement_summary <- game_wide %>%
+  group_by(Drug) %>%
+  summarise(
+    Mean_Improvement = round(mean(improvement, na.rm = TRUE), 2),
+    SD_Improvement = round(sd(improvement, na.rm = TRUE), 2),
+    Median_Improvement = round(median(improvement, na.rm = TRUE), 2)
+  )
+
+# Step 4: Display the table
+kable(improvement_summary, caption = "Mean Improvement in Game Scores by Drug", booktabs = TRUE, row.names = FALSE)
+
+
+```
+
+
+```{r}
+#| label: tbl-summary-2
+#| tbl-cap: "Summary of Drug Types"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(knitr)
+
+# Count and percentage for Drug
+drug_counts <- table(clean_data$Drug)  # Use capital "D" if that's your column name
+drug_percentages <- prop.table(drug_counts) * 100
+
+# Combine into a data frame
+drug_summary <- data.frame(
+  Drug = names(drug_counts),
+  Count = as.numeric(drug_counts),
+  Percentage = round(as.numeric(drug_percentages), 2)
+)
+
+# Display table
+kable(drug_summary, booktabs = TRUE, row.names = FALSE)
+
+
+```
+
+```{r}
+#| label: tbl-summary-3
+#| tbl-cap: "Summary of Dosage Levels"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(knitr)
+
+# Count and percentage for Dosage Level
+dosage_counts <- table(clean_data$DosageLevel)
+dosage_percentages <- prop.table(dosage_counts) * 100
+
+# Combine into a data frame
+dosage_summary <- data.frame(
+  Dosage = names(dosage_counts),
+  Count = as.numeric(dosage_counts),
+  Percentage = round(as.numeric(dosage_percentages), 2)
+)
+
+# Display table
+kable(dosage_summary, booktabs = TRUE, row.names = FALSE)
+
+```
+
+
+```{r}
+#| label: tbl-summary-5
+#| tbl-cap: "Summary of Age Groups"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(knitr)
+
+# Count and percentage for Age Group
+age_counts <- table(clean_data$AgeGroup)
+age_percentages <- prop.table(age_counts) * 100
+
+# Combine into a data frame
+age_summary <- data.frame(
+  Age_Group = names(age_counts),
+  Count = as.numeric(age_counts),
+  Percentage = round(as.numeric(age_percentages), 2)
+)
+
+# Display table
+kable(age_summary, booktabs = TRUE, row.names = FALSE)
+
+```
+
+## Summary of counts and percentage for qualitative variables
+
+@tbl-summary-2 shows the distribution of participants across drug types. Aspirin, Paracetamol, and Tramadol, and Placebo each have 60 participants (25\%), ensuring balance.
+
+@tbl-summary-3 shows the dosage levels assigned to participants. There is an equal split between high-dose (120 participants, 50\%) and low-dose (120 participants, 50\%) conditions. 
+
+## Confounding Variable
+
+@tbl-summary-5 shows the breakdown of age groups, which is a confounding variable in this study. The three age groups: 18–34, 35–50, and 50+ each have 80 participants (33.33\%).
+
+
+
+
+
+
+# Plots
+
+## Game Score Distribution Before and After Treatment
+
+@fig-boxplot-scores shows the distribution of memory game scores before and after treatment across different drug types using box plots.
+
+1. The median scores for all drugs appear similar before treatment.
+2. Tramadol has a higher median than other drugs both before and after treatment.
+3. The Placebo group has a slightly lower median score compared to other drugs.
+4. There is one outlier in the Tramadol group before treatment.
+5. The (IQR) is **similar across all drug types**, though Tramadol sees a decrease in its IQR in the memory game scores after treatment. 
+
+These boxplots provide an initial comparison of cognitive performance changes before and after drug administration.
+
+
+
+## Memory Card Score Distribution Before and After Treatment
+
+@fig-boxplot-cards shows the distribution of **memory card scores before and after treatment** across drug types.
+
+1. Before treatment, the scores are relatively high across all groups, with Paracetamol and Placebo showing slightly higher medians than the others.
+2. After treatment, the distributions remain similar, though there is a slight increase in spread for Aspirin, Paracetamol, and Placebo.
+3. There is a slight decrease in the IQR of Tramadol. 
+3. Outliers are present in all groups, indicating some variability in memory card performance across individuals.
+
+
+
+# Assumptions
+
+
+
+## Checking Model Assumptions
+
+**Repeated Measures ANOVA**
+(To be changed)
+When performing a repeated measures ANOVA, it is essential to verify that the underlying assumptions of the test are met. These assumptions include:
+\begin{itemize}
+    \item \textbf{Normality}: The dependent variable should be normally distributed within each group.
+    \item \textbf{Sphericity}: The variances of the differences between all combinations of related groups should be equal.
+    \item \textbf{Homogeneity of Variance}: The variances of the dependent variable should be equal across groups.
+\end{itemize}
+
+This document outlines the methods and tests used to verify these assumptions.
+
+\section*{Normality}
+The assumption of normality was tested using the Shapiro-Wilk test. The Shapiro-Wilk test evaluates the null hypothesis that the data is normally distributed. The test statistic \( W \) and the corresponding \( p \)-value were calculated for each combination of the factors (Drug, DosageLevel, and Time).
+
+\subsection*{Hypotheses}
+\begin{itemize}
+    \item \( H_0 \): The data is normally distributed.
+    \item \( H_1 \): The data is not normally distributed.
+\end{itemize}
+
+\subsection*{Interpretation}
+If the \( p \)-value is greater than 0.05, we fail to reject the null hypothesis and assume normality. Otherwise, the normality assumption is violated.
+
+\subsection*{Visual Inspection}
+Q-Q plots were generated to visually inspect the normality assumption. If the points in the Q-Q plot lie approximately on the reference line, the data can be assumed to be normally distributed.
+
+\section*{Sphericity}
+The assumption of sphericity was tested using Mauchly's test. Sphericity refers to the condition where the variances of the differences between all combinations of related groups are equal.
+
+\subsection*{Hypotheses}
+\begin{itemize}
+    \item \( H_0 \): The variances of the differences are equal (sphericity is met).
+    \item \( H_1 \): The variances of the differences are not equal (sphericity is violated).
+\end{itemize}
+
+\subsection*{Interpretation}
+If the \( p \)-value from Mauchly's test is greater than 0.05, we fail to reject the null hypothesis and assume sphericity. If the assumption is violated, corrections such as Greenhouse-Geisser or Huynh-Feldt should be applied.
+
+\section*{Homogeneity of Variance}
+The assumption of homogeneity of variance was tested using Levene's test. This test evaluates whether the variances of the dependent variable are equal across all groups formed by the combinations of the factors (Drug, DosageLevel, and Time).
+
+\subsection*{Hypotheses}
+\begin{itemize}
+    \item \( H_0 \): The variances are equal across groups.
+    \item \( H_1 \): The variances are not equal across groups.
+\end{itemize}
+
+\subsection*{Interpretation}
+If the \( p \)-value from Levene's test is greater than 0.05, we fail to reject the null hypothesis and assume homogeneity of variance. If the assumption is violated, transformations or alternative statistical methods may be required.
+
+\subsection*{Visual Inspection}
+Boxplots were generated to visually inspect the homogeneity of variance. If the boxplots show similar spreads across groups, the assumption is likely met.
+
+\section*{Conclusion}
+The results of the assumption tests (Shapiro-Wilk, Mauchly's, and Levene's) were used to determine whether the assumptions of normality, sphericity, and homogeneity of variance were met. If any assumptions were violated, appropriate corrections or alternative methods were considered before proceeding with the repeated measures ANOVA.
+```{r}
+#| label: tbl-model1
+#| tbl-cap: "Summary of Age Groups"
+#| echo: false
+#| warning: false
+#| message: false
+
+# Load necessary libraries
+library(tidyverse)
+library(ggplot2)
+library(car)
+library(ez)
+
+# Assuming the dataset is loaded into a data frame called `data`
+# Convert necessary columns to factors
+clean_data$Drug <- as.factor(clean_data$Drug)
+clean_data$DosageLevel <- as.factor(clean_data$DosageLevel)
+clean_data$Time <- as.factor(clean_data$Time)
+clean_data$AgeGroup <- as.factor(clean_data$AgeGroup)
+
+# Check for Normality
+# We will use Shapiro-Wilk test for normality
+shapiro_test <- clean_data %>%
+  group_by(Drug, DosageLevel, Time) %>%
+  summarise(statistic = shapiro.test(GameScore)$statistic,
+            p.value = shapiro.test(GameScore)$p.value)
+
+print(shapiro_test)
+
+# Visual check for normality using Q-Q plots
+ggplot(clean_data, aes(sample = GameScore)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_grid(Drug ~ DosageLevel + Time) +
+  theme_minimal() +
+  ggtitle("Q-Q Plots for Normality Check")
+
+# Check for Sphericity using Mauchly's Test
+# We will use the `ezANOVA` function to check for sphericity
+ez_model <- ezANOVA(
+  data = clean_data,
+  dv = .(GameScore),
+  wid = .(Name),
+  within = .(Time),
+  between = .(Drug, DosageLevel),
+  type = 3,
+  detailed = TRUE
+)
+
+print(ez_model)
+
+# Check for Homogeneity of Variance using Levene's Test
+levene_test <- leveneTest(GameScore ~ Drug * DosageLevel * Time, data = clean_data)
+print(levene_test)
+
+# Visual check for homogeneity of variance using boxplots
+ggplot(clean_data, aes(x = interaction(Drug, DosageLevel, Time), y = GameScore)) +
+  geom_boxplot() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("Boxplots for Homogeneity of Variance Check")
+
+```
+
+
+
+
+
+We assessed the homogeneity of variance and normality of residuals using diagnostic plots to validate the assumptions of our ANOVA tests. (@fig-assump-one & @fig-assump-two).
+
+**One-way ANOVA**
+
+*Independence:* For our one-way ANOVA model, we have independence because our observations are independent within and across the groups i.e all participants were randomly assigned a pain reliever, and there was no relationships between observations (i.e repeated  participants, treatments etc.) 
+
+*Homogeneity of Variance:* 
+The reference line in @fig-assump-one relatively flat and horizontal which indicates that variance is approximately equal across groups. Thus, the assumption of homogeneity of variance is not significantly violated.
+
+
+*Normality of Residuals:* 
+The residuals are approximately normally distributed in @fig-assump-one since the density plot on the right appears close to a normal distribution.
+
+
+**Two-way ANOVA**
+
+*Independence:*
+For our two-way ANOVA model, the different combinations of pain reliever type and dosage levels were randomly assigned to all participants, in random order. 
+
+*Homogeneity of Variance:* 
+In @fig-assump-two the left plot shows some deviation from a perfectly flat line and has minor fluctuations, especially at certain levels of drug type and dosage. Despite some variation, the overall trend does not show extreme violations of homogeneity.
+
+*Normality of Residuals:* 
+In @fig-assump-two the density plot on the right shows that the residuals follow a roughly normal distribution even though minor deviations are present.
+
+**Conclusion**
+
+Both models satisfy the assumptions of homogeneity of variance and normality of residuals well enough. There are slight deviations in the two-way ANOVA model, but they are not severe enough to invalidate the analysis. Therefore, we proceed with the ANOVA tests.
