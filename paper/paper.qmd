@@ -1,3 +1,4 @@
+this is all i want in main:
 ---
 title: "Effects of Different Pain Relievers and Dosages on Cognitive Retention"
 subtitle: "Exploratory Data Analysis (EDA)"
@@ -467,3 +468,4 @@ In @fig-assump-two the density plot on the right shows that the residuals follow
 **Conclusion**
 
 Both models satisfy the assumptions of homogeneity of variance and normality of residuals well enough. There are slight deviations in the two-way ANOVA model, but they are not severe enough to invalidate the analysis. Therefore, we proceed with the ANOVA tests.
+
