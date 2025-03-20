@@ -1,4 +1,3 @@
-this is all i want in main:
 ---
 title: "Effects of Different Pain Relievers and Dosages on Cognitive Retention"
 subtitle: "Exploratory Data Analysis (EDA)"
@@ -15,16 +14,7 @@ format: pdf
 bibliography: references.bib
 ---
 
-```{r}
-#| include: false
-#| warning: false
-#| message: false
 
-
-# install.packages(c("tidyverse", "janitor", "here", "lubridate", "arrow", "dplyr", 
-#   "knitr", "performance", "kableExtra", #"ggpubr"))
-
-```
 
 
 # Introduction
@@ -131,6 +121,7 @@ summary_table <- data.frame(
   `Memory Cards Score` = c(mean_cards, median_cards, sd_cards, iqr_cards)
 )
 
+colnames(summary_table) <- c("Statistic", "Memory Game Score", "Memory Cards Score")
 
 # Display table
 
@@ -236,7 +227,6 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 # Plots
 
 ```{r}
-
 #| label: fig-boxplot-game-scores
 #| echo: false
 #| warning: false
