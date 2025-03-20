@@ -84,6 +84,7 @@ library(arrow)
 library(dplyr)
 library(knitr)
 library(performance)
+library(stringr)
 library(kableExtra)
 library(performance)
 library(ggpubr)
@@ -109,37 +110,34 @@ Evident through the results on @tbl-summary-6, Paracetamol is the drug that has 
 #| echo: false
 #| warning: false
 #| message: false
-library(knitr)
-library(stringr)
 
-# Calculate Means and SDs by Time for GameScore
-game_means <- tapply(clean_data$GameScore, clean_data$Time, mean, na.rm = TRUE)
-game_sds   <- tapply(clean_data$GameScore, clean_data$Time, sd, na.rm = TRUE)
+# Compute statistics for Memory Game Score
+mean_game <- mean(clean_data$memory_game_score, na.rm = TRUE)
+median_game <- median(clean_data$memory_game_score, na.rm = TRUE)
+sd_game <- sd(clean_data$memory_game_score, na.rm = TRUE)
+iqr_game <- IQR(clean_data$memory_game_score, na.rm = TRUE)
 
-# Calculate Means and SDs by Time for CardScore
-cards_means <- tapply(clean_data$CardScore, clean_data$Time, mean, na.rm = TRUE)
-cards_sds   <- tapply(clean_data$CardScore, clean_data$Time, sd, na.rm = TRUE)
+# Compute statistics for Memory Cards Score
+mean_cards <- mean(clean_data$memory_cards_score, na.rm = TRUE)
+median_cards <- median(clean_data$memory_cards_score, na.rm = TRUE)
+sd_cards <- sd(clean_data$memory_cards_score, na.rm = TRUE)
+iqr_cards <- IQR(clean_data$memory_cards_score, na.rm = TRUE)
 
-# Combine into a data frame for kable
+# Combine into a summary table
 summary_table <- data.frame(
-  Time = names(game_means),
-  Game_Mean = round(game_means, 2),
-  Game_SD   = round(game_sds, 2),
-  Cards_Mean = round(cards_means, 2),
-  Cards_SD   = round(cards_sds, 2)
+  Statistic = c("Mean", "Median", "SD", "IQR"),
+  `Memory Game Score` = c(mean_game, median_game, sd_game, iqr_game),
+  `Memory Cards Score` = c(mean_cards, median_cards, sd_cards, iqr_cards)
 )
 
-summary_table$Time <- str_to_title(summary_table$Time)
 
-# Display table with no row names
-kable(summary_table, booktabs = TRUE, row.names = FALSE)
+# Display the table
 
+kable(summary_table, format = "latex", booktabs = TRUE)
 
 ```
 
 ```{r}
-library(dplyr)
-library(knitr)
 
 # Step 1: Create a wide dataset with Before/After side by side for GameScore
 game_wide <- clean_data %>%

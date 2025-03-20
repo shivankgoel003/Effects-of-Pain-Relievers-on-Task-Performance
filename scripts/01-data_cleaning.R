@@ -38,6 +38,3 @@ df$dosage_level <- str_to_title(df$dosage_level)
 df$location <- str_to_title(df$location)
 df$age_group <- str_to_title(df$age_group)
 
-# Saving cleaned data
-write.csv(df, file = "data/analysis_data/clean_data.csv", row.names = FALSE)
-
