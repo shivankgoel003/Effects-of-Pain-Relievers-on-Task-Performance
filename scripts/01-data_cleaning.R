@@ -56,10 +56,3 @@ clean_data_long <- clean_data_long %>%
     AgeGroup = age_group
   )
 
-
-<<<<<<< HEAD
-# Saving cleaned data
-write.csv(clean_data_long, file = "data/analysis_data/clean_data.csv", row.names = FALSE)
-
-=======
->>>>>>> Vanshika

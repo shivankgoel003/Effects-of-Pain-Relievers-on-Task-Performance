@@ -372,56 +372,7 @@ Boxplots were generated to visually inspect the homogeneity of variance. If the 
 
 \section*{Conclusion}
 The results of the assumption tests (Shapiro-Wilk, Mauchly's, and Levene's) were used to determine whether the assumptions of normality, sphericity, and homogeneity of variance were met. If any assumptions were violated, appropriate corrections or alternative methods were considered before proceeding with the repeated measures ANOVA.
-```{r}
-#| label: tbl-model1
-#| tbl-cap: "Summary of Age Groups"
-#| echo: false
-#| warning: false
-#| message: false
 
-# Load necessary libraries
-library(tidyverse)
-library(ggplot2)
-library(car)
-library(ez)
-
-# Assuming the dataset is loaded into a data frame called `data`
-# Convert necessary columns to factors
-clean_data$Drug <- as.factor(clean_data$Drug)
-clean_data$DosageLevel <- as.factor(clean_data$DosageLevel)
-clean_data$Time <- as.factor(clean_data$Time)
-clean_data$AgeGroup <- as.factor(clean_data$AgeGroup)
-
-# Check for Normality
-# We will use Shapiro-Wilk test for normality
-shapiro_test <- clean_data %>%
-  group_by(Drug, DosageLevel, Time) %>%
-  summarise(statistic = shapiro.test(GameScore)$statistic,
-            p.value = shapiro.test(GameScore)$p.value)
-
-print(shapiro_test)
-
-# Visual check for normality using Q-Q plots
-ggplot(clean_data, aes(sample = GameScore)) +
-  geom_qq() +
-  geom_qq_line() +
-  facet_grid(Drug ~ DosageLevel + Time) +
-  theme_minimal() +
-  ggtitle("Q-Q Plots for Normality Check")
-
-# Check for Sphericity using Mauchly's Test
-# We will use the `ezANOVA` function to check for sphericity
-ez_model <- ezANOVA(
-  data = clean_data,
-  dv = .(GameScore),
-  wid = .(Name),
-  within = .(Time),
-  between = .(Drug, DosageLevel),
-  type = 3,
-  detailed = TRUE
-)
-
-print(ez_model)
 
 # Check for Homogeneity of Variance using Levene's Test
 levene_test <- leveneTest(GameScore ~ Drug * DosageLevel * Time, data = clean_data)
