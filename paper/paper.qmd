@@ -84,6 +84,7 @@ library(arrow)
 library(dplyr)
 library(knitr)
 library(performance)
+library(stringr)
 library(kableExtra)
 library(performance)
 library(ggpubr)
@@ -109,67 +110,34 @@ Evident through the results on @tbl-summary-6, Paracetamol is the drug that has 
 #| echo: false
 #| warning: false
 #| message: false
-library(knitr)
-library(dplyr)
-library(stringr)
 
-# Calculate Means and SDs by Time for GameScore
-game_means <- tapply(clean_data$GameScore, clean_data$Time, mean, na.rm = TRUE)
-game_sds   <- tapply(clean_data$GameScore, clean_data$Time, sd, na.rm = TRUE)
+# Compute statistics for Memory Game Score
+mean_game <- mean(clean_data$memory_game_score, na.rm = TRUE)
+median_game <- median(clean_data$memory_game_score, na.rm = TRUE)
+sd_game <- sd(clean_data$memory_game_score, na.rm = TRUE)
+iqr_game <- IQR(clean_data$memory_game_score, na.rm = TRUE)
 
-# Calculate Means and SDs by Time for CardScore
-cards_means <- tapply(clean_data$CardScore, clean_data$Time, mean, na.rm = TRUE)
-cards_sds   <- tapply(clean_data$CardScore, clean_data$Time, sd, na.rm = TRUE)
+# Compute statistics for Memory Cards Score
+mean_cards <- mean(clean_data$memory_cards_score, na.rm = TRUE)
+median_cards <- median(clean_data$memory_cards_score, na.rm = TRUE)
+sd_cards <- sd(clean_data$memory_cards_score, na.rm = TRUE)
+iqr_cards <- IQR(clean_data$memory_cards_score, na.rm = TRUE)
 
-# Combine into a data frame for kable
+# Combine into a summary table
 summary_table <- data.frame(
-  Time = names(game_means),
-  Game_Mean = round(game_means, 2),
-  Game_SD   = round(game_sds, 2),
-  Cards_Mean = round(cards_means, 2),
-  Cards_SD   = round(cards_sds, 2)
+  Statistic = c("Mean", "Median", "SD", "IQR"),
+  `Memory Game Score` = c(mean_game, median_game, sd_game, iqr_game),
+  `Memory Cards Score` = c(mean_cards, median_cards, sd_cards, iqr_cards)
 )
 
-summary_table$Time <- str_to_title(summary_table$Time)
 
-# Display table with no row names
-kable(summary_table, booktabs = TRUE, row.names = FALSE)
+# Display table
 
-```
-
-```{r}
-
-#| label: tbl-summary-1
-#| tbl-cap: "Mean Improvement in Game Scores by Drug"
-#| echo: false
-#| warning: false
-#| message: false
-
-# Step 1: Create a wide dataset with Before/After side by side for GameScore
-game_wide <- clean_data %>%
-  select(Name, Drug, DosageLevel, Time, GameScore) %>%
-  pivot_wider(
-    names_from = Time,
-    values_from = GameScore
-  )
-
-# Step 2: Compute improvement (After - Before)
-game_wide <- game_wide %>%
-  mutate(improvement = after - before)
-
-# Step 3: Summarise improvements by Drug
-improvement_summary <- game_wide %>%
-  group_by(Drug) %>%
-  summarise(
-    Mean_Improvement = round(mean(improvement, na.rm = TRUE), 2),
-    SD_Improvement = round(sd(improvement, na.rm = TRUE), 2),
-    Median_Improvement = round(median(improvement, na.rm = TRUE), 2)
-  )
-
-kable(improvement_summary, booktabs = TRUE, row.names = FALSE)
-
+kable(summary_table, format = "latex", booktabs = TRUE)
 
 ```
+
+
 
 
 ```{r}
@@ -179,13 +147,12 @@ kable(improvement_summary, booktabs = TRUE, row.names = FALSE)
 #| warning: false
 #| message: false
 
-library(knitr)
+drug_counts <- table(clean_data$drug)
 
-# Count and percentage for Drug
-drug_counts <- table(clean_data$Drug)  # Use capital "D" if that's your column name
+# percentages
 drug_percentages <- prop.table(drug_counts) * 100
 
-# Combine into a data frame
+#  summary dataframe
 drug_summary <- data.frame(
   Drug = names(drug_counts),
   Count = as.numeric(drug_counts),
@@ -193,7 +160,7 @@ drug_summary <- data.frame(
 )
 
 # Display table
-kable(drug_summary, booktabs = TRUE, row.names = FALSE)
+kable(drug_summary, format = "latex", booktabs = TRUE)
 
 
 ```
@@ -205,18 +172,19 @@ kable(drug_summary, booktabs = TRUE, row.names = FALSE)
 #| warning: false
 #| message: false
 
-library(knitr)
 
-# Count and percentage for Dosage Level
-dosage_counts <- table(clean_data$DosageLevel)
+dosage_counts <- table(clean_data$dosage_level)
+
+# percentage for each dosage level
 dosage_percentages <- prop.table(dosage_counts) * 100
 
-# Combine into a data frame
+# summary dataframe
 dosage_summary <- data.frame(
   Dosage = names(dosage_counts),
   Count = as.numeric(dosage_counts),
   Percentage = round(as.numeric(dosage_percentages), 2)
 )
+
 
 # Display table
 kable(dosage_summary, booktabs = TRUE, row.names = FALSE)
@@ -231,13 +199,13 @@ kable(dosage_summary, booktabs = TRUE, row.names = FALSE)
 #| warning: false
 #| message: false
 
-library(knitr)
+ 
+age_counts <- table(clean_data$age_group)
 
-# Count and percentage for Age Group
-age_counts <- table(clean_data$AgeGroup)
+# percentages for each age group
 age_percentages <- prop.table(age_counts) * 100
 
-# Combine into a data frame
+# summary dataframe
 age_summary <- data.frame(
   Age_Group = names(age_counts),
   Count = as.numeric(age_counts),
@@ -266,6 +234,57 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 # Plots
 
+```{r}
+
+#| label: fig-boxplot-game-scores
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Memory Game Scores by Drug Type and Dosage Level"
+
+clean_data$dosage_level <- factor(clean_data$dosage_level, levels = c("Low", "High"))
+
+# Boxplot of Memory Game Scores by Drug, colored by Dosage Level
+ggplot(clean_data, aes(x = drug, y = memory_game_score, fill = dosage_level)) +
+  geom_boxplot() +
+  labs(
+    x = "Drug Type",
+    y = "Memory Game Score",
+    fill = "Dosage Level"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12)
+  )
+
+```
+
+```{r}
+#| label: fig-boxplot-card-scores
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Memory Game Scores by Drug Type and Dosage Level"
+
+ggplot(clean_data, aes(x = drug, y = memory_cards_score, fill = dosage_level)) +
+  geom_boxplot() +
+  labs(
+    x = "Drug Type",
+    y = "Memory Cards Score",
+    fill = "Dosage Level"
+  ) +
+  theme_minimal()
+
+```
+
+
 ## Game Score Distribution Before and After Treatment
 
 @fig-boxplot-scores shows the distribution of memory game scores before and after treatment across different drug types using box plots.
@@ -278,63 +297,7 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 These boxplots provide an initial comparison of cognitive performance changes before and after drug administration.
 
-```{r}
 
-#| label: fig-boxplot-scores
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Boxplot of Memory Game Scores Before and After Treatment by Drug Type"
-
-
-ggplot(clean_data, aes(x = Drug, y = GameScore, fill = Time)) +
-  geom_boxplot(position = position_dodge(width = 0.8)) +
-  labs(
-    title = "Memory Game Scores by Drug Type and Time",
-    x = "Drug Type",
-    y = "Memory Game Score",
-    fill = "Time"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = 16),
-    axis.title = element_text(size = 14),
-    axis.text = element_text(size = 12),
-    legend.title = element_text(size = 12)
-  )
-```
-
-
-```{r}
-#| label: fig-boxplot-cards
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Boxplot of Memory Card Scores Before and After Treatment by Drug Type"
-
-
-ggplot(clean_data, aes(x = Drug, y = CardScore, fill = Time)) +
-  geom_boxplot(position = position_dodge(width = 0.8)) +
-  labs(
-    title = "Memory Card Scores Before and After Treatment by Drug Type",
-    x = "Drug Type",
-    y = "Memory Card Score",
-    fill = "Time"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(hjust = 0.5, size = 16),
-    axis.title = element_text(size = 14),
-    axis.text = element_text(size = 12),
-    legend.title = element_text(size = 12)
-  )
-```
 
 ## Memory Card Score Distribution Before and After Treatment
 
@@ -352,6 +315,129 @@ ggplot(clean_data, aes(x = Drug, y = CardScore, fill = Time)) +
 
 
 ## Checking Model Assumptions
+
+**Repeated Measures ANOVA**
+(To be changed)
+When performing a repeated measures ANOVA, it is essential to verify that the underlying assumptions of the test are met. These assumptions include:
+\begin{itemize}
+    \item \textbf{Normality}: The dependent variable should be normally distributed within each group.
+    \item \textbf{Sphericity}: The variances of the differences between all combinations of related groups should be equal.
+    \item \textbf{Homogeneity of Variance}: The variances of the dependent variable should be equal across groups.
+\end{itemize}
+
+This document outlines the methods and tests used to verify these assumptions.
+
+\section*{Normality}
+The assumption of normality was tested using the Shapiro-Wilk test. The Shapiro-Wilk test evaluates the null hypothesis that the data is normally distributed. The test statistic \( W \) and the corresponding \( p \)-value were calculated for each combination of the factors (Drug, DosageLevel, and Time).
+
+\subsection*{Hypotheses}
+\begin{itemize}
+    \item \( H_0 \): The data is normally distributed.
+    \item \( H_1 \): The data is not normally distributed.
+\end{itemize}
+
+\subsection*{Interpretation}
+If the \( p \)-value is greater than 0.05, we fail to reject the null hypothesis and assume normality. Otherwise, the normality assumption is violated.
+
+\subsection*{Visual Inspection}
+Q-Q plots were generated to visually inspect the normality assumption. If the points in the Q-Q plot lie approximately on the reference line, the data can be assumed to be normally distributed.
+
+\section*{Sphericity}
+The assumption of sphericity was tested using Mauchly's test. Sphericity refers to the condition where the variances of the differences between all combinations of related groups are equal.
+
+\subsection*{Hypotheses}
+\begin{itemize}
+    \item \( H_0 \): The variances of the differences are equal (sphericity is met).
+    \item \( H_1 \): The variances of the differences are not equal (sphericity is violated).
+\end{itemize}
+
+\subsection*{Interpretation}
+If the \( p \)-value from Mauchly's test is greater than 0.05, we fail to reject the null hypothesis and assume sphericity. If the assumption is violated, corrections such as Greenhouse-Geisser or Huynh-Feldt should be applied.
+
+\section*{Homogeneity of Variance}
+The assumption of homogeneity of variance was tested using Levene's test. This test evaluates whether the variances of the dependent variable are equal across all groups formed by the combinations of the factors (Drug, DosageLevel, and Time).
+
+\subsection*{Hypotheses}
+\begin{itemize}
+    \item \( H_0 \): The variances are equal across groups.
+    \item \( H_1 \): The variances are not equal across groups.
+\end{itemize}
+
+\subsection*{Interpretation}
+If the \( p \)-value from Levene's test is greater than 0.05, we fail to reject the null hypothesis and assume homogeneity of variance. If the assumption is violated, transformations or alternative statistical methods may be required.
+
+\subsection*{Visual Inspection}
+Boxplots were generated to visually inspect the homogeneity of variance. If the boxplots show similar spreads across groups, the assumption is likely met.
+
+\section*{Conclusion}
+The results of the assumption tests (Shapiro-Wilk, Mauchly's, and Levene's) were used to determine whether the assumptions of normality, sphericity, and homogeneity of variance were met. If any assumptions were violated, appropriate corrections or alternative methods were considered before proceeding with the repeated measures ANOVA.
+```{r}
+#| label: tbl-model1
+#| tbl-cap: "Summary of Age Groups"
+#| echo: false
+#| warning: false
+#| message: false
+
+# Load necessary libraries
+library(tidyverse)
+library(ggplot2)
+library(car)
+library(ez)
+
+# Assuming the dataset is loaded into a data frame called `data`
+# Convert necessary columns to factors
+clean_data$Drug <- as.factor(clean_data$Drug)
+clean_data$DosageLevel <- as.factor(clean_data$DosageLevel)
+clean_data$Time <- as.factor(clean_data$Time)
+clean_data$AgeGroup <- as.factor(clean_data$AgeGroup)
+
+# Check for Normality
+# We will use Shapiro-Wilk test for normality
+shapiro_test <- clean_data %>%
+  group_by(Drug, DosageLevel, Time) %>%
+  summarise(statistic = shapiro.test(GameScore)$statistic,
+            p.value = shapiro.test(GameScore)$p.value)
+
+print(shapiro_test)
+
+# Visual check for normality using Q-Q plots
+ggplot(clean_data, aes(sample = GameScore)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_grid(Drug ~ DosageLevel + Time) +
+  theme_minimal() +
+  ggtitle("Q-Q Plots for Normality Check")
+
+# Check for Sphericity using Mauchly's Test
+# We will use the `ezANOVA` function to check for sphericity
+ez_model <- ezANOVA(
+  data = clean_data,
+  dv = .(GameScore),
+  wid = .(Name),
+  within = .(Time),
+  between = .(Drug, DosageLevel),
+  type = 3,
+  detailed = TRUE
+)
+
+print(ez_model)
+
+# Check for Homogeneity of Variance using Levene's Test
+levene_test <- leveneTest(GameScore ~ Drug * DosageLevel * Time, data = clean_data)
+print(levene_test)
+
+# Visual check for homogeneity of variance using boxplots
+ggplot(clean_data, aes(x = interaction(Drug, DosageLevel, Time), y = GameScore)) +
+  geom_boxplot() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("Boxplots for Homogeneity of Variance Check")
+
+```
+
+
+
+
 
 We assessed the homogeneity of variance and normality of residuals using diagnostic plots to validate the assumptions of our ANOVA tests. (@fig-assump-one & @fig-assump-two).
 
