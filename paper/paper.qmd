@@ -303,11 +303,83 @@ These boxplots provide an initial comparison of cognitive performance changes be
 
 # Assumptions
 
+## Model
+
+$$
+\text{memory\_game\_score}_i = \beta_0 + \beta_1 \cdot \text{drug}_i + \beta_2 \cdot \text{dosage\_level}_i + \beta_3 \cdot (\text{drug}_i \times \text{dosage\_level}_i) + \varepsilon_i
+$$
+
+Where:
+
+- $\beta_0$ is the intercept.
+
+- $\beta_1$, $\beta_2$, and $\beta_3$ are coefficients for the predictors and interaction term.
+
+- $\varepsilon_i$ is the random error term.
+
+
+```{r}
+
+
+# Regression Model results
+anova_model <- lm(memory_game_score ~ drug * dosage_level, data = clean_data)
+summary(anova_model)
+
+```
+
+
+$$
+Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
+$$
+
+Where:
+
+- $Y_{ijk}$: Memory score
+- $\mu$: Overall mean  
+- $\alpha_i$: Effect of the $i^{\text{th}}$ drug  
+- $\beta_j$: Effect of the $j^{\text{th}}$ dosage level  
+- $(\alpha\beta)_{ij}$: Interaction effect between drug and dosage  
+- $\varepsilon_{ijk} \sim \mathcal{N}(0, \sigma^2)$: Random error  
+
+
+```{r}
+# Two way ANOVA result
+anova(anova_model)
+```
+```{r}
+# Normality Check
+ggqqplot(residuals(anova_model)) + ggtitle("Q-Q Plot of Residuals")
+# Shapiro-Wilk Normality Test
+shapiro_test <- shapiro.test(residuals(anova_model))
+shapiro_test
+```
+
+
+```{r}
+# Scale-Location Plot
+plot(anova_model, which = 3)
+```
+```{r}
+# Perform Bartlett’s test for homogeneity of variance
+bartlett_test <- bartlett.test(memory_game_score ~ interaction(drug, dosage_level), data = clean_data)
+
+# Display test results
+bartlett_test
+```
+
+
+
+
+
+
+
+
+
 
 
 ## Checking Model Assumptions
 
-**Repeated Measures ANOVA**
+**Two Way ANOVA**
 (To be changed)
 When performing a repeated measures ANOVA, it is essential to verify that the underlying assumptions of the test are met. These assumptions include:
 \begin{itemize}
