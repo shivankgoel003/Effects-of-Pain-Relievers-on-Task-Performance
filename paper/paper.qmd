@@ -71,11 +71,12 @@ library(tidyverse)
 library(janitor)
 library(here)
 library(lubridate)
+library(patchwork)
 library(arrow)
 library(dplyr)
 library(knitr)
 library(performance)
-library(stringr)
+library(modelsummary)
 library(kableExtra)
 library(performance)
 library(ggpubr)
@@ -221,8 +222,39 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 
 
+```{r}
+#| label: fig-interaction
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Interaction Plot: Drug Type vs. Dosage Level"
 
+p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_level, group = dosage_level)) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "line", size = 1) +
+  labs(title = "Memory Game Scores",
+       x = "Drug Type",
+       y = "Mean Memory Game Score",
+       color = "Dosage Level") +
+  theme_minimal()
 
+# Interaction plot for Memory Cards Scores
+p2 <- ggplot(clean_data, aes(x = drug, y = memory_cards_score, color = dosage_level, group = dosage_level)) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "line", size = 1) +
+  labs(title = "Memory Cards Scores",
+       x = "Drug Type",
+       y = "Mean Memory Cards Score",
+       color = "Dosage Level") +
+  theme_minimal()
+
+# Combine the two plots vertically
+combined_plot <- p1 / p2
+combined_plot
+```
 
 # Plots
 
@@ -319,12 +351,35 @@ Where:
 
 
 ```{r}
+#| label: tbl-model-result
+#| tbl-cap: "Regression Results for Memory Game Score"
+#| echo: false
+#| warning: false
+#| message: false
 
+# References: https://cran.r-project.org/web/packages/broom/vignettes/broom.html
+
+library(broom)
 
 # Regression Model results
 anova_model <- lm(memory_game_score ~ drug * dosage_level, data = clean_data)
-summary(anova_model)
 
+model_tidy <- tidy(anova_model)
+
+kable(model_tidy, format = "latex", booktabs = TRUE)
+
+```
+
+```{r}
+#| label: tbl-model-fit
+#| tbl-cap: "Model Fit Statistics for Memory Game Score"
+#| echo: false
+#| warning: false
+#| message: false
+
+model_glance <- glance(anova_model)
+kable(model_glance, format = "latex", booktabs = TRUE) %>%
+   kable_styling(latex_options = "scale_down")
 ```
 
 
@@ -343,142 +398,80 @@ Where:
 
 
 ```{r}
+#| label: tbl-anova-model
+#| tbl-cap: "Two-Way ANOVA Results for Memory Game Score"
+#| echo: false
+#| warning: false
+#| message: false
+
+
 # Two way ANOVA result
-anova(anova_model)
+anova_result <- anova(anova_model)
+
+anova_table_df <- as.data.frame(anova_result)
+
+kable(anova_table_df, format = "latex", booktabs = TRUE)
+
 ```
+
 ```{r}
+#| label: fig-normal-plot
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Q-Q Plot of Residuals"
+
 # Normality Check
-ggqqplot(residuals(anova_model)) + ggtitle("Q-Q Plot of Residuals")
+ggqqplot(residuals(anova_model))
+```
+
+```{r}
+#| label: tbl-shapiro
+#| tbl-cap: "Shapiro-Wilk Test for Normality"
+#| echo: false
+#| warning: false
+#| message: false
+
 # Shapiro-Wilk Normality Test
 shapiro_test <- shapiro.test(residuals(anova_model))
-shapiro_test
+shapiro_table <- data.frame(
+  Statistic = round(shapiro_test$statistic, 4),
+  P_Value = round(shapiro_test$p.value, 4),
+  Method = shapiro_test$method
+)
+
+kable(shapiro_table, format = "latex", booktabs = TRUE)
 ```
 
 
 ```{r}
+#| label: tbl-bartlett
+#| tbl-cap: "Bartlett’s Test for Homogeneity of Variance"
+#| echo: false
+#| warning: false
+#| message: false
+
 # Scale-Location Plot
 plot(anova_model, which = 3)
-```
-```{r}
+
 # Perform Bartlett’s test for homogeneity of variance
 bartlett_test <- bartlett.test(memory_game_score ~ interaction(drug, dosage_level), data = clean_data)
 
-# Display test results
-bartlett_test
+bartlett_table <- data.frame(
+  Statistic = round(bartlett_test$statistic, 4),
+  DF = bartlett_test$parameter,
+  P_Value = round(bartlett_test$p.value, 4),
+  Method = bartlett_test$method
+)
+
+kable(bartlett_table, format = "latex", booktabs = TRUE)
 ```
 
 
 
 
 
-
-
-
-
-
-
-## Checking Model Assumptions
-
-**Two Way ANOVA**
-(To be changed)
-When performing a repeated measures ANOVA, it is essential to verify that the underlying assumptions of the test are met. These assumptions include:
-\begin{itemize}
-    \item \textbf{Normality}: The dependent variable should be normally distributed within each group.
-    \item \textbf{Sphericity}: The variances of the differences between all combinations of related groups should be equal.
-    \item \textbf{Homogeneity of Variance}: The variances of the dependent variable should be equal across groups.
-\end{itemize}
-
-This document outlines the methods and tests used to verify these assumptions.
-
-\section*{Normality}
-The assumption of normality was tested using the Shapiro-Wilk test. The Shapiro-Wilk test evaluates the null hypothesis that the data is normally distributed. The test statistic \( W \) and the corresponding \( p \)-value were calculated for each combination of the factors (Drug, DosageLevel, and Time).
-
-\subsection*{Hypotheses}
-\begin{itemize}
-    \item \( H_0 \): The data is normally distributed.
-    \item \( H_1 \): The data is not normally distributed.
-\end{itemize}
-
-\subsection*{Interpretation}
-If the \( p \)-value is greater than 0.05, we fail to reject the null hypothesis and assume normality. Otherwise, the normality assumption is violated.
-
-\subsection*{Visual Inspection}
-Q-Q plots were generated to visually inspect the normality assumption. If the points in the Q-Q plot lie approximately on the reference line, the data can be assumed to be normally distributed.
-
-\section*{Sphericity}
-The assumption of sphericity was tested using Mauchly's test. Sphericity refers to the condition where the variances of the differences between all combinations of related groups are equal.
-
-\subsection*{Hypotheses}
-\begin{itemize}
-    \item \( H_0 \): The variances of the differences are equal (sphericity is met).
-    \item \( H_1 \): The variances of the differences are not equal (sphericity is violated).
-\end{itemize}
-
-\subsection*{Interpretation}
-If the \( p \)-value from Mauchly's test is greater than 0.05, we fail to reject the null hypothesis and assume sphericity. If the assumption is violated, corrections such as Greenhouse-Geisser or Huynh-Feldt should be applied.
-
-\section*{Homogeneity of Variance}
-The assumption of homogeneity of variance was tested using Levene's test. This test evaluates whether the variances of the dependent variable are equal across all groups formed by the combinations of the factors (Drug, DosageLevel, and Time).
-
-\subsection*{Hypotheses}
-\begin{itemize}
-    \item \( H_0 \): The variances are equal across groups.
-    \item \( H_1 \): The variances are not equal across groups.
-\end{itemize}
-
-\subsection*{Interpretation}
-If the \( p \)-value from Levene's test is greater than 0.05, we fail to reject the null hypothesis and assume homogeneity of variance. If the assumption is violated, transformations or alternative statistical methods may be required.
-
-\subsection*{Visual Inspection}
-Boxplots were generated to visually inspect the homogeneity of variance. If the boxplots show similar spreads across groups, the assumption is likely met.
-
-\section*{Conclusion}
-The results of the assumption tests (Shapiro-Wilk, Mauchly's, and Levene's) were used to determine whether the assumptions of normality, sphericity, and homogeneity of variance were met. If any assumptions were violated, appropriate corrections or alternative methods were considered before proceeding with the repeated measures ANOVA.
-
-
-# Check for Homogeneity of Variance using Levene's Test
-levene_test <- leveneTest(GameScore ~ Drug * DosageLevel * Time, data = clean_data)
-print(levene_test)
-
-# Visual check for homogeneity of variance using boxplots
-ggplot(clean_data, aes(x = interaction(Drug, DosageLevel, Time), y = GameScore)) +
-  geom_boxplot() +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  ggtitle("Boxplots for Homogeneity of Variance Check")
-
-```
-
-
-
-
-
-We assessed the homogeneity of variance and normality of residuals using diagnostic plots to validate the assumptions of our ANOVA tests. (@fig-assump-one & @fig-assump-two).
-
-**One-way ANOVA**
-
-*Independence:* For our one-way ANOVA model, we have independence because our observations are independent within and across the groups i.e all participants were randomly assigned a pain reliever, and there was no relationships between observations (i.e repeated  participants, treatments etc.) 
-
-*Homogeneity of Variance:* 
-The reference line in @fig-assump-one relatively flat and horizontal which indicates that variance is approximately equal across groups. Thus, the assumption of homogeneity of variance is not significantly violated.
-
-
-*Normality of Residuals:* 
-The residuals are approximately normally distributed in @fig-assump-one since the density plot on the right appears close to a normal distribution.
-
-
-**Two-way ANOVA**
-
-*Independence:*
-For our two-way ANOVA model, the different combinations of pain reliever type and dosage levels were randomly assigned to all participants, in random order. 
-
-*Homogeneity of Variance:* 
-In @fig-assump-two the left plot shows some deviation from a perfectly flat line and has minor fluctuations, especially at certain levels of drug type and dosage. Despite some variation, the overall trend does not show extreme violations of homogeneity.
-
-*Normality of Residuals:* 
-In @fig-assump-two the density plot on the right shows that the residuals follow a roughly normal distribution even though minor deviations are present.
-
-**Conclusion**
-
-Both models satisfy the assumptions of homogeneity of variance and normality of residuals well enough. There are slight deviations in the two-way ANOVA model, but they are not severe enough to invalidate the analysis. Therefore, we proceed with the ANOVA tests.
 
