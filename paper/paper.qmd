@@ -9,15 +9,24 @@ author:
   - Jena Shah
 date: today
 date-format: long
+abstract: Painkillers are commonly used to manage pain, but their effects extend beyond physical relief. While they provide immediate physical comfort, their impact on cognitive performance is often overlooked. This study explores how different painkillers and dosages influence cognitive function. Using simulated testing, participants were randomly assigned a treatment (drug type and dosage) while controlling for variables such as age. Our findings indicate no significant relationship between drug type, dosage, and overall cognitive performance post-treatment. However, we observed some correlation between certain drug-dosage combinations and memory improvement, suggesting a potential area for further research. While the results were not statistically significant, this study contributes to a deeper understanding of the cognitive effects of painkillers and highlights the need for further investigation into their potential impact on memory and cognition.
 number-sections: true
 format: pdf
 bibliography: references.bib
+toc: true
 ---
 
+
+# Acknowledgements 
+
+We extend our gratitude to the academic community for their contributions to this research.No auto-complete tools such as co-pilot were used in the course of this project, however, Language Learning Model ChatGPT was used while writing this paper. It was used for the purpose of code debugging, understanding models, and knowledge of certain topics, which we were not aware of. The chat with the AI bot is also attached as a reference under @sec-appendix
 
 
 
 # Introduction
+
+
+
 
 ## Relevant Background
 Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions is not well understood. Recalling information, a task that demands mental effort, becomes more difficult when we're in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. It also looks at how varying dosages of each drug influence memory function. Since the ability to recall information is essential in many situations, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
@@ -446,6 +455,18 @@ shapiro_table <- data.frame(
 kable(shapiro_table, format = "latex", booktabs = TRUE)
 ```
 
+```{r}
+#| label: fig-variance-plot
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Q-Q Plot of Residuals"
+
+plot(anova_model, which = 3)
+```
 
 ```{r}
 #| label: tbl-bartlett
@@ -455,7 +476,7 @@ kable(shapiro_table, format = "latex", booktabs = TRUE)
 #| message: false
 
 # Scale-Location Plot
-plot(anova_model, which = 3)
+
 
 # Perform Bartlett’s test for homogeneity of variance
 bartlett_test <- bartlett.test(memory_game_score ~ interaction(drug, dosage_level), data = clean_data)
@@ -473,5 +494,234 @@ kable(bartlett_table, format = "latex", booktabs = TRUE)
 
 
 
+# Appendix {#sec-appendix}
+
+```{r}
+
+library(tidyverse)
+library(janitor)
+library(here)
+library(lubridate)
+library(patchwork)
+library(arrow)
+library(dplyr)
+library(knitr)
+library(performance)
+library(modelsummary)
+library(kableExtra)
+library(performance)
+library(ggpubr)
+
+clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
+```
 
 
+```{r}
+
+# Compute statistics for Memory Game Score
+mean_game <- mean(clean_data$memory_game_score, na.rm = TRUE)
+median_game <- median(clean_data$memory_game_score, na.rm = TRUE)
+sd_game <- sd(clean_data$memory_game_score, na.rm = TRUE)
+iqr_game <- IQR(clean_data$memory_game_score, na.rm = TRUE)
+
+# Compute statistics for Memory Cards Score
+mean_cards <- mean(clean_data$memory_cards_score, na.rm = TRUE)
+median_cards <- median(clean_data$memory_cards_score, na.rm = TRUE)
+sd_cards <- sd(clean_data$memory_cards_score, na.rm = TRUE)
+iqr_cards <- IQR(clean_data$memory_cards_score, na.rm = TRUE)
+
+# Combine into a summary table
+summary_table <- data.frame(
+  Statistic = c("Mean", "Median", "SD", "IQR"),
+  `Memory Game Score` = c(mean_game, median_game, sd_game, iqr_game),
+  `Memory Cards Score` = c(mean_cards, median_cards, sd_cards, iqr_cards)
+)
+
+colnames(summary_table) <- c("Statistic", "Memory Game Score", "Memory Cards Score")
+
+# Display table
+
+kable(summary_table, format = "latex", booktabs = TRUE)
+```
+
+```{r}
+
+drug_counts <- table(clean_data$drug)
+
+# percentages
+drug_percentages <- prop.table(drug_counts) * 100
+
+#  summary dataframe
+drug_summary <- data.frame(
+  Drug = names(drug_counts),
+  Count = as.numeric(drug_counts),
+  Percentage = round(as.numeric(drug_percentages), 2)
+)
+
+# Display table
+kable(drug_summary, format = "latex", booktabs = TRUE)
+
+```
+
+```{r}
+
+dosage_counts <- table(clean_data$dosage_level)
+
+# percentage for each dosage level
+dosage_percentages <- prop.table(dosage_counts) * 100
+
+# summary dataframe
+dosage_summary <- data.frame(
+  Dosage = names(dosage_counts),
+  Count = as.numeric(dosage_counts),
+  Percentage = round(as.numeric(dosage_percentages), 2)
+)
+
+
+# Display table
+kable(dosage_summary, booktabs = TRUE, row.names = FALSE)
+
+```
+
+```{r}
+age_counts <- table(clean_data$age_group)
+
+# percentages for each age group
+age_percentages <- prop.table(age_counts) * 100
+
+# summary dataframe
+age_summary <- data.frame(
+  Age_Group = names(age_counts),
+  Count = as.numeric(age_counts),
+  Percentage = round(as.numeric(age_percentages), 2)
+)
+
+# Display table
+kable(age_summary, booktabs = TRUE, row.names = FALSE)
+
+```
+
+```{r}
+
+p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_level, group = dosage_level)) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "line", size = 1) +
+  labs(title = "Memory Game Scores",
+       x = "Drug Type",
+       y = "Mean Memory Game Score",
+       color = "Dosage Level") +
+  theme_minimal()
+
+# Interaction plot for Memory Cards Scores
+p2 <- ggplot(clean_data, aes(x = drug, y = memory_cards_score, color = dosage_level, group = dosage_level)) +
+  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "line", size = 1) +
+  labs(title = "Memory Cards Scores",
+       x = "Drug Type",
+       y = "Mean Memory Cards Score",
+       color = "Dosage Level") +
+  theme_minimal()
+
+# Combine the two plots vertically
+combined_plot <- p1 / p2
+combined_plot
+```
+
+```{r}
+
+clean_data$dosage_level <- factor(clean_data$dosage_level, levels = c("Low", "High"))
+
+# Boxplot of Memory Game Scores by Drug, colored by Dosage Level
+ggplot(clean_data, aes(x = drug, y = memory_game_score, fill = dosage_level)) +
+  geom_boxplot() +
+  labs(
+    x = "Drug Type",
+    y = "Memory Game Score",
+    fill = "Dosage Level"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12)
+  )
+
+```
+
+```{r}
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+
+ggplot(clean_data, aes(x = drug, y = memory_cards_score, fill = dosage_level)) +
+  geom_boxplot() +
+  labs(
+    x = "Drug Type",
+    y = "Memory Cards Score",
+    fill = "Dosage Level"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+
+# References: https://cran.r-project.org/web/packages/broom/vignettes/broom.html
+
+library(broom)
+
+# Regression Model results
+anova_model <- lm(memory_game_score ~ drug * dosage_level, data = clean_data)
+
+model_tidy <- tidy(anova_model)
+
+kable(model_tidy, format = "latex", booktabs = TRUE)
+
+```
+
+```{r}
+
+model_glance <- glance(anova_model)
+kable(model_glance, format = "latex", booktabs = TRUE) %>%
+   kable_styling(latex_options = "scale_down")
+```
+
+```{r}
+#| warning: false
+#| message: false
+
+
+# Two way ANOVA result
+anova_result <- anova(anova_model)
+
+anova_table_df <- as.data.frame(anova_result)
+
+kable(anova_table_df, format = "latex", booktabs = TRUE)
+```
+
+```{r}
+#| fig.width: 9
+#| fig.height: 8
+#| dpi: 300
+#| fig-cap: "Q-Q Plot of Residuals"
+
+# Normality Check
+ggqqplot(residuals(anova_model))
+```
+
+```{r}
+
+
+# Shapiro-Wilk Normality Test
+shapiro_test <- shapiro.test(residuals(anova_model))
+shapiro_table <- data.frame(
+  Statistic = round(shapiro_test$statistic, 4),
+  P_Value = round(shapiro_test$p.value, 4),
+  Method = shapiro_test$method
+)
+
+kable(shapiro_table, format = "latex", booktabs = TRUE)
+```
+
+```{r}
+
+plot(anova_model, which = 3)
+```
