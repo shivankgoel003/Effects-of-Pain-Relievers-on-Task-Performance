@@ -9,7 +9,7 @@ author:
   - Jena Shah
 date: today
 date-format: long
-abstract: Painkillers are commonly used to manage pain, but their effects extend beyond physical relief. While they provide immediate physical comfort, their impact on cognitive performance is often overlooked. This study explores how different painkillers and dosages influence cognitive function. Using simulated testing, participants were randomly assigned a treatment (drug type and dosage) while controlling for variables such as age. Our findings indicate no significant relationship between drug type, dosage, and overall cognitive performance post-treatment. However, we observed some correlation between certain drug-dosage combinations and memory improvement, suggesting a potential area for further research. While the results were not statistically significant, this study contributes to a deeper understanding of the cognitive effects of painkillers and highlights the need for further investigation into their potential impact on memory and cognition.
+abstract: Painkillers are commonly used to manage pain, and their effects are often associated with  physical relief. While they provide immediate physical comfort, their impact on cognitive performance is often overlooked. This study explores how different painkillers and dosages influence cognitive function. Using simulated testing from a virtual population, participants were randomly assigned a treatment (drug type and dosage) while controlling for variables such as age. Our findings indicate no significant relationship between drug type, dosage, and overall cognitive performance post-treatment. However, we observed some correlation between certain drug-dosage combinations and memory improvement, suggesting a potential area for further research. While the results were not statistically significant, this study contributes to a deeper understanding of the cognitive effects of painkillers and highlights the need for further investigation into their potential impact on memory and cognition.
 number-sections: true
 format: pdf
 bibliography: references.bib
@@ -25,15 +25,18 @@ We extend our gratitude to the academic community for their contributions to thi
 
 # Introduction
 
-
-
-
-## Relevant Background
-Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions is not well understood. Recalling information, a task that demands mental effort, becomes more difficult when we're in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. It also looks at how varying dosages of each drug influence memory function. Since the ability to recall information is essential in many situations, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
+Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Study has shown that individuals with pain tend to have cognitive dysfunction symptoms (Hu, 2010). Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood. Memory retention is a process that requires mental effort – which becomes more difficult when we're in pain. 
+This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. We will also look at how the interaction between drug type and dosage level influence memory function. Since the ability to recall information is a basis for optimized human function, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
 
 ## Research Questions
 1. *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect cognitive task performance?*
+- Null Hypothesis: All pain relievers at normal dosages act the same for cognitive retention game performances.
+- Alternative Hypothesis: There exists at least one pair of distinct pain relievers at normal dosages which act differently for cognitive retention game performances.
+
 2. *How does the dosage (low vs. high) of each drug affect cognitive retention, while accounting for confounding factors like age?*
+- Null Hypothesis: There is no interaction effect between the type of pain reliever and dosage level on the improvement in memory task performance.
+- Alternative Hypothesis: There is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance.
+
 
 ## Study Design  
 This study involves 2 factors, pain reliever type (4 levels) and dosage(2 levels). Crossing them provides us with *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
@@ -75,6 +78,7 @@ Similarly, we will use **two-way ANOVA** to analyze the effects of different dos
 #| include: false
 #| warning: false
 #| message: false
+#| echo: false  # Hides code
 
 library(tidyverse)
 library(janitor)
@@ -94,6 +98,8 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 ```
+
+The structure of the paper is as follows: Section 2 outlines our data and methodology. Section 3 presents our quantitative analysis. In Section 4, we discuss the results and address our findings from the analysis. Section 5 covers the limitations of our study, and Section 6 presents a conclusion to our analysis. After that, we have the bibliography in Section 7. Lastly, we attached the code for our study into the Appendix at Section 8.
 
 
 # Summary Statistics
@@ -490,6 +496,33 @@ bartlett_table <- data.frame(
 
 kable(bartlett_table, format = "latex", booktabs = TRUE)
 ```
+## Section 3: Analysis
+The method of two-way ANOVA is used to estimate the mean of a memory game score  changes according to the levels of two categorical variables that is drug and dosage level. The research question explores if there is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance. We verified the assumption of the two-way ANOVA model as seen from graph normality, using Q-Q plot. The Shapiro-Wilk Test confirms a p-value = 0.05553, so we fail to reject the null hypothesis and the result confirms that the dataset is normally distributed.  
+Our second assumption of Homogeneity of Variance is verified by the p-value = 0.3346 from the Bartlett test, which is greater than 0.05. Due to this, we fail to reject the null hypothesis.
+Thirdly, for our two-way ANOVA model, the different combinations of pain reliever type and dosage levels were randomly assigned to all participants, in random order. 
+The two-way ANOVA factorial design involves the linear regression model followed by the ANOVA model. The model uses the reference (baseline) group which is Aspirin (Drug) & High (Dosage level). The regression model from the ‘table’ shows the intercept(beta_0) which represents the predicted mean of memory game score for participants receiving high dosage of aspirin is 62.20 and the p-value = 0.00000 indicates the intercept is statistically significant. The variance explained by the model is R^2 = 0.03983, approximately 4% of the response variable. And the p-value = 0.2167 of the model can be interpreted as not statistically significant
+
+
+
+## Section 4: Discussion
+## Interpretation of Results  
+The two-way ANOVA analysis revealed no statistically significant main effects of drug type (p = 0.25) or dosage level (p = 0.26) on memory game scores. Similarly, the interaction effect between drug type and dosage level was not significant (p = 0.24). These results suggest that neither the type of pain reliever (Aspirin, Paracetamol, Tramadol, or Placebo) nor its dosage (low vs. high) had a meaningful impact on cognitive retention in this study. The lack of significance persisted even after accounting for age as a confounding variable, which was controlled through participant stratification into three balanced groups (18–34, 35–50, and 50+ years).
+
+### Exploratory Observations  
+Despite the absence of statistical significance, exploratory insights emerged:  
+1. **Paracetamol** showed the largest mean improvement in memory game scores (+1.33 points, Table 5), though this effect was not robust enough to reject the null hypothesis (p = 0.74).  
+2. **Tramadol** exhibited higher median memory scores both before and after treatment compared to other drugs (@fig-interaction). However, its high-dosage group saw a slight decline in mean scores (−4.88 points), hinting at a potential dosage-dependent response that warrants further investigation.  
+3. The **Placebo** group consistently underperformed relative to active drugs in median scores (@fig-interaction), though this difference was not statistically significant.  
+
+## Section 5: Limitations 
+Our study is overall focused on memory, which may have links to one’s education and IQ level as they are all related to mental function and cognition. In the future, we could test everyone for IQ scores and their highest level of education – these two nuisance variables can be taken care of by using the four principles of experimental design. Additionally, we used 30 observations for each treatment group which may not be large enough. We can increase this number for future studies. To add on, not all participants were in pain, so the efficacy of the improvement of pain killers may be biased and using a virtual population may not ensure whether this aspect could be captured. Lastly, cognitive retention was measured immediately post-treatment – the long term impacts are not yet explored. To improve our study, we can only consider individuals of equal pain levels before the study to ensure a reduction of bias. Additionally, carrying the experiment out in the long-term would help with understanding the effects of painkillers and dosages on memory.
+
+## Section 6: Conclusion
+This study found no conclusive evidence that pain relievers or their dosages significantly affect cognitive retention. However, the exploratory trends observed, particularly with Paracetamol and Tramadol, highlight the need for larger-scale studies to investigate subtle or context-dependent effects. Future research could incorporate longitudinal designs, broader age-specific analyses, and alternative cognitive metrics to deepen understanding of painkillers’ cognitive implications.  
+
+
+## Section 7: References
+(Ha, 2010) https://journals.lww.com/ejanaesthesiology/FullText/2010/02000/Amitriptyline_rather_than_lornoxicam_ameliorates.6.aspx
 
 
 \newpage
@@ -512,12 +545,12 @@ library(kableExtra)
 library(performance)
 library(ggpubr)
 
+
 clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 ```
 
 
 ```{r}
-
 # Compute statistics for Memory Game Score
 mean_game <- mean(clean_data$memory_game_score, na.rm = TRUE)
 median_game <- median(clean_data$memory_game_score, na.rm = TRUE)
