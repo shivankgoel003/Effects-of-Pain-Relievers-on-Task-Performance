@@ -29,17 +29,22 @@ Pain can make everyday tasks harder, particularly when mental focus and clarity 
 This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. We will also look at how the interaction between drug type and dosage level influence memory function. Since the ability to recall information is a basis for optimized human function, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
 
 ## Research Questions
-1. *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect cognitive task performance?*
+1. *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect cognitive retention game performance?*
 - Null Hypothesis: All pain relievers at normal dosages act the same for cognitive retention game performances.
 - Alternative Hypothesis: There exists at least one pair of distinct pain relievers at normal dosages which act differently for cognitive retention game performances.
 
-2. *How does the dosage (low vs. high) of each drug affect cognitive retention, while accounting for confounding factors like age?*
+2. *Is there an interaction effect between the type of pain reliever and dosage level on the improvement in memory task performance?*
 - Null Hypothesis: There is no interaction effect between the type of pain reliever and dosage level on the improvement in memory task performance.
 - Alternative Hypothesis: There is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance.
 
+# Methodology 
 
-## Study Design  
-This study involves 2 factors, pain reliever type (4 levels) and dosage(2 levels). Crossing them provides us with *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
+In February, our group members collected observations from participants belonging to a virtual population to assess whether the treatment had any effect on memory performance, this resulted in a total of 240 observations. Each participant was **randomly** assigned a treatment. 
+
+The experiment utilized a two-way ANOVA design, where the experimental unit was the participant, the explanatory variables were the type of painkiller and dosage level (low/high), and the response variable was the memory performance, measured by the memory game score. 
+
+## Study Design and Treatments   
+We selected three brands of painkillers: Aspirin, Paracetamol, and Tramadol. Additionally, we considered a placebo treatment. As a result, this study involves 2 factors: pain reliever type (4 levels - Aspirin, Paracetamol, Tramadol, Placebo) and dosage (2 levels - Low, High). Crossing the two factors provides us with a total of *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
 
 1. Aspirin 500 mg (Low)
 2. Aspirin 1000 mg (High)
@@ -52,26 +57,22 @@ This study involves 2 factors, pain reliever type (4 levels) and dosage(2 levels
 
 This results in **240 total observations** (8 × 30 = 240).
 
+For each treatment, we selected 30 different people (n = 30). Through randomly picking the virtual citizens, we replicated 30 experimental units per treatment. The even observations per treatment group ensures we have a balanced design.
 
-## Confounding Variable: Age  
-To reduce bias, we consider to control the experiment by controlling participant ages to be 18+. Hence in this study **age** acts as a **confounding variable**.
-Participants will be categorized into three groups evenly to prevent bias created through age. 
+### Nuisance Variable: Age  
+To reduce bias, we consider **controlling** the experiment by limiting participant ages to be strictly 18+. Hence in this study **age** acts as a **nuisance variable**.
+We also used **blocking** for age by ensuring participants were categorized into three even groups to prevent bias created through age. 
 The groups are as follows:
+1. 18–34 years old.
+2. 35–50 years old.
+3. 50+ years old.
 
-1. 18–34 years
-2. 35–50 years
-3. 50+ years
 
 ## Quantitative and Qualitative Variables 
 In our study the quantitative and qualitative variables are as follows: 
 
 1. Quantitative variables: Memory Game Scores, Memory Test Cards Scores 
 2. Qualitative variables: Type of pain reliever, dosage level (low/high)
-
-## Data Analysis Method   
-We will use **one-way ANOVA** to analyze the effects of different pain relievers on memory performance.
-Similarly, we will use **two-way ANOVA** to analyze the effects of different dosage levels per drug type on memory performance and cognitive retention. 
-
 
 
 ```{r}
@@ -101,8 +102,6 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 The structure of the paper is as follows: Section 2 outlines our data and methodology. Section 3 presents our quantitative analysis. In Section 4, we discuss the results and address our findings from the analysis. Section 5 covers the limitations of our study, and Section 6 presents a conclusion to our analysis. After that, we have the bibliography in Section 7. Lastly, we attached the code for our study into the Appendix at Section 8.
 
-
-# Summary Statistics
 
 ## Summary of quantitative variables 
 
