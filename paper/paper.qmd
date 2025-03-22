@@ -492,7 +492,7 @@ kable(bartlett_table, format = "latex", booktabs = TRUE)
 ```
 
 
-
+\newpage
 
 # Appendix {#sec-appendix}
 
