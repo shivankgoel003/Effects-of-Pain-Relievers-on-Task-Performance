@@ -1,6 +1,6 @@
 ---
 title: "Effects of Different Pain Relievers and Dosages on Cognitive Retention"
-subtitle: "Exploratory Data Analysis (EDA)"
+subtitle: Results
 author: 
   - Navya Hooda
   - Mohammed Yusuf Shaikh
@@ -19,7 +19,7 @@ toc: true
 
 # Acknowledgements 
 
-We extend our gratitude to the academic community for their contributions to this research.No auto-complete tools such as co-pilot were used in the course of this project, however, Language Learning Model ChatGPT was used while writing this paper. It was used for the purpose of code debugging, understanding models, and knowledge of certain topics, which we were not aware of. The chat with the AI bot is also attached as a reference under @sec-appendix
+No auto-complete tools such as co-pilot were used in the course of this project, however, Language Learning Model ChatGPT was used while writing this paper. It was used for the purpose of code debugging, understanding models, and knowledge of certain topics, which we were not aware of. The chat with the AI bot is also attached as a reference under @sec-appendix
 
 
 
@@ -46,14 +46,27 @@ The experiment utilized a two-way ANOVA design, where the experimental unit was 
 ## Study Design and Treatments   
 We selected three brands of painkillers: Aspirin, Paracetamol, and Tramadol. Additionally, we considered a placebo treatment. As a result, this study involves 2 factors: pain reliever type (4 levels - Aspirin, Paracetamol, Tramadol, Placebo) and dosage (2 levels - Low, High). Crossing the two factors provides us with a total of *8 treatment groups*, with **30 participants** assigned to each. The groups are as follows:
 
-1. Aspirin 500 mg (Low)
-2. Aspirin 1000 mg (High)
-3. Paracetamol 500 mg (Low)
-4. Paracetamol 1000 mg (High)
-5. Tramadol 50 mg (Low)
-6. Tramadol 100 mg (High)
-7. Placebo (Low) 
-8. Placebo (High)
+```{r, echo = FALSE}
+
+library(knitr)
+library(kableExtra)
+
+
+# Create a dataframe for the table
+study_table <- data.frame(
+  Dosage = c("Low", "High"),
+  Aspirin = c("500 mg", "1000 mg"),
+  Paracetamol = c("500 mg", "1000 mg"),
+  Tramadol = c("50 mg", "100 mg"),
+  Placebo = c("Low", "High")
+)
+
+# Render the table
+kable(study_table, caption = "Treatment Groups",
+      align = "c") %>%
+  kable_styling(full_width = FALSE, position = "center")
+```
+
 
 This results in **240 total observations** (8 × 30 = 240).
 
@@ -61,11 +74,7 @@ For each treatment, we selected 30 different people (n = 30). Through randomly p
 
 ### Nuisance Variable: Age  
 To reduce bias, we consider **controlling** the experiment by limiting participant ages to be strictly 18+. Hence in this study **age** acts as a **nuisance variable**.
-We also used **blocking** for age by ensuring participants were categorized into three even groups to prevent bias created through age. 
-The groups are as follows:
-1. 18–34 years old.
-2. 35–50 years old.
-3. 50+ years old.
+We also used **blocking** for age by ensuring participants were categorized into three even groups to prevent bias created through age. @tbl-summary-5 shows the breakdown. 
 
 
 ## Quantitative and Qualitative Variables 
@@ -99,6 +108,35 @@ clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 
 
 ```
+
+
+```{r}
+#| label: tbl-summary-5
+#| tbl-cap: "Summary of Age Groups"
+#| echo: false
+#| warning: false
+#| message: false
+
+ 
+age_counts <- table(clean_data$age_group)
+
+# percentages for each age group
+age_percentages <- prop.table(age_counts) * 100
+
+# summary dataframe
+age_summary <- data.frame(
+  `Age Group` = names(age_counts),
+  Count = as.numeric(age_counts),
+  Percentage = round(as.numeric(age_percentages), 2)
+)
+
+colnames(age_summary)[colnames(age_summary) == "Age.Group"] <- "Age Group"
+
+# Display table
+kable(age_summary, booktabs = TRUE, row.names = FALSE)
+
+```
+
 
 The structure of the paper is as follows: Section 2 outlines our data and methodology. Section 3 presents our quantitative analysis. In Section 4, we discuss the results and address our findings from the analysis. Section 5 covers the limitations of our study, and Section 6 presents a conclusion to our analysis. After that, we have the bibliography in Section 7. Lastly, we attached the code for our study into the Appendix at Section 8.
 
@@ -143,8 +181,6 @@ colnames(summary_table) <- c("Statistic", "Memory Game Score", "Memory Cards Sco
 kable(summary_table, format = "latex", booktabs = TRUE)
 
 ```
-
-
 
 
 ```{r}
@@ -199,30 +235,6 @@ kable(dosage_summary, booktabs = TRUE, row.names = FALSE)
 ```
 
 
-```{r}
-#| label: tbl-summary-5
-#| tbl-cap: "Summary of Age Groups"
-#| echo: false
-#| warning: false
-#| message: false
-
- 
-age_counts <- table(clean_data$age_group)
-
-# percentages for each age group
-age_percentages <- prop.table(age_counts) * 100
-
-# summary dataframe
-age_summary <- data.frame(
-  Age_Group = names(age_counts),
-  Count = as.numeric(age_counts),
-  Percentage = round(as.numeric(age_percentages), 2)
-)
-
-# Display table
-kable(age_summary, booktabs = TRUE, row.names = FALSE)
-
-```
 
 ## Summary of counts and percentage for qualitative variables
 
@@ -230,9 +242,14 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 @tbl-summary-3 shows the dosage levels assigned to participants. There is an equal split between high-dose (120 participants, 50\%) and low-dose (120 participants, 50\%) conditions. 
 
-## Confounding Variable
 
-@tbl-summary-5 shows the breakdown of age groups, which is a confounding variable in this study. The three age groups: 18–34, 35–50, and 50+ each have 80 participants (33.33\%).
+
+
+
+
+
+# Plots
+
 
 
 
@@ -241,13 +258,16 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 #| echo: false
 #| warning: false
 #| message: false
-#| fig.width: 9
-#| fig.height: 8
+#| fig.width: 12  # Increased width
+#| fig.height: 5  # Reduced height
 #| dpi: 300
-#| fig-cap: "Interaction Plot: Drug Type vs. Dosage Level"
+#| fig-cap: "Interaction Plots: Drug Type vs. Dosage Level"
+
+library(ggplot2)
+library(patchwork)  # For arranging plots
 
 p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_level, group = dosage_level)) +
-  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "point", size = 2) +
   stat_summary(fun = mean, geom = "line", size = 1) +
   labs(title = "Memory Game Scores",
        x = "Drug Type",
@@ -255,9 +275,8 @@ p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_lev
        color = "Dosage Level") +
   theme_minimal()
 
-# Interaction plot for Memory Cards Scores
 p2 <- ggplot(clean_data, aes(x = drug, y = memory_cards_score, color = dosage_level, group = dosage_level)) +
-  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "point", size = 2) +
   stat_summary(fun = mean, geom = "line", size = 1) +
   labs(title = "Memory Cards Scores",
        x = "Drug Type",
@@ -265,59 +284,34 @@ p2 <- ggplot(clean_data, aes(x = drug, y = memory_cards_score, color = dosage_le
        color = "Dosage Level") +
   theme_minimal()
 
-# Combine the two plots vertically
-combined_plot <- p1 / p2
-combined_plot
-```
+# Arrange plots side by side with better spacing
+p1 + p2 + plot_layout(widths = c(1, 1))
 
-# Plots
+```
 
 ```{r}
 #| label: fig-boxplot-game-scores
 #| echo: false
 #| warning: false
 #| message: false
-#| fig.width: 9
-#| fig.height: 8
+#| fig.width: 12  # Increased width
+#| fig.height: 5  # Reduced height
 #| dpi: 300
-#| fig-cap: "Memory Game Scores by Drug Type and Dosage Level"
+#| fig-cap: "Boxplots: Memory Game & Cards Scores by Drug Type and Dosage Level"
 
-clean_data$dosage_level <- factor(clean_data$dosage_level, levels = c("Low", "High"))
-
-# Boxplot of Memory Game Scores by Drug, colored by Dosage Level
-ggplot(clean_data, aes(x = drug, y = memory_game_score, fill = dosage_level)) +
+p3 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, fill = dosage_level)) +
   geom_boxplot() +
-  labs(
-    x = "Drug Type",
-    y = "Memory Game Score",
-    fill = "Dosage Level"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    axis.title = element_text(size = 12)
-  )
-
-```
-
-```{r}
-#| label: fig-boxplot-card-scores
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9
-#| fig.height: 8
-#| dpi: 300
-#| fig-cap: "Memory Game Scores by Drug Type and Dosage Level"
-
-ggplot(clean_data, aes(x = drug, y = memory_cards_score, fill = dosage_level)) +
-  geom_boxplot() +
-  labs(
-    x = "Drug Type",
-    y = "Memory Cards Score",
-    fill = "Dosage Level"
-  ) +
+  labs(x = "Drug Type", y = "Memory Game Score", fill = "Dosage Level") +
   theme_minimal()
+
+p4 <- ggplot(clean_data, aes(x = drug, y = memory_cards_score, fill = dosage_level)) +
+  geom_boxplot() +
+  labs(x = "Drug Type", y = "Memory Cards Score", fill = "Dosage Level") +
+  theme_minimal()
+
+# Arrange boxplots side by side with better spacing
+p3 + p4 + plot_layout(widths = c(1, 1))
+
 
 ```
 
@@ -338,7 +332,7 @@ These boxplots provide an initial comparison of cognitive performance changes be
 
 ## Memory Card Score Distribution Before and After Treatment
 
-@fig-boxplot-card-scores shows the distribution of **memory card scores before and after treatment** across drug types.
+@fig-boxplot-game-scores on right, shows the distribution of **memory card scores before and after treatment** across drug types.
 
 1. Before treatment, the scores are relatively high across all groups, with Paracetamol and Placebo showing slightly higher medians than the others.
 2. After treatment, the distributions remain similar, though there is a slight increase in spread for Aspirin, Paracetamol, and Placebo.
@@ -364,7 +358,7 @@ Where:
 - $\varepsilon_i$ is the random error term.
 
 
-```{r}
+```{r, echo = FALSE}
 #| label: tbl-model-result
 #| tbl-cap: "Regression Results for Memory Game Score"
 #| echo: false
@@ -384,7 +378,7 @@ kable(model_tidy, format = "latex", booktabs = TRUE)
 
 ```
 
-```{r}
+```{r, echo = FALSE}
 #| label: tbl-model-fit
 #| tbl-cap: "Model Fit Statistics for Memory Game Score"
 #| echo: false
@@ -411,7 +405,7 @@ Where:
 - $\varepsilon_{ijk} \sim \mathcal{N}(0, \sigma^2)$: Random error  
 
 
-```{r}
+```{r, echo = FALSE}
 #| label: tbl-anova-model
 #| tbl-cap: "Two-Way ANOVA Results for Memory Game Score"
 #| echo: false
@@ -428,21 +422,23 @@ kable(anova_table_df, format = "latex", booktabs = TRUE)
 
 ```
 
-```{r}
+```{r, echo = FALSE}
 #| label: fig-normal-plot
 #| echo: false
 #| warning: false
 #| message: false
-#| fig.width: 9
-#| fig.height: 8
+#| fig.width: 6  # Reduced width
+#| fig.height: 5  # Reduced height
 #| dpi: 300
+#| fig.align: "center"
 #| fig-cap: "Q-Q Plot of Residuals"
 
 # Normality Check
 ggqqplot(residuals(anova_model))
+
 ```
 
-```{r}
+```{r, echo = FALSE}
 #| label: tbl-shapiro
 #| tbl-cap: "Shapiro-Wilk Test for Normality"
 #| echo: false
@@ -453,8 +449,9 @@ ggqqplot(residuals(anova_model))
 shapiro_test <- shapiro.test(residuals(anova_model))
 shapiro_table <- data.frame(
   Statistic = round(shapiro_test$statistic, 4),
-  P_Value = round(shapiro_test$p.value, 4),
-  Method = shapiro_test$method
+  `P-Value` = round(shapiro_test$p.value, 4),
+  Method = shapiro_test$method,
+  check.names = FALSE  # Prevents automatic renaming
 )
 
 kable(shapiro_table, format = "latex", booktabs = TRUE)
@@ -465,12 +462,13 @@ kable(shapiro_table, format = "latex", booktabs = TRUE)
 #| echo: false
 #| warning: false
 #| message: false
-#| fig.width: 9
-#| fig.height: 8
+#| fig.width: 6  # Smaller width
+#| fig.height: 5  # Smaller height
 #| dpi: 300
 #| fig-cap: "Q-Q Plot of Residuals"
 
-plot(anova_model, which = 3)
+plot(anova_model, which = 3, main = "", sub = "", caption = "")
+
 ```
 
 ```{r}
@@ -489,8 +487,9 @@ bartlett_test <- bartlett.test(memory_game_score ~ interaction(drug, dosage_leve
 bartlett_table <- data.frame(
   Statistic = round(bartlett_test$statistic, 4),
   DF = bartlett_test$parameter,
-  P_Value = round(bartlett_test$p.value, 4),
-  Method = bartlett_test$method
+  `P-Value` = round(bartlett_test$p.value, 4),
+  Method = bartlett_test$method,
+  check.names = FALSE
 )
 
 kable(bartlett_table, format = "latex", booktabs = TRUE)
@@ -505,7 +504,7 @@ The two-way ANOVA factorial design involves the linear regression model followed
 
 # Discussion
 ## Interpretation of Results  
-The two-way ANOVA analysis revealed no statistically significant main effects of drug type (p = 0.25) or dosage level (p = 0.26) on memory game scores. Similarly, the interaction effect between drug type and dosage level was not significant (p = 0.24). These results suggest that neither the type of pain reliever (Aspirin, Paracetamol, Tramadol, or Placebo) nor its dosage (low vs. high) had a meaningful impact on cognitive retention in this study. The lack of significance persisted even after accounting for age as a confounding variable, which was controlled through participant stratification into three balanced groups (18–34, 35–50, and 50+ years).
+The two-way ANOVA analysis revealed no statistically significant main effects of drug type (p = 0.25) or dosage level (p = 0.26) on memory game scores. Similarly, the interaction effect between drug type and dosage level was not significant (p = 0.24). These results suggest that neither the type of pain reliever (Aspirin, Paracetamol, Tramadol, or Placebo) nor its dosage (low vs. high) had a meaningful impact on memory game or card scores representative of cognitive improvement in this study. The lack of significance persisted even after accounting for age as a confounding variable, which was controlled through participant stratification into three balanced groups (18–34, 35–50, and 50+ years).
 
 ### Exploratory Observations  
 Despite the absence of statistical significance, exploratory insights emerged:  
@@ -514,7 +513,7 @@ Despite the absence of statistical significance, exploratory insights emerged:
 3. The **Placebo** group consistently underperformed relative to active drugs in median scores (@fig-interaction), though this difference was not statistically significant.  
 
 # Limitations 
-Our study is overall focused on memory, which may have links to one’s education and IQ level as they are all related to mental function and cognition. In the future, we could test everyone for IQ scores and their highest level of education – these two nuisance variables can be taken care of by using the four principles of experimental design. Additionally, we used 30 observations for each treatment group which may not be large enough. We can increase this number for future studies. To add on, not all participants were in pain, so the efficacy of the improvement of pain killers may be biased and using a virtual population may not ensure whether this aspect could be captured. Lastly, cognitive retention was measured immediately post-treatment – the long term impacts are not yet explored. To improve our study, we can only consider individuals of equal pain levels before the study to ensure a reduction of bias. Additionally, carrying the experiment out in the long-term would help with understanding the effects of painkillers and dosages on memory.
+Our study is overall focused on memory, which may have links to one’s education and IQ level as they are all related to mental function and cognition. In the future, we could test everyone for IQ scores and their highest level of education – these two nuisance variables can be taken care of by using the four principles of experimental design. Additionally, we used 30 observations for each treatment group which may not be large enough. We can increase this number for future studies. To add on, not all participants were in pain, so the efficacy of the improvement of pain killers may be biased and using a virtual population may not ensure whether this aspect could be captured. Lastly, cognitive retention was measured immediately post-treatment – the long term impacts are not yet explored. To improve our study, we can try to  consider individuals with real pain symptoms before the study to ensure a reduction of bias, and provide a realistic test setting. Additionally, carrying the experiment out in the long-term would help with understanding the effects of painkillers and dosages on memory.
 
 # Conclusion
 This study found no conclusive evidence that pain relievers or their dosages significantly affect cognitive retention. However, the exploratory trends observed, particularly with Paracetamol and Tramadol, highlight the need for larger-scale studies to investigate subtle or context-dependent effects. Future research could incorporate longitudinal designs, broader age-specific analyses, and alternative cognitive metrics to deepen understanding of painkillers’ cognitive implications.  
@@ -623,10 +622,12 @@ age_percentages <- prop.table(age_counts) * 100
 
 # summary dataframe
 age_summary <- data.frame(
-  Age_Group = names(age_counts),
+  `Age Group` = names(age_counts),
   Count = as.numeric(age_counts),
   Percentage = round(as.numeric(age_percentages), 2)
 )
+colnames(age_summary)[colnames(age_summary) == "Age.Group"] <- "Age Group"
+
 
 # Display table
 kable(age_summary, booktabs = TRUE, row.names = FALSE)
@@ -694,7 +695,7 @@ ggplot(clean_data, aes(x = drug, y = memory_cards_score, fill = dosage_level)) +
   theme_minimal()
 ```
 
-```{r}
+```{r, echo = FALSE}
 
 # References: https://cran.r-project.org/web/packages/broom/vignettes/broom.html
 
