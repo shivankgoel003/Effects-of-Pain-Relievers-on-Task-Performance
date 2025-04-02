@@ -538,11 +538,6 @@ Our study is overall focused on memory, which may have links to one’s educatio
 This study found no conclusive evidence that pain relievers or their dosages significantly affect cognitive retention. However, the exploratory trends observed, particularly with Paracetamol and Tramadol, highlight the need for larger-scale studies to investigate subtle or context-dependent effects. Future research could incorporate longitudinal designs, broader age-specific analyses, and alternative cognitive metrics to deepen understanding of painkillers’ cognitive implications.  
 
 
-\newpage 
-
-# References
-
-
 \newpage
 
 # Appendix {#sec-appendix}
@@ -784,3 +779,7 @@ kable(shapiro_table, format = "latex", booktabs = TRUE)
 
 plot(anova_model, which = 3)
 ```
+
+\newpage 
+
+# References
