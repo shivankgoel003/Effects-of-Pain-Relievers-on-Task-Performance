@@ -25,7 +25,7 @@ No auto-complete tools such as co-pilot were used in the course of this project,
 
 # Introduction
 
-Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Study has shown that individuals with pain tend to have cognitive dysfunction symptoms (Hu, 2010). Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood. Memory retention is a process that requires mental effort – which becomes more difficult when we're in pain. 
+Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Study has shown that individuals with pain tend to have cognitive dysfunction symptoms [@Hu]. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood. Memory retention is a process that requires mental effort – which becomes more difficult when we're in pain. 
 This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. We will also look at how the interaction between drug type and dosage level influence memory function. Since the ability to recall information is a basis for optimized human function, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
 
 ## Research Questions
