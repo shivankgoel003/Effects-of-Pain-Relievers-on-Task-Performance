@@ -336,8 +336,8 @@ Where
 
 - $Y_{ijk}$: Memory score for the $k$-th participant receiving the $i$-th drug and $j$-th dosage level  
 - $\mu$: Overall mean  
-- $\alpha_i$: Effect of the $i$-th drug (categorical with 4 levels)  
-- $\beta_j$: Effect of the $j$-th dosage level (categorical with 2 levels)  
+- $\alpha_i$: Effect of the $i$-th drug ((Aspirin, Tramadol, Paracetamol, Placebo))  
+- $\beta_j$: Effect of the $j$-th dosage level (High Dosage, Low dosage) 
 - $(\alpha\beta)_{ij}$: Interaction effect between drug and dosage  
 - $\epsilon_{ijk} \sim N(0, \sigma^2)$ : Random error
 
@@ -536,8 +536,9 @@ Our study is overall focused on memory, which may have links to one’s educatio
 This study found no conclusive evidence that pain relievers or their dosages significantly affect cognitive retention. However, the exploratory trends observed, particularly with Paracetamol and Tramadol, highlight the need for larger-scale studies to investigate subtle or context-dependent effects. Future research could incorporate longitudinal designs, broader age-specific analyses, and alternative cognitive metrics to deepen understanding of painkillers’ cognitive implications.  
 
 
+\newpage 
+
 # References
-(Ha, 2010) https://journals.lww.com/ejanaesthesiology/FullText/2010/02000/Amitriptyline_rather_than_lornoxicam_ameliorates.6.aspx
 
 
 \newpage
