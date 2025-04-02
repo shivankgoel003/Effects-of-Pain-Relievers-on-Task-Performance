@@ -321,11 +321,12 @@ p1 + p3
 This boxplot provides an initial comparison of memory game performance and drug administration.
 
 
-# Assumptions
+# Analysis
 
 ## Model
 
-We model the memory game score using a two-way ANOVA with interaction between drug type and dosage level. The general statistical form of the model is 
+
+The method of Wwo-way ANOVA is used to estimate the mean of a memory game score changes according to the levels of two categorical variables that is drug and dosage level. The general statistical form of the model is:
 
 
 $$
@@ -341,7 +342,7 @@ Where
 - $(\alpha\beta)_{ij}$: Interaction effect between drug and dosage  
 - $\epsilon_{ijk} \sim N(0, \sigma^2)$ : Random error
 
-After dummy coding the categorical variables, the model used in our analysis can be expressed as:
+In this analysis where our focus in on Two-Way ANOVA Model and so we fit using linear regression model using dummy variable coding using Treatment Aspirin-High dosage as the baseline group. The aim is to interpret estimated coefficients relative to reference group. The model we used in our analysis can be expressed as:
 
 
  \begin{align*}
@@ -363,6 +364,9 @@ Where
 - $\beta_4$: Effect of Low dosage relative to High  
 - $\beta_5, \beta_6, \beta_7$: Interaction effects for each drug under Low dosage  
 - $\epsilon_i$: Residual error for the $i$-th participant
+
+The Intercept term $\beta_0$ accounts for the reference group. All other coefficients $\beta_j$ represent the mean difference between the specified group and the reference group, holding other factors constant for j = *1, 2, 3, 4, 5, 6, 7*
+
 
 
 
@@ -513,15 +517,13 @@ bartlett_table <- data.frame(
 
 kable(bartlett_table, format = "latex", booktabs = TRUE)
 ```
-# Analysis
-The method of two-way ANOVA is used to estimate the mean of a memory game score changes according to the levels of two categorical variables, being drug type and dosage level. Our research question explores if there is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance.
 
+## Assumption Checks
 
-We verified the assumption of the two-way ANOVA model as seen from graph normality, using Q-Q plot as seen in @fig-normal-plot. The Shapiro-Wilk Test confirms a p-value = 0.05553 as per @tbl-shapiro, so we fail to reject the null hypothesis and the result confirms that the data-set is normally distributed.  
-Our second assumption of Homogeneity of Variance is verified by the p-value = 0.3346 from the Bartlett test in @tbl-bartlett, which is greater than 0.05. Due to this, we fail to reject the null hypothesis.
-Thirdly, for our two-way ANOVA model, the different combinations of pain reliever type and dosage levels were randomly assigned to all participants, in random order. 
+We verified the assumption of the two-way ANOVA model as seen from using Q-Q plot as seen in @fig-normal-plot. The Shapiro-Wilk Test confirms a p-value = 0.05553 as per @tbl-shapiro, so we fail to reject the null hypothesis and the result confirms that the dataset is *normally distributed*. Our second assumption of *homogeneity of variance* is verified by the p-value = 0.3346 from the Bartlett test in @tbl-bartlett, which is greater than 0.05. Due to this, we fail to reject the null hypothesis. Thirdly, for our two-way ANOVA model, the different combinations of pain reliever type and dosage levels, the treatments were randomly assigned to all participants which ensures *independence*.
 
-The two-way ANOVA factorial design involves the linear regression model followed by the ANOVA model. The model uses the reference (baseline) group which is Aspirin (Drug) & High (Dosage level). The regression model from the @tbl-model-result shows the intercept(beta_0) which represents the predicted mean of memory game score for participants receiving high dosage of aspirin is 62.20 and the p-value = 0.00000 indicates the intercept is statistically significant. The variance explained by the model is R^2 = 0.03983, approximately 4% of the response variable. And the p-value = 0.2167 of the model can be interpreted as not statistically significant
+## need to work on it
+"The two-way ANOVA factorial design involves the linear regression model followed by the ANOVA model. The model uses the reference (baseline) group which is Aspirin (Drug) & High (Dosage level). The regression model from the @tbl-model-result shows the intercept(beta_0) which represents the predicted mean of memory game score for participants receiving high dosage of aspirin is 62.20 and the p-value = 0.00000 indicates the intercept is statistically significant. The variance explained by the model is R^2 = 0.03983, approximately 4% of the response variable. And the p-value = 0.2167 of the model can be interpreted as not statistically significant"
  
 
 # Discussion
