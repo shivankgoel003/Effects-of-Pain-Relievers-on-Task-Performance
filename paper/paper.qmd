@@ -23,15 +23,11 @@ The chat with the AI bot is also attached as a reference under @sec-appendix.
 
 # Introduction
 
-Pain can make everyday tasks harder, particularly when mental focus and clarity are required.
-Study has shown that individuals with pain tend to have cognitive dysfunction symptoms [@Hu].
-Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood.
-Memory retention is a process that requires mental effort – which becomes more difficult when we're in pain.
-This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance.
-We will also look at how the interaction between drug type and dosage level influence memory function.
-Since the ability to recall information is a basis for optimized human function, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
+Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Study has shown that individuals with pain tend to have cognitive dysfunction symptoms [@Hu]. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood. Memory retention is a process that requires mental effort – which becomes more difficult when we're in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. We will also look at how the interaction between drug type and dosage level influence memory function. Since the ability to recall information is a basis for optimized human function, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
 
 ## Research Questions
+
+This study aims to explore and answer the following questions.
 
 Research Question 1.
 *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect memory game performance?*
@@ -44,6 +40,7 @@ Research Question 2.
 
 -   Null Hypothesis: There is no interaction effect between the type of pain reliever and dosage level on the improvement in memory task performance.
 -   Alternative Hypothesis: There is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance.
+
 
 # Methodology
 
@@ -559,20 +556,16 @@ The lack of significance persisted even after accounting for age as a confoundin
 
 # Limitations
 
-Our study is overall focused on memory, which may have links to one’s education and IQ level as they are all related to mental function and cognition.
-In the future, we could test everyone for IQ scores and their highest level of education – these two nuisance variables can be taken care of by using the four principles of experimental design.
-Additionally, we used 30 observations for each treatment group which may not be large enough.
-We can increase this number for future studies.
-To add on, not all participants were in pain, so the efficacy of the improvement of pain killers may be biased and using a virtual population may not ensure whether this aspect could be captured.
-Lastly, cognitive retention was measured immediately post-treatment – the long term impacts are not yet explored.
-To improve our study, we can try to consider individuals with real pain symptoms before the study to ensure a reduction of bias, and provide a realistic test setting.
-Additionally, carrying the experiment out in the long-term would help with understanding the effects of painkillers and dosages on memory.
+Our study is overall focused on memory, which may have links to one’s education and IQ level, as they are all related to mental function and cognition. In the future, we could test everyone for IQ scores and their highest level of education – these two nuisance variables can be taken care of by using the four principles of experimental design.
+Additionally, we used 30 observations for each treatment group which may not be large enough. We can increase this number for future studies. To add on, not all participants were in pain, so the efficacy of the improvement of pain killers may be biased and using a virtual population may not ensure whether this aspect could be captured.
+Lastly, cognitive retention was measured immediately post-treatment – the long term impacts are not yet explored. To improve our study, we can try to consider individuals with real pain symptoms before the study to ensure a reduction of bias, and provide a realistic test setting. Additionally, carrying the experiment out in the long-term would help with understanding the effects of painkillers and dosages on memory.
+
+There’s also a chance that the participants’ expectations influenced their results if they knew which treatment they were getting (we cannot expand on this as it was a virtual experiment). In the future, bias could be minimized through having a double-blind design in which neither the participants nor the researchers know who’s getting what. We only tested low and high dosages, so we might be missing more subtle effects that show up with intermediate doses. So if we were to include a wider range of dosages in future studies, it could give a fuller picture. Another issue is that our sample might not fully represent the general population since we selected participants from specific clusters of locations -- not all locations were covered equally. This means our findings might not apply to everyone. Next time, we could choose more diverse and evenly spread-out clusters to make the results more general. Lastly, despite our efforts to control for confounding factors, there are still some variables (like sleep quality, stress levels, or baseline cognitive function) that could affect memory performance. Being more thorough in accounting for these factors could improve the accuracy of the results.
+
 
 # Conclusion
 
-This study found no conclusive evidence of pain relievers or their dosages significantly affecting cognitive retention.
-However, the exploratory trends observed, particularly with Paracetamol and Tramadol, highlight the need for larger-scale studies to investigate subtle or context-dependent effects.
-Future research could incorporate longitudinal designs, broader age-specific analyses, and alternative cognitive metrics to deepen understanding of painkillers’ cognitive implications.
+This study did not find clear evidence that pain relievers or their dosages have a significant impact on cognitive retention. However, the exploratory trends observed, particularly with Paracetamol and Tramadol, highlight the need for larger-scale studies to investigate subtle or context-dependent effects. Future research could incorporate longitudinal designs, broader age-specific analyses, and alternative cognitive metrics to deepen understanding of painkillers’ cognitive implications.
 
 \newpage
 
