@@ -8,7 +8,7 @@ author:
   - Jena Shah
 date: today
 date-format: long
-abstract: Painkillers are commonly used to manage pain, and their effects are often associated with  physical relief. While they provide immediate physical comfort, their impact on cognitive performance is often overlooked. This study explores how different painkillers and dosages influence cognitive function. Using simulated testing from a virtual population, participants were randomly assigned a treatment (drug type and dosage) while controlling for variables such as age. Our findings indicate no significant relationship between drug type, dosage, and overall cognitive performance post-treatment. However, we observed some correlation between certain drug-dosage combinations and memory improvement, suggesting a potential area for further research. While the results were not statistically significant, this study contributes to a deeper understanding of the cognitive effects of painkillers and highlights the need for further investigation into their potential impact on memory and cognition.
+abstract: Painkillers are commonly used to manage pain and their effects are often associated with physical relief. While they provide immediate physical comfort, their impact on cognitive performance is often overlooked. This study explores how different painkillers and dosages influence cognitive function. Using simulated testing from a virtual population, participants were randomly assigned a treatment (drug type and dosage) while controlling for variables such as age. Our findings indicate no significant relationship between drug type, dosage, and overall cognitive performance post-treatment. However, we observed some correlation between certain drug-dosage combinations and memory improvement, suggesting a potential area for further research. While the results were not statistically significant, this study contributes to a deeper understanding of the cognitive effects of painkillers and highlights the need for further investigation into their potential impact on memory and cognition.
 number-sections: true
 format: pdf
 bibliography: references.bib
@@ -23,11 +23,11 @@ The chat with the AI bot is also attached as a reference under @sec-appendix.
 
 # Introduction
 
-Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Study has shown that individuals with pain tend to have cognitive dysfunction symptoms [@Hu]. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood. Memory retention is a process that requires mental effort – which becomes more difficult when we're in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. We will also look at how the interaction between drug type and dosage level influence memory function. Since the ability to recall information is a basis for optimized human function, understanding how pain relief might impact cognitive performance is important for managing pain without affecting productivity.
+Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Study has shown that individuals with pain tend to have cognitive dysfunction symptoms [@Hu]. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood. Memory retention is a process that requires mental effort – which becomes more difficult when we are in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. We will also take a look at how the interaction between drug type and dosage level influence memory function. Understanding how pain relief might impact cognitive performance is important since the ability to recall information is a basis for optimized human function.
 
 ## Research Questions
 
-This study aims to explore and answer the following questions.
+Our study consists of the following research questions.
 
 Research Question 1.
 *How does the type of pain reliever (Aspirin 500 mg, Paracetamol 500 mg, Tramadol 50 mg, and Placebo) affect memory game performance?*
@@ -41,8 +41,9 @@ Research Question 2.
 -   Null Hypothesis: There is no interaction effect between the type of pain reliever and dosage level on the improvement in memory task performance.
 -   Alternative Hypothesis: There is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance.
 
+The structure of this paper is as follows. @sec-method outlines our data and methodology. Section 3 presents our quantitative analysis. In Section 4, we discuss the results and address our findings 
 
-# Methodology
+# Methodology {#sec-method}
 
 In February, our group members collected observations from participants belonging to a virtual population to assess whether the treatment had any effect on memory performance, this resulted in a total of 240 observations.
 Each participant was **randomly** assigned a treatment.
@@ -100,7 +101,7 @@ We also used **blocking** for age by ensuring participants were categorized into
 
 In our study the quantitative and qualitative variables are as follows:
 
-1.  Quantitative variables: Memory Game Scores, Memory Test Cards Scores
+1.  Quantitative variables: Memory Game Scores, Memory Card Scores
 2.  Qualitative variables: Type of pain reliever, dosage level (low/high)
 
 ```{r}
@@ -155,22 +156,10 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 ```
 
-The structure of the paper is as follows: Section 2 outlines our data and methodology.
-Section 3 presents our quantitative analysis.
-In Section 4, we discuss the results and address our findings from the analysis.
-Section 5 covers the limitations of our study, and Section 6 presents a conclusion to our analysis.
-After that, we have the bibliography in Section 7.
-Lastly, we attached the code for our study into the Appendix in Section 8.
 
 ## Summary of quantitative variables
 
-@tbl-summary-1 shows the summary statistics of memory game scores before and after the treatment.
-The mean is similar across all groups, however, the standard deviation (SD) is relatively high.
-The median game scores remain close to the mean, and the IQR (Interquartile Range) is smaller than the SD.
-The cards memory task shows little change before and after treatment, suggesting that pain relievers may not have a major effect on this specific task.
-
-Evident through the results, Paracetamol is the drug that has the greatest mean & median improvement in the game scores after administering the drug (without dosage taken into account).
-Aspirin appears to negatively impact the results of the game after being given to people, this was seen through the mean and median improvements.
+@tbl-summary-1 shows the summary statistics of the post-treatment memory game scores and memory card scores. The mean memory game score is 62.58 seconds, with a median of 61.50 seconds, which indicates that the distribution is fairly symmetric. The standard deviation (SD) is relatively high, indicating there is variability in overall participant performance. Looking at the  IQR (Interquartile Range), it is smaller than the SD, which suggests that most scores fall within a moderate range,  but there are some values  likely further from the center. For the memory card scores, the mean is 7.95/10 and the median is 9.00/10, which indicates a slight left skew in the distribution. Overall, the SD and IQR are both low, suggesting limited variability in these scores. While the summary statistics highlight some variability, they don’t directly indicate the presence of outliers; further visual analysis is required to assess this.
 
 ```{r}
 #| label: tbl-summary-1
@@ -265,6 +254,11 @@ Aspirin, Paracetamol, and Tramadol, and Placebo each have 60 participants (25%),
 @tbl-summary-3 shows the dosage levels assigned to participants.
 There is an equal split between high-dose (120 participants, 50%) and low-dose (120 participants, 50%) conditions.
 
+## Confounding Variable
+
+@tbl-summary-5 shows the breakdown of age groups, which is a confounding variable in this study. The three age groups: 18–34, 35–50, and 50+ each have 80 participants (33.33\%).
+
+
 \newpage
 
 # Plots
@@ -286,7 +280,7 @@ p3 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, fill = dosage_leve
   geom_boxplot() +
   labs(x = "Drug Type", y = "Memory Game Score", fill = "Dosage Level") +
   theme_minimal()
-p3 
+
 ```
 
 ```{r}
@@ -314,11 +308,7 @@ p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_lev
   theme_minimal()
 
 
-# Arrange plots side by side with better spacing
-p1 
-
 ```
-
 ```{r}
 #| label: fig-combined
 #| echo: false
@@ -333,22 +323,122 @@ p1
 p1 + p3
 ```
 
-## Game Score Distribution by Drug and Dosage Level
 
-@fig-combined shows the distribution of memory game scores across different drug types using box plots.
+@fig-combined shows the distribution of memory game scores across different drug types using box plots and interaction plot.
 
-1.  The median scores for all drugs appear similar.
-2.  All drugs have a higher median on the higher dosage, level expect for Tramadol which is lower.
-3.  The Placebo group has a slightly lower median score compared to other drugs.
-4.  The (IQR) is **similar across all drug types**, though Tramadol and Placebo see a higher IQR in the memory game scores in the high dosage.
+From the box plots, we observe:
 
-This boxplot provides an initial comparison of memory game performance and drug administration.
+1. The median scores vary by both drug type and dosage level.
+2. Tramadol (high dosage) appears to have a wider spread in scores compared to other groups.
+3. The Placebo groups, both low and high dosage, show relatively similar median scores.
+4. There is noticeable variability within each drug type, with some groups showing larger interquartile ranges (IQR) than others.
+5. The boxplots indicate potential outliers in several groups, as shown by individual points beyond the whiskers.
+
+These boxplots provide an initial comparison of cognitive performance across drug types and dosages, highlighting both central tendency and variability in memory game scores.
+
+The interaction plot suggests an interaction effect between drug type and dosage level, as the lines are not parallel. The low-dosage line shows a sharp increase in memory scores for Tramadol and a dip for Placebo. However, the high-dosage line follows a more gradual trend. This indicates that the effect of dosage on memory performance may depend on the type of pain reliever administered.
+
+Although the visual pattern indicates potential interaction, a formal Two-Way ANOVA is required to determine the statistical significance of this relationship.
 
 # Analysis
 
+## Assumption Checks
+
+
+The method of two-way ANOVA is used to estimate the mean of memory game score changes according to the levels of two categorical variables that are drug and dosage level. Before performing the Two-Way ANOVA, we verified the assumptions of the model as seen from using Q-Q plot as seen in @fig-normal-plot. 
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+anova_model <- lm(memory_game_score ~ drug * dosage_level, data = clean_data)
+
+
+model_tidy <- tidy(anova_model) %>%
+  rename(
+    `Predictor Term` = term,
+    `Estimate` = estimate,
+    `Std. Error` = std.error,
+    `t-statistic` = statistic,
+    `p-value` = p.value
+  )
+```
+
+```{r, echo = FALSE}
+#| label: fig-normal-plot
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9  # Reduced width
+#| fig.height: 8  # Reduced height
+#| dpi: 300
+#| out.width: 60%
+#| out.height: 50%
+#| fig.align: "center"
+#| fig-cap: "Q-Q Plot of Residuals"
+
+# Normality Check
+ggqqplot(residuals(anova_model))
+
+```
+
+The Shapiro-Wilk Test confirms a p-value = 0.05553 as per @tbl-shapiro, so we fail to reject the null hypothesis and the result confirms that the dataset is *normally distributed*.
+
+```{r, echo = FALSE}
+#| label: tbl-shapiro
+#| tbl-cap: "Shapiro-Wilk Test for Normality"
+#| echo: false
+#| warning: false
+#| message: false
+
+# Shapiro-Wilk Normality Test
+shapiro_test <- shapiro.test(residuals(anova_model))
+shapiro_table <- data.frame(
+  Statistic = round(shapiro_test$statistic, 4),
+  `P-Value` = round(shapiro_test$p.value, 4),
+  Method = shapiro_test$method,
+  check.names = FALSE  # Prevents automatic renaming
+)
+
+kable(shapiro_table, format = "latex", booktabs = TRUE)
+```
+
+
+
+Our second assumption of *homogeneity of variance* is verified by the p-value = 0.3346 from the Bartlett test in @tbl-bartlett, which is greater than 0.05.
+Due to this, we fail to reject the null hypothesis.
+Lastly, for our two-way ANOVA model, the different combinations of pain reliever type and dosage levels, the treatments were randomly assigned to all participants which ensures *independence*.
+
+```{r}
+#| label: tbl-bartlett
+#| tbl-cap: "Bartlett’s Test for Homogeneity of Variance"
+#| echo: false
+#| warning: false
+#| message: false
+
+# Scale-Location Plot
+
+
+# Perform Bartlett’s test for homogeneity of variance
+bartlett_test <- bartlett.test(memory_game_score ~ interaction(drug, dosage_level), data = clean_data)
+
+bartlett_table <- data.frame(
+  Statistic = round(bartlett_test$statistic, 4),
+  DF = bartlett_test$parameter,
+  `P-Value` = round(bartlett_test$p.value, 4),
+  Method = bartlett_test$method,
+  check.names = FALSE
+)
+
+kable(bartlett_table, format = "latex", booktabs = TRUE)
+```
+
+
+
 ## Model
 
-The method of Wwo-way ANOVA is used to estimate the mean of a memory game score changes according to the levels of two categorical variables that is drug and dosage level.
+The method of Two-way ANOVA is used to estimate the mean of a memory game score changes according to the levels of two categorical variables that is drug and dosage level.
 The general statistical form of the model is:
 
 $$
@@ -360,7 +450,7 @@ Where
 -   $Y_{ijk}$: Memory score for the $k$-th participant receiving the $i$-th drug and $j$-th dosage level\
 -   $\mu$: Overall mean\
 -   $\alpha_i$: Effect of the $i$-th drug ((Aspirin, Tramadol, Paracetamol, Placebo))\
--   $\beta_j$: Effect of the $j$-th dosage level (High Dosage, Low dosage)
+-   $\beta_j$: Effect of the $j$-th dosage level (High Dosage, Low dosage)\
 -   $(\alpha\beta)_{ij}$: Interaction effect between drug and dosage\
 -   $\epsilon_{ijk} \sim N(0, \sigma^2)$ : Random error
 
@@ -426,6 +516,7 @@ kable(model_tidy, format = "latex", booktabs = TRUE)
 
 model_glance <- glance(anova_model) %>%
   transmute(
+    `R - sqaured` = r.squared,
     `F-Statistic` = statistic,
     `Model df` = df,
     `Residual df` = df.residual,
@@ -456,103 +547,32 @@ kable(anova_table_df, format = "latex", booktabs = TRUE)
 
 ```
 
-```{r, echo = FALSE}
-#| label: fig-normal-plot
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9  # Reduced width
-#| fig.height: 8  # Reduced height
-#| dpi: 300
-#| out.width: 60%
-#| out.height: 50%
-#| fig.align: "center"
-#| fig-cap: "Q-Q Plot of Residuals"
-
-# Normality Check
-ggqqplot(residuals(anova_model))
-
-```
-
-```{r, echo = FALSE}
-#| label: tbl-shapiro
-#| tbl-cap: "Shapiro-Wilk Test for Normality"
-#| echo: false
-#| warning: false
-#| message: false
-
-# Shapiro-Wilk Normality Test
-shapiro_test <- shapiro.test(residuals(anova_model))
-shapiro_table <- data.frame(
-  Statistic = round(shapiro_test$statistic, 4),
-  `P-Value` = round(shapiro_test$p.value, 4),
-  Method = shapiro_test$method,
-  check.names = FALSE  # Prevents automatic renaming
-)
-
-kable(shapiro_table, format = "latex", booktabs = TRUE)
-```
-
-```{r}
-#| label: fig-variance-plot
-#| echo: false
-#| warning: false
-#| message: false
-#| fig.width: 9  # Smaller width
-#| fig.height: 8  # Smaller height
-#| out.width: 60%
-#| out.height: 50%
-#| dpi: 300
-#| fig-cap: "Q-Q Plot of Residuals"
-
-plot(anova_model, which = 3, main = "", sub = "", caption = "")
-
-```
-
-```{r}
-#| label: tbl-bartlett
-#| tbl-cap: "Bartlett’s Test for Homogeneity of Variance"
-#| echo: false
-#| warning: false
-#| message: false
-
-# Scale-Location Plot
 
 
-# Perform Bartlett’s test for homogeneity of variance
-bartlett_test <- bartlett.test(memory_game_score ~ interaction(drug, dosage_level), data = clean_data)
+The two-way ANOVA factorial design was implemented using a linear regression model with dummy coding, followed by an ANOVA test. The reference group (baseline) is participants receiving Aspirin as the drug and High dosage as the dosage level.
 
-bartlett_table <- data.frame(
-  Statistic = round(bartlett_test$statistic, 4),
-  DF = bartlett_test$parameter,
-  `P-Value` = round(bartlett_test$p.value, 4),
-  Method = bartlett_test$method,
-  check.names = FALSE
-)
-
-kable(bartlett_table, format = "latex", booktabs = TRUE)
-```
-
-## Assumption Checks
-
-We verified the assumption of the two-way ANOVA model as seen from using Q-Q plot as seen in @fig-normal-plot.
-The Shapiro-Wilk Test confirms a p-value = 0.05553 as per @tbl-shapiro, so we fail to reject the null hypothesis and the result confirms that the dataset is *normally distributed*.
-Our second assumption of *homogeneity of variance* is verified by the p-value = 0.3346 from the Bartlett test in @tbl-bartlett, which is greater than 0.05.
-Due to this, we fail to reject the null hypothesis.
-Thirdly, for our two-way ANOVA model, the different combinations of pain reliever type and dosage levels, the treatments were randomly assigned to all participants which ensures *independence*.
-
-## need to work on it
-
-"The two-way ANOVA factorial design involves the linear regression model followed by the ANOVA model. The model uses the reference (baseline) group which is Aspirin (Drug) & High (Dosage level). The regression model from the @tbl-model-result shows the intercept(beta_0) which represents the predicted mean of memory game score for participants receiving high dosage of aspirin is 62.20 and the p-value = 0.00000 indicates the intercept is statistically significant. The variance explained by the model is R\^2 = 0.03983, approximately 4% of the response variable. And the p-value = 0.2167 of the model can be interpreted as not statistically significant"
 
 # Discussion
 
 ## Interpretation of Results
 
-The two-way ANOVA analysis revealed no statistically significant main effects of drug type (p = 0.25) or dosage level (p = 0.26) on memory game scores.
-Similarly, the interaction effect between drug type and dosage level was not significant (p = 0.24).
-These results suggest that neither the type of pain reliever (Aspirin, Paracetamol, Tramadol, or Placebo) nor its dosage (low vs. high) had a meaningful impact on memory game scores, which is representative of cognitive improvement in this study.
-The lack of significance persisted even after accounting for age as a confounding variable, which was controlled through participant stratification into three balanced groups (18–34, 35–50, and 50+ years).
+The two-way ANOVA results @tbl-anova-model revealed no statistically significant main effects of drug type ($p = 0.25$) or dosage level ($p = 0.26$) on memory game scores, as both p-values exceed the 0.05 threshold.
+
+For **Research Question 1**, which asked whether the type of pain reliever impacts memory performance, we found no significant differences in memory scores between the drug groups (Aspirin, Paracetamol, Tramadol, or Placebo). Therefore, we fail to reject the null hypothesis for Research Question 1.
+
+Similarly, the **interaction effect** between drug type and dosage level was not statistically significant ($p = 0.24$), suggesting that the impact of drug type on memory retention does not vary by dosage level. This directly addresses **Research Question 2**, and we again fail to reject the null hypothesis, concluding that there is no interaction effect between the type of pain reliever and dosage on memory task performance.
+
+Since no interaction effect was present, we examined the main effects independently. As mentioned, drug type was not significant, and neither was **dosage level** (\(p = 0.26\)), indicating that neither factor significantly influenced cognitive performance.
+
+The lack of statistically significant findings persisted even after **controlling for age** as a potential confounding variable. Participants were stratified into balanced age groups (18–34, 35–50, and 50+ years) to minimize age-related bias.
+
+## Effect Size
+
+Although the ANOVA model yielded no statistically significant results, we also considered the practical significance of the findings. The model’s $R^2 = 0.0398$ suggests that approximately 4\% of the variability in memory performance was accounted for by the treatment factors. However, in the context of ANOVA, $R^2$ is not typically used for interpretation, as it does not directly reflect differences between group means.
+
+Instead, we refer to Cohen’s \(f\) as a more appropriate measure of effect size in ANOVA. Cohen’s \(f\) is based on the proportion of variance explained and provides context for the magnitude of the observed effects. For this study, we assume a medium effect size, corresponding to Cohen’s $f \approx 0.25$, based on conventional benchmarks from lecture materials.
+
+Even though the statistical test did not yield significant results. This suggests a small-medium effect size, indicating that the type of drug and dosage level may still have had a meaningful impact on memory task performance.
 
 # Limitations
 
