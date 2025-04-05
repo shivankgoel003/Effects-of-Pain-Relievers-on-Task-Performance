@@ -484,6 +484,8 @@ Where
 The Intercept term $\beta_0$ accounts for the reference group.
 All other coefficients $\beta_j$ represent the mean difference between the specified group and the reference group, holding other factors constant for j = *1, 2, 3, 4, 5, 6, 7*
 
+The @tbl-model-result show the intercept ($\beta_0$ = 60.02) is the average memory game score for individuals given High dosage and Aspirin Drug (reference group). While comparing other treatments to reference level, we observe most coefficients from @tbl-model-result  are not statistically significant at 5% level. The coefficient of Drug Paracetamol (p-value = 0.741), Tramadol (p-value = 0.528), Placebo (p-value = 0.448) indicates that mean memory game scores for these groups are not statistically different from the reference group. Similarly, the evidence for all the Interaction terms are suggest no statistical significance between drug type and dosage level has any effect on the memory game score performance as p value are greater than 5% significance level. The lack of significance indicates that the effect of dosage does not vary meaningfully across drug types and dosage levels, indicating an absence of interaction between the two factors.
+
 ```{r, echo = FALSE}
 #| label: tbl-model-result
 #| tbl-cap: "Coefficient Estimates from Linear Model for Memory Game Score"
@@ -549,10 +551,6 @@ anova_table_df <- as.data.frame(anova_result)
 kable(anova_table_df, format = "latex", booktabs = TRUE)
 
 ```
-
-
-
-The two-way ANOVA factorial design was implemented using a linear regression model with dummy coding, followed by an ANOVA test. The reference group (baseline) is participants receiving Aspirin as the drug and High dosage as the dosage level.
 
 
 # Discussion
