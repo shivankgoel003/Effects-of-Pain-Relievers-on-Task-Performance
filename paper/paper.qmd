@@ -45,6 +45,8 @@ The structure of this paper is as follows. @sec-method outlines our data and met
 
 # Methodology {#sec-method}
 
+This study followed all four principles of experimental design: **Control, Block, Randomization and Replication**. 
+
 In February, our group members collected observations from participants belonging to a virtual population to assess whether the treatment had any effect on memory performance, this resulted in a total of 240 observations.
 Each participant was **randomly** assigned a treatment.
 
@@ -61,7 +63,7 @@ The total crossed treatment groups are shown in @tbl-total-groups.
 This results in **240 total observations** (8 × 30 = 240).
 
 For each treatment, we selected 30 different people (n = 30).
-Through randomly picking the virtual citizens, we replicated 30 experimental units per treatment.
+Through randomly picking the virtual citizens, we **replicated** 30 experimental units per treatment.
 The even observations per treatment group ensures we have a balanced design.
 
 ```{r}
@@ -328,13 +330,14 @@ p1 + p3
 
 From the box plots, we observe:
 
-1. The median scores vary by both drug type and dosage level.
-2. Tramadol (high dosage) appears to have a wider spread in scores compared to other groups.
-3. The Placebo groups, both low and high dosage, show relatively similar median scores.
-4. There is noticeable variability within each drug type, with some groups showing larger interquartile ranges (IQR) than others.
-5. The boxplots indicate potential outliers in several groups, as shown by individual points beyond the whiskers.
-
-These boxplots provide an initial comparison of cognitive performance across drug types and dosages, highlighting both central tendency and variability in memory game scores.
+1. The median scores for all drugs appear similar before treatment.
+2. Tramadol has a higher median than other drugs both before and after treatment.
+3. The Placebo group has a slightly lower median score compared to other drugs.
+4. There is one outlier in the Tramadol group before treatment.
+5. The (IQR) is similar across all drug types, though Tramadol sees a decrease in its
+IQR in the memory game scores after treatment.
+These boxplots provide an initial comparison of cognitive performance changes before and after
+drug administration.
 
 The interaction plot suggests an interaction effect between drug type and dosage level, as the lines are not parallel. The low-dosage line shows a sharp increase in memory scores for Tramadol and a dip for Placebo. However, the high-dosage line follows a more gradual trend. This indicates that the effect of dosage on memory performance may depend on the type of pain reliever administered.
 
