@@ -21,7 +21,11 @@ No auto-complete tools such as co-pilot were used in the course of this project,
 It was used for the purpose of code debugging, understanding models, and knowledge of certain topics, which we were not aware of.
 The chat with the AI bot is also attached as a reference under @sec-appendix.
 
-# Introduction
+
+
+
+
+# Introduction {#sec-intro}
 
 Pain can make everyday tasks harder, particularly when mental focus and clarity are required. Study has shown that individuals with pain tend to have cognitive dysfunction symptoms [@Hu]. Common pain relievers like Aspirin, Paracetamol, and Tramadol are often used to reduce physical discomfort, but their impact on cognitive functions are not well understood. Memory retention is a process that requires mental effort – which becomes more difficult when we are in pain. This study investigates how different pain relievers (Aspirin, Paracetamol, and Tramadol) at standard dosages affect memory performance. We will also take a look at how the interaction between drug type and dosage level influence memory function. Understanding how pain relief might impact cognitive performance is important since the ability to recall information is a basis for optimized human function.
 
@@ -41,8 +45,10 @@ Research Question 2.
 -   Null Hypothesis: There is no interaction effect between the type of pain reliever and dosage level on the improvement in memory task performance.
 -   Alternative Hypothesis: There is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance.
 
+
 The structure of this paper is as follows. @sec-method outlines our data and methodology. @sec-plots presents our findings into graphs and charts to visualize the data better. @sec-analysis presents our quantitative analysis. In @sec-disc, we discuss the results and address our findings. We end off, we have the limitations and conclusion in @sec-lims and @sec-conc, respectively.
 All of the code used for this study can be found in @sec-appendix. The references are found in @sec-references.
+
 
 # Methodology {#sec-method}
 
@@ -65,7 +71,7 @@ This results in **240 total observations** (8 × 30 = 240).
 
 For each treatment, we selected 30 different people (n = 30).
 Through randomly picking the virtual citizens, we **replicated** 30 experimental units per treatment.
-The even observations per treatment group ensures we have a balanced design.
+The even observations per treatment group ensures we have a **balanced design**.
 
 ```{r}
 #| label: tbl-total-groups
@@ -104,7 +110,7 @@ We also used **blocking** for age by ensuring participants were categorized into
 
 In our study the quantitative and qualitative variables are as follows:
 
-1.  Quantitative variables: Memory Game Scores, Memory Card Scores
+1.  Quantitative variables: Memory Game Scores
 2.  Qualitative variables: Type of pain reliever, dosage level (low/high)
 
 ```{r}
@@ -162,7 +168,7 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 
 ## Summary of quantitative variables
 
-@tbl-summary-1 shows the summary statistics of the post-treatment memory game scores and memory card scores. The mean memory game score is 62.58 seconds, with a median of 61.50 seconds, which indicates that the distribution is fairly symmetric. The standard deviation (SD) is relatively high, indicating there is variability in overall participant performance. Looking at the  IQR (Interquartile Range), it is smaller than the SD, which suggests that most scores fall within a moderate range,  but there are some values  likely further from the center. For the memory card scores, the mean is 7.95/10 and the median is 9.00/10, which indicates a slight left skew in the distribution. Overall, the SD and IQR are both low, suggesting limited variability in these scores. While the summary statistics highlight some variability, they don’t directly indicate the presence of outliers; further visual analysis is required to assess this.
+@tbl-summary-1 shows the summary statistics of the treatment memory game scores. The mean memory game score is 62.58 seconds, with a median of 61.50 seconds, which indicates that the distribution is fairly symmetric.
 
 ```{r}
 #| label: tbl-summary-1
@@ -171,29 +177,18 @@ kable(age_summary, booktabs = TRUE, row.names = FALSE)
 #| warning: false
 #| message: false
 
-# Compute statistics for Memory Game Score
 mean_game <- mean(clean_data$memory_game_score, na.rm = TRUE)
 median_game <- median(clean_data$memory_game_score, na.rm = TRUE)
 sd_game <- sd(clean_data$memory_game_score, na.rm = TRUE)
 iqr_game <- IQR(clean_data$memory_game_score, na.rm = TRUE)
 
-# Compute statistics for Memory Cards Score
-mean_cards <- mean(clean_data$memory_cards_score, na.rm = TRUE)
-median_cards <- median(clean_data$memory_cards_score, na.rm = TRUE)
-sd_cards <- sd(clean_data$memory_cards_score, na.rm = TRUE)
-iqr_cards <- IQR(clean_data$memory_cards_score, na.rm = TRUE)
-
-# Combine into a summary table
+# Create summary table with clean column header
 summary_table <- data.frame(
   Statistic = c("Mean", "Median", "SD", "IQR"),
-  `Memory Game Score` = c(mean_game, median_game, sd_game, iqr_game),
-  `Memory Cards Score` = c(mean_cards, median_cards, sd_cards, iqr_cards)
+  "Memory Game Score" = c(mean_game, median_game, sd_game, iqr_game),  check.names = FALSE
 )
 
-colnames(summary_table) <- c("Statistic", "Memory Game Score", "Memory Cards Score")
-
 # Display table
-
 kable(summary_table, format = "latex", booktabs = TRUE)
 
 ```
@@ -309,9 +304,8 @@ p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_lev
        y = "Mean Memory Game Score",
        color = "Dosage Level") +
   theme_minimal()
-
-
 ```
+
 ```{r}
 #| label: fig-combined
 #| echo: false
@@ -319,7 +313,7 @@ p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_lev
 #| message: false
 #| fig.width: 12
 #| fig.height: 6
-#| fig-cap: "Interaction Plot and Boxplot: Memory Game Scores by Drug Type and Dosage Level"
+#| fig-cap: "Interaction and Boxplots for Drug and Dosage Effects"
 
 
 # Combine the plots side by side
@@ -331,14 +325,10 @@ p1 + p3
 
 From the box plots, we observe:
 
-1. The median scores for all drugs appear similar before treatment.
-2. Tramadol has a higher median than other drugs both before and after treatment.
-3. The Placebo group has a slightly lower median score compared to other drugs.
-4. There is one outlier in the Tramadol group before treatment.
-5. The (IQR) is similar across all drug types, though Tramadol sees a decrease in its
-IQR in the memory game scores after treatment.
-These boxplots provide an initial comparison of cognitive performance changes before and after
-drug administration.
+1. The median memory game scores are relatively similar across most drug types.
+2. Tramadol (high dosage) shows a higher median score compared to other treatments.
+3. The Placebo group has a slightly lower median score than the others.
+4. The interquartile range (IQR) is consistent across all groups, although Tramadol (high dosage) has slightly more variability.
 
 The interaction plot suggests an interaction effect between drug type and dosage level, as the lines are not parallel. The low-dosage line shows a sharp increase in memory scores for Tramadol and a dip for Placebo. However, the high-dosage line follows a more gradual trend. This indicates that the effect of dosage on memory performance may depend on the type of pain reliever administered.
 
@@ -409,9 +399,7 @@ kable(shapiro_table, format = "latex", booktabs = TRUE)
 ```
 
 
-
-Our second assumption of *homogeneity of variance* is verified by the p-value = 0.3346 from the Bartlett test in @tbl-bartlett, which is greater than 0.05.
-Due to this, we fail to reject the null hypothesis.
+Our second assumption of Homogeneity of Variance appears to be satisfied. As shown in the @fig-residual-plot, the spread of the residual remains relatively consistent across the of fitted values. Further the result of the Bartlett test for homogeneity of variances from @tbl-bartlett, suggests the p-value is 0.3346. Since this p-value is greater than the 0.05 significance level, we fail to reject the null hypothesis of equal variances. Hence, the assumption is verified. 
 Lastly, for our two-way ANOVA model, the different combinations of pain reliever type and dosage levels, the treatments were randomly assigned to all participants which ensures *independence*.
 
 ```{r}
@@ -438,6 +426,21 @@ bartlett_table <- data.frame(
 kable(bartlett_table, format = "latex", booktabs = TRUE)
 ```
 
+```{r}
+#| label: fig-residual-plot
+#| echo: false
+#| warning: false
+#| message: false
+#| fig.width: 9  
+#| fig.height: 8  
+#| dpi: 300
+#| out.width: 60%
+#| out.height: 50%
+#| fig.align: "center"
+#| fig-cap: "Residual plot: Check for Homoscedasticity"
+
+plot(anova_model, which = 3, main = "", sub = "")
+```
 
 
 ## Model
@@ -453,7 +456,7 @@ Where
 
 -   $Y_{ijk}$: Memory score for the $k$-th participant receiving the $i$-th drug and $j$-th dosage level\
 -   $\mu$: Overall mean\
--   $\alpha_i$: Effect of the $i$-th drug ((Aspirin, Tramadol, Paracetamol, Placebo))\
+-   $\alpha_i$: Effect of the $i$-th drug (Aspirin, Tramadol, Paracetamol, Placebo)
 -   $\beta_j$: Effect of the $j$-th dosage level (High Dosage, Low dosage)\
 -   $(\alpha\beta)_{ij}$: Interaction effect between drug and dosage\
 -   $\epsilon_{ijk} \sim N(0, \sigma^2)$ : Random error
@@ -485,7 +488,8 @@ Where
 The Intercept term $\beta_0$ accounts for the reference group.
 All other coefficients $\beta_j$ represent the mean difference between the specified group and the reference group, holding other factors constant for j = *1, 2, 3, 4, 5, 6, 7*
 
-The @tbl-model-result show the intercept ($\beta_0$ = 60.02) is the average memory game score for individuals given High dosage and Aspirin Drug (reference group). While comparing other treatments to reference level, we observe most coefficients from @tbl-model-result  are not statistically significant at 5% level. The coefficient of Drug Paracetamol (p-value = 0.741), Tramadol (p-value = 0.528), Placebo (p-value = 0.448) indicates that mean memory game scores for these groups are not statistically different from the reference group. Similarly, the evidence for all the Interaction terms are suggest no statistical significance between drug type and dosage level has any effect on the memory game score performance as p value are greater than 5% significance level. The lack of significance indicates that the effect of dosage does not vary meaningfully across drug types and dosage levels, indicating an absence of interaction between the two factors.
+The @tbl-model-result show the intercept ($\beta_0$ = 62.20) is the average memory game score for individuals given High dosage and Aspirin Drug (reference group). While comparing other treatments to reference level, we observe most coefficients from @tbl-model-result  are not statistically significant at 5% level. The coefficient of Drug Paracetamol ($p-value = 0.9927$), Tramadol ($p-value = 0.5281$), Placebo ($p-value = 0.3893$) indicates that mean memory game scores for these groups are not statistically different from the reference group. Similarly, the evidence for all the Interaction terms suggests no statistical significance between drug type and dosage level has any effect on the memory game score performance as p value are greater than 5% significance level. The lack of significance indicates that the effect of dosage does not vary meaningfully across drug types and dosage levels, indicating an absence of interaction between the two factors.
+
 
 ```{r, echo = FALSE}
 #| label: tbl-model-result
@@ -554,6 +558,7 @@ kable(anova_table_df, format = "latex", booktabs = TRUE)
 ```
 
 
+
 # Discussion {#sec-disc}
 
 ## Interpretation of Results
@@ -564,15 +569,14 @@ For **Research Question 1**, which asked whether the type of pain reliever impac
 
 Similarly, the **interaction effect** between drug type and dosage level was not statistically significant ($p = 0.24$), suggesting that the impact of drug type on memory retention does not vary by dosage level. This directly addresses **Research Question 2**, and we again fail to reject the null hypothesis, concluding that there is no interaction effect between the type of pain reliever and dosage on memory task performance.
 
-Since no interaction effect was present, we examined the main effects independently. As mentioned, drug type was not significant, and neither was **dosage level** (\(p = 0.26\)), indicating that neither factor significantly influenced cognitive performance.
+Since no interaction effect was present, we examined the main effects independently. As mentioned, drug type was not significant, and neither was **dosage level** ($p = 0.26$), indicating that neither factor significantly influenced cognitive performance.
 
 The lack of statistically significant findings persisted even after **controlling for age** as a potential confounding variable. Participants were stratified into balanced age groups (18–34, 35–50, and 50+ years) to minimize age-related bias.
 
 ## Effect Size and Power Analysis
 
-Although the ANOVA model yielded no statistically significant results, we also considered the practical significance of the findings. The model’s $R^2 = 0.0398$ suggests that approximately 4\% of the variability in memory performance was accounted for by the treatment factors. However, in the context of ANOVA, $R^2$ is not typically used for interpretation, as it does not directly reflect differences between group means.
+Since the interaction effect was not statistically significant ($p > 0.05$), we proceeded to assess the effect size with the purpose to evaluate the practical significance of our findings. Our model yields  $R^2 = 0.0398$. While $R^2$ commonly used in regression analysis to a measure explained variance, determining the goodness of fit of a model. However, in ANOVA Model the $R^2$ value doesn't have a direct interpretation as the proportion of variance explained by regression model and it also does not directly reflect differences between group means. We use the $R^2$ value to report the effect that corresponds to Cohen’s f guidelines i.e. $| f |$ is approximately 0.25 as our  $R^2$ falls between the small-medium categories.Even though the statistical test did not yield significant results, this quantity suggests we have a small-medium effect size, indicating that the type of drug and dosage level may still have had a meaningful impact on memory task performance.
 
-Instead, we refer to Cohen’s $f$ as a more appropriate measure of effect size in ANOVA. Cohen’s $f$ is based on the proportion of variance explained and provides context for the magnitude of the observed effects. [[[SHOULD WE STILL INCLUDE THIS?: For this study, we assume a medium effect size, corresponding to Cohen’s $f \approx 0.25$, based on conventional benchmarks from lecture materials. Even though the statistical test did not yield significant results. This suggests a small-medium effect size, indicating that the type of drug and dosage level may still have had a meaningful impact on memory task performance.]]]
 
 We did a post-hoc power analysis. Based on the overall $\eta^2$ from the ANOVA model, we calculated a Cohen's $f$ value of 0.204. This suggests a small-medium effect size, which means that the type of drug and dosage level may still have had a meaningful impact on memory task performance. 
 
@@ -594,6 +598,29 @@ This study did not find clear evidence that pain relievers or their dosages have
 \newpage
 
 # Appendix {#sec-appendix}
+
+
+
+```{r}
+
+library(knitr)
+library(kableExtra)
+
+# Create a dataframe for the table
+study_table <- data.frame(
+  Dosage = c("Low", "High"),
+  Aspirin = c("Aspirin 500 mg", "Aspirin 1000 mg"),
+  Paracetamol = c("Paracetamol 500 mg", "Paracetamol 1000 mg"),
+  Tramadol = c("Tramadol 50 mg", "Tramadol 100 mg"),
+  Placebo = c("Placebo 1 Tablet", "Placebo 2 Tablets")
+)
+
+# Render the table
+kable(study_table, align = "c") %>%
+  add_header_above(c(" " = 1, "Drug Type" = 4)) %>%
+  kable_styling(full_width = FALSE, position = "center")
+```
+
 
 ```{r}
 
@@ -617,32 +644,45 @@ library(ggpubr)
 clean_data <- read.csv(here("data", "analysis_data", "clean_data.csv"))
 ```
 
+
+
 ```{r}
-# Compute statistics for Memory Game Score
+age_counts <- table(clean_data$age_group)
+
+# percentages for each age group
+age_percentages <- prop.table(age_counts) * 100
+
+# summary dataframe
+age_summary <- data.frame(
+  `Age Group` = names(age_counts),
+  Count = as.numeric(age_counts),
+  Percentage = round(as.numeric(age_percentages), 2)
+)
+
+colnames(age_summary)[colnames(age_summary) == "Age.Group"] <- "Age Group"
+
+# Display table
+kable(age_summary, booktabs = TRUE, row.names = FALSE)
+
+```
+
+```{r}
 mean_game <- mean(clean_data$memory_game_score, na.rm = TRUE)
 median_game <- median(clean_data$memory_game_score, na.rm = TRUE)
 sd_game <- sd(clean_data$memory_game_score, na.rm = TRUE)
 iqr_game <- IQR(clean_data$memory_game_score, na.rm = TRUE)
 
-# Compute statistics for Memory Cards Score
-mean_cards <- mean(clean_data$memory_cards_score, na.rm = TRUE)
-median_cards <- median(clean_data$memory_cards_score, na.rm = TRUE)
-sd_cards <- sd(clean_data$memory_cards_score, na.rm = TRUE)
-iqr_cards <- IQR(clean_data$memory_cards_score, na.rm = TRUE)
-
-# Combine into a summary table
+# Create summary table with clean column header
 summary_table <- data.frame(
   Statistic = c("Mean", "Median", "SD", "IQR"),
-  `Memory Game Score` = c(mean_game, median_game, sd_game, iqr_game),
-  `Memory Cards Score` = c(mean_cards, median_cards, sd_cards, iqr_cards)
+  "Memory Game Score" = c(mean_game, median_game, sd_game, iqr_game),  check.names = FALSE
 )
 
-colnames(summary_table) <- c("Statistic", "Memory Game Score", "Memory Cards Score")
-
 # Display table
-
 kable(summary_table, format = "latex", booktabs = TRUE)
+
 ```
+
 
 ```{r}
 
@@ -660,73 +700,31 @@ drug_summary <- data.frame(
 
 # Display table
 kable(drug_summary, format = "latex", booktabs = TRUE)
+```
 
+
+
+```{r}
+p3 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, fill = dosage_level)) +
+  geom_boxplot() +
+  labs(x = "Drug Type", y = "Memory Game Score", fill = "Dosage Level") +
+  theme_minimal()
 ```
 
 ```{r}
-
-dosage_counts <- table(clean_data$dosage_level)
-
-# percentage for each dosage level
-dosage_percentages <- prop.table(dosage_counts) * 100
-
-# summary dataframe
-dosage_summary <- data.frame(
-  Dosage = names(dosage_counts),
-  Count = as.numeric(dosage_counts),
-  Percentage = round(as.numeric(dosage_percentages), 2)
-)
-
-
-# Display table
-kable(dosage_summary, booktabs = TRUE, row.names = FALSE)
-
-```
-
-```{r}
-age_counts <- table(clean_data$age_group)
-
-# percentages for each age group
-age_percentages <- prop.table(age_counts) * 100
-
-# summary dataframe
-age_summary <- data.frame(
-  `Age Group` = names(age_counts),
-  Count = as.numeric(age_counts),
-  Percentage = round(as.numeric(age_percentages), 2)
-)
-colnames(age_summary)[colnames(age_summary) == "Age.Group"] <- "Age Group"
-
-
-# Display table
-kable(age_summary, booktabs = TRUE, row.names = FALSE)
-
-```
-
-```{r}
-
 p1 <- ggplot(clean_data, aes(x = drug, y = memory_game_score, color = dosage_level, group = dosage_level)) +
-  stat_summary(fun = mean, geom = "point", size = 3) +
+  stat_summary(fun = mean, geom = "point", size = 2) +
   stat_summary(fun = mean, geom = "line", size = 1) +
   labs(title = "Memory Game Scores",
        x = "Drug Type",
        y = "Mean Memory Game Score",
        color = "Dosage Level") +
   theme_minimal()
+```
 
-# Interaction plot for Memory Cards Scores
-p2 <- ggplot(clean_data, aes(x = drug, y = memory_cards_score, color = dosage_level, group = dosage_level)) +
-  stat_summary(fun = mean, geom = "point", size = 3) +
-  stat_summary(fun = mean, geom = "line", size = 1) +
-  labs(title = "Memory Cards Scores",
-       x = "Drug Type",
-       y = "Mean Memory Cards Score",
-       color = "Dosage Level") +
-  theme_minimal()
-
-# Combine the two plots vertically
-combined_plot <- p1 / p2
-combined_plot
+```{r}
+# Combine the plots side by side
+p1 + p3
 ```
 
 ```{r}
@@ -854,3 +852,5 @@ power_result <- wp.kanova(
 \newpage
 
 # References {#sec-references}
+
+
