@@ -41,7 +41,8 @@ Research Question 2.
 -   Null Hypothesis: There is no interaction effect between the type of pain reliever and dosage level on the improvement in memory task performance.
 -   Alternative Hypothesis: There is an interaction effect between at least one of the types of pain reliever and dosage level on the improvement in memory task performance.
 
-The structure of this paper is as follows. @sec-method outlines our data and methodology. Section 3 presents our quantitative analysis. In Section 4, we discuss the results and address our findings 
+The structure of this paper is as follows. @sec-method outlines our data and methodology. @sec-plots presents our findings into graphs and charts to visualize the data better. @sec-analysis presents our quantitative analysis. In @sec-disc, we discuss the results and address our findings. We end off, we have the limitations and conclusion in @sec-lims and @sec-conc, respectively.
+All of the code used for this study can be found in @sec-appendix. The references are found in @sec-references.
 
 # Methodology {#sec-method}
 
@@ -263,7 +264,7 @@ There is an equal split between high-dose (120 participants, 50%) and low-dose (
 
 \newpage
 
-# Plots
+# Plots {#sec-plots}
 
 ```{r, echo=FALSE}
 #| label: fig-boxplot-game-scores
@@ -343,7 +344,7 @@ The interaction plot suggests an interaction effect between drug type and dosage
 
 Although the visual pattern indicates potential interaction, a formal Two-Way ANOVA is required to determine the statistical significance of this relationship.
 
-# Analysis
+# Analysis {#sec-analysis}
 
 ## Assumption Checks
 
@@ -553,7 +554,7 @@ kable(anova_table_df, format = "latex", booktabs = TRUE)
 ```
 
 
-# Discussion
+# Discussion {#sec-disc}
 
 ## Interpretation of Results
 
@@ -577,7 +578,7 @@ We did a post-hoc power analysis. Based on the overall $\eta^2$ from the ANOVA m
 
 The estimated power of the study was around 59.6%. This means that our study was moderately able to detect an effect with the size we have, if there was an effect. Despite being less than the ideal 80% power value, this suggests that the study is still able to detect large & meaningful differences -- just not smaller ones.
 
-# Limitations
+# Limitations {#sec-lims}
 
 Our study is overall focused on memory, which may have links to one’s education and IQ level, as they are all related to mental function and cognition. In the future, we could test everyone for IQ scores and their highest level of education – these two nuisance variables can be taken care of by using the four principles of experimental design.
 Additionally, we used 30 observations for each treatment group which may not be large enough. We can increase this number for future studies. To add on, not all participants were in pain, so the efficacy of the improvement of pain killers may be biased and using a virtual population may not ensure whether this aspect could be captured.
@@ -586,7 +587,7 @@ Lastly, cognitive retention was measured immediately post-treatment – the long
 There’s also a chance that the participants’ expectations influenced their results if they knew which treatment they were getting (we cannot expand on this as it was a virtual experiment). In the future, bias could be minimized through having a double-blind design in which neither the participants nor the researchers know who’s getting what. We only tested low and high dosages, so we might be missing more subtle effects that show up with intermediate doses. So if we were to include a wider range of dosages in future studies, it could give a fuller picture. Another issue is that our sample might not fully represent the general population since we selected participants from specific clusters of locations -- not all locations were covered equally. This means our findings might not apply to everyone. Next time, we could choose more diverse and evenly spread-out clusters to make the results more general. Lastly, despite our efforts to control for confounding factors, there are still some variables (like sleep quality, stress levels, or baseline cognitive function) that could affect memory performance. Being more thorough in accounting for these factors could improve the accuracy of the results.
 
 
-# Conclusion
+# Conclusion {#sec-conc}
 
 This study did not find clear evidence that pain relievers or their dosages have a significant impact on cognitive retention. However, the exploratory trends observed, particularly with Paracetamol and Tramadol, highlight the need for larger-scale studies to investigate subtle or context-dependent effects. Future research could incorporate longitudinal designs, broader age-specific analyses, and alternative cognitive metrics to deepen understanding of painkillers’ cognitive implications.
 
@@ -852,4 +853,4 @@ power_result <- wp.kanova(
 
 \newpage
 
-# References
+# References {#sec-references}
