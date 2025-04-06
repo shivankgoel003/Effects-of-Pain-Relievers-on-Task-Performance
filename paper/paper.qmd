@@ -577,7 +577,6 @@ The lack of statistically significant findings persisted even after **controllin
 
 Since the interaction effect was not statistically significant ($p > 0.05$), we proceeded to assess the effect size with the purpose to evaluate the practical significance of our findings. Our model yields  $R^2 = 0.0398$. While $R^2$ commonly used in regression analysis to a measure explained variance, determining the goodness of fit of a model. However, in ANOVA Model the $R^2$ value doesn't have a direct interpretation as the proportion of variance explained by regression model and it also does not directly reflect differences between group means. We use the $R^2$ value to report the effect that corresponds to Cohen’s f guidelines i.e. $| f |$ is approximately 0.20 as our  $R^2$ falls between the small-medium categories.Even though the statistical test did not yield significant results, this quantity suggests we have a small-medium effect size, indicating that the type of drug and dosage level may still have had a meaningful impact on memory task performance.
 
-
 We did a post-hoc power analysis. Based on the overall $\eta^2$ from the ANOVA model, we calculated a Cohen's $f$ value of 0.20. This suggests a small-medium effect size, which means that the type of drug and dosage level may still have had a meaningful impact on memory task performance. 
 
 The estimated power of the study was around 59.6%. This means that our study was moderately able to detect an effect with the size we have, if there was an effect. Despite being less than the ideal 80% power value, this suggests that the study is still able to detect large & meaningful differences -- just not smaller ones.
@@ -846,6 +845,8 @@ power_result <- wp.kanova(
   ng = 8, # because 8 treatment groups
   alpha = 0.05
 )
+
+power_result
 
 ```
 
