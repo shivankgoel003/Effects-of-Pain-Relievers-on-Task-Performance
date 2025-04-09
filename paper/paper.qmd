@@ -590,6 +590,7 @@ This suggests that while our ANOVA results were not statistically significant --
 We discuss about addressing this limitation in the next section.
 
 
+
 # Limitations {#sec-lims}
 
 Our study is overall focused on memory, which may have links to one’s education and IQ level, as they are all related to mental function and cognition. In the future, we could test everyone for IQ scores and their highest level of education – these two nuisance variables can be taken care of by using the four principles of experimental design.
